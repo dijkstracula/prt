@@ -42,7 +42,7 @@ public class State {
             Objects.requireNonNull(clazz);
 
             if (dispatch.containsKey(clazz)) {
-                throw new RuntimeException(String.format("Builder already supplied handler for Event %s", E.Name));
+                throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
             dispatch.put(clazz, f);
             return this;
