@@ -6,7 +6,7 @@ import java.util.Optional;
 public class Monitor {
     Optional<State> currentState;
 
-    private HashMap<String, State> states;
+    private final HashMap<String, State> states;
 
     protected void addState(State s) {
         Objects.requireNonNull(s);
@@ -28,17 +28,20 @@ public class Monitor {
         if (!states.containsKey(name)) {
             throw new RuntimeException("State not present");
         }
-        System.out.println("DEBUG: transitioning from " + currentState.get().getName() + " to " + name + ".");
+        System.out.println("DEBUG: transitioning from " + currentState.map(State::getName).orElse("???") + " to " + name + ".");
         currentState = Optional.of(states.get(name));
     }
 
     public void process(Event e) {
         Objects.requireNonNull(e);
 
-        System.out.println("DEBUG: processing " + e.toString());
+        Event.Payload p = e.payload();
+
+        System.out.println("DEBUG: processing " + e);
+
         currentState
                 .orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state?"))
-                .getHandler(e.getClass()).ifPresent(f -> f.accept(e));
+                .getHandler(p.getClass()).ifPresent(f -> f.accept(p));
     }
 
     public Monitor() {

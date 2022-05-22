@@ -2,23 +2,9 @@ import java.util.stream.Stream;
 
 public class EventExperiment {
 
-    static class AddEvent extends Event {
-        final int amountToAdd;
-        public AddEvent(int _amountToAdd) { amountToAdd = _amountToAdd; }
+    record AddEvent(int amountToAdd) implements Event.Payload { }
 
-        public String toString() {
-            return String.format("%s(%d)", getClass().getName(), amountToAdd);
-        }
-    }
-
-    static class MulEvent extends Event {
-        final int amountToMul;
-        public MulEvent(int _amountToMul) { amountToMul = _amountToMul; }
-
-        public String toString() {
-            return String.format("%s(%d)", getClass().getName(), amountToMul);
-        }
-    }
+    record MulEvent(int amountToMul) implements Event.Payload { }
 
     static class ParityMonitor extends Monitor {
         public ParityMonitor() {
@@ -44,7 +30,7 @@ public class EventExperiment {
         AddEvent add1 = new AddEvent(1);
         MulEvent dbl = new MulEvent(2);
 
-        Stream<Event> str = Stream.of(add1, add1, dbl, add1);
-        str.forEach(pm::process);
+        Stream<Event.Payload> payloads = Stream.of(add1, add1, dbl, add1);
+        payloads.map(p -> new Event(42, p)).forEach(pm::process);
     }
 }
