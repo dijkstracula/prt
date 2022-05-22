@@ -14,6 +14,11 @@ public class State<K extends Enum<?>> {
 
     public boolean isInitialState() { return isInitialState; }
 
+    @Override
+    public String toString() {
+        return String.format("State[%s]", name);
+    }
+
     public <P extends Event.Payload> Optional<Consumer<Event.Payload>> getHandler(Class<P> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
@@ -31,6 +36,7 @@ public class State<K extends Enum<?>> {
             isInitialState = false;
             dispatch = new HashMap<>();
         }
+
 
         public Builder<K> isInitialState(boolean b) {
             isInitialState = b;

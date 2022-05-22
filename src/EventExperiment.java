@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class EventExperiment {
@@ -30,10 +31,14 @@ public class EventExperiment {
     public static void main(String[] args) {
         ParityMonitor pm = new ParityMonitor();
 
-        AddEvent add1 = new AddEvent(1);
-        MulEvent dbl = new MulEvent(2);
-
-        Stream<Event.Payload> payloads = Stream.of(add1, add1, dbl, add1);
-        payloads.forEach(pm::process);
+        Random r = new Random();
+        Stream<Event.Payload> payloads = Stream.generate(() -> {
+                    if (r.nextBoolean()) {
+                        return new AddEvent(r.nextInt(10));
+                    } else {
+                        return new MulEvent(r.nextInt(10));
+                    }
+                });
+        payloads.limit(5).forEach(pm::process);
     }
 }
