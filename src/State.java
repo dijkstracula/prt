@@ -3,46 +3,95 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class State<K extends Enum<?>> {
+/**
+ * A state in a Monitor's transition diagram.  A state contains zero or more Event handlers; when the Monitor
+ * receives an event, it defers behaviour to the current state's handler for that event, if it exists.  (If
+ * no handler exists for that particular state, the Event is simply dropped.)
+ *
+ * To construct a State, use the `State.Builder` interface.
+ *
+ * @param <K> The type of the uniquely-identifying state key.
+ */
+public class State<K> {
     private boolean isInitialState;
-    private K name;
+    private K key;
     private HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
 
     private State() {}
 
-    public K getName() { return name; }
+    /**
+     * Returns the (uniquely-) identifying key for this State, used by the Monitor on state transitions.
+     *
+     * @return the key
+     */
+    public K getKey() { return key; }
 
+    /**
+     * Returns whether or not this State was marked to be the (unique) initial state of its Monitor.
+     *
+     * @return the boolean
+     */
     public boolean isInitialState() { return isInitialState; }
 
     @Override
     public String toString() {
-        return String.format("State[%s]", name);
+        return String.format("State[%s]", key);
     }
 
+    /**
+     * Returns the handler for a Payload of some given class.
+     *
+     * @param <P>   the subclass of `Event.Payload` whose handler we're looking up.
+     * @param clazz the Java Class whose handler we're looking up.
+     * @return the handler that a `P` can be called with.
+     */
     public <P extends Event.Payload> Optional<Consumer<Event.Payload>> getHandler(Class<P> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
         }
         return Optional.of(dispatch.get(clazz));
     }
-    static public class Builder<K extends Enum<?>> {
+
+    /**
+     * Builds a State.
+     *
+     * @param <K> The type of the uniquely-identifying state key.
+     */
+    static public class Builder<K> {
         private boolean isInitialState;
 
-        private final K name;
+        private final K key;
         private final HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
 
-        public Builder(K _name) {
-            name = _name;
+        /**
+         * Instantiates a new Builder.
+         *
+         * @param _key the uniquely-identifying key for our new State.
+         */
+        public Builder(K _key) {
+            key = _key;
             isInitialState = false;
             dispatch = new HashMap<>();
         }
 
 
+        /**
+         * Sets whether our new State should be the Monitor's initial state.
+         */
         public Builder<K> isInitialState(boolean b) {
             isInitialState = b;
             return this;
         }
 
+        /**
+         * For a given `class P extends Event.Payload`, register a function `P -> void` with the
+         * class to be invoked when the Monitor is currently in this state and receives an Event
+         * with Payload type `P`.
+         *
+         * @param <P>   the subclass of Payload
+         * @param clazz the subclass of Payload
+         * @param f     the handler to be invoked at runtime.
+         */
         public <P extends Event.Payload> Builder<K> withEvent(Class<P> clazz, Consumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
@@ -54,12 +103,17 @@ public class State<K extends Enum<?>> {
             return this;
         }
 
+        /**
+         * Builds the new State.
+         *
+         * @return the new State
+         */
         public State<K> build() {
             State<K> s = new State<>();
 
             s.dispatch = dispatch;
             s.isInitialState = isInitialState;
-            s.name = name;
+            s.key = key;
 
             return s;
         }
