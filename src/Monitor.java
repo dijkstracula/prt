@@ -3,12 +3,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-public class Monitor {
-    Optional<State> currentState;
+public class Monitor<StateEnum extends Enum<?>> {
+    private Optional<State<StateEnum>> currentState;
 
-    private final HashMap<String, State> states;
+    private final HashMap<StateEnum, State<StateEnum>> states;
 
-    protected void addState(State s) {
+    protected void addState(State<StateEnum> s) {
         Objects.requireNonNull(s);
         if (states.containsKey(s.getName())) {
             throw new RuntimeException("State already present");
@@ -23,25 +23,26 @@ public class Monitor {
         }
     }
 
-    protected void gotoState(String name) {
+    protected void gotoState(StateEnum name) {
         Objects.requireNonNull(name);
         if (!states.containsKey(name)) {
             throw new RuntimeException("State not present");
         }
-        System.out.println("DEBUG: transitioning from " + currentState.map(State::getName).orElse("???") + " to " + name + ".");
+        System.out.println("DEBUG: transitioning from " + currentState.map(State::getName) + " to " + name + ".");
         currentState = Optional.of(states.get(name));
     }
 
-    public void process(Event e) {
-        Objects.requireNonNull(e);
+    public void process(Event.Payload p) {
+        Objects.requireNonNull(p);
 
-        Event.Payload p = e.payload();
-
-        System.out.println("DEBUG: processing " + e);
+        System.out.println("DEBUG: processing " + p);
 
         currentState
-                .orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state?"))
-                .getHandler(p.getClass()).ifPresent(f -> f.accept(p));
+                .orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state, or is the machine halted?"))
+                .getHandler(p.getClass())
+                    .ifPresentOrElse(
+                            f -> f.accept(p),
+                            () -> System.out.println(String.format("DEBUG: No handler in %s for %s; discarding", currentState, p)));
     }
 
     public Monitor() {

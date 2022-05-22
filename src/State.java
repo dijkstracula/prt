@@ -3,14 +3,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class State {
+public class State<K extends Enum<?>> {
     private boolean isInitialState;
-    private String name;
+    private K name;
     private HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
 
     private State() {}
 
-    public String getName() { return name; }
+    public K getName() { return name; }
 
     public boolean isInitialState() { return isInitialState; }
 
@@ -20,24 +20,24 @@ public class State {
         }
         return Optional.of(dispatch.get(clazz));
     }
-    static public class Builder {
+    static public class Builder<K extends Enum<?>> {
         private boolean isInitialState;
 
-        private final String name;
+        private final K name;
         private final HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
 
-        public Builder(String _name) {
+        public Builder(K _name) {
             name = _name;
             isInitialState = false;
             dispatch = new HashMap<>();
         }
 
-        public Builder isInitialState(boolean b) {
+        public Builder<K> isInitialState(boolean b) {
             isInitialState = b;
             return this;
         }
 
-        public <P extends Event.Payload> Builder withEvent(Class<P> clazz, Consumer<P> f) {
+        public <P extends Event.Payload> Builder<K> withEvent(Class<P> clazz, Consumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
@@ -48,8 +48,8 @@ public class State {
             return this;
         }
 
-        public State build() {
-            State s = new State();
+        public State<K> build() {
+            State<K> s = new State<>();
 
             s.dispatch = dispatch;
             s.isInitialState = isInitialState;
