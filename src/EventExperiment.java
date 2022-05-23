@@ -10,6 +10,7 @@ public class EventExperiment {
 
 
     static class ParityMonitor extends Monitor<ParityStates> {
+
         public ParityMonitor() {
             super();
 
@@ -30,7 +31,7 @@ public class EventExperiment {
     public static void main(String[] args) {
         ParityMonitor pm = new ParityMonitor();
         Random r = new Random();
-        
+
         Stream<Event.Payload> payloads = Stream.generate(() -> {
             if (r.nextBoolean()) {
                 return new AddEvent(r.nextInt(10));
@@ -38,6 +39,10 @@ public class EventExperiment {
                 return new MulEvent(r.nextInt(10));
             }
         });
-        payloads.limit(10).forEach(pm::process);
+        try {
+            payloads.limit(10).forEach(pm::process);
+        } catch (UnhandledEventException e) {
+            System.out.println("Uh oh! " + e);
+        }
     }
 }

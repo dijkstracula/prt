@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 /**
@@ -53,17 +54,18 @@ public class Monitor<StateKey> {
      *
      * @param p the payload.
      */
-    public void process(Event.Payload p) {
+    public void process(Event.Payload p) throws UnhandledEventException {
         Objects.requireNonNull(p);
 
-        System.out.println("DEBUG: In " + currentState.map(State::toString).orElse("???") + ": processing event payload " + p);
+        State<StateKey> s = currentState.orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state, or is the machine halted?)"));
 
-        currentState
-                .orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state, or is the machine halted?)"))
-                .getHandler(p.getClass())
-                    .ifPresentOrElse(
-                            f -> f.accept(p),
-                            () -> System.out.println(String.format("DEBUG: No handler in %s for %s; discarding", currentState, p)));
+        System.out.println("DEBUG: In " + s + ": processing event payload " + p);
+
+        Optional<Consumer<Event.Payload>> oc = s.getHandler(p.getClass());
+        if (oc.isEmpty()) {
+            throw new UnhandledEventException(s, p.getClass());
+        }
+        oc.get().accept(p);
     }
 
     /**
@@ -73,4 +75,6 @@ public class Monitor<StateKey> {
         currentState = Optional.empty();
         states = new HashMap<>();
     }
+
+
 }
