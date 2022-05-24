@@ -14,8 +14,18 @@ import java.util.function.Consumer;
  */
 public class State<K> {
 
+    /**
+     * Functionally-equivalent to a Consumer<T>, but may throw the checked TransitionException within accept().
+     * @param <T> The type to be consumed.
+     */
     @FunctionalInterface
     interface InterruptibleConsumer<T> {
+        /**
+         * Invokes the consumer with some `t`; a `TransitionException` may be thrown prior to the consumer terminating,
+         * which the caller needs to handle.
+         * @param t
+         * @throws TransitionException
+         */
         void accept(T t) throws TransitionException;
     }
 
