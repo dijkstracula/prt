@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  *
  * @param <K> The type of the uniquely-identifying state key.
  */
-public class State<K> {
+public class State {
 
     /**
      * Functionally-equivalent to a Consumer<T>, but may throw the checked TransitionException within accept().
@@ -30,7 +30,7 @@ public class State<K> {
     }
 
     private boolean isInitialState;
-    private K key;
+    private String key;
     private HashMap<Class<? extends Event.Payload>, InterruptibleConsumer<Event.Payload>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -45,7 +45,7 @@ public class State<K> {
      *
      * @return the key
      */
-    public K getKey() { return key; }
+    public String getKey() { return key; }
 
     public Optional<Consumer<Event.Payload>> getOnEntry() {
         return onEntry;
@@ -83,13 +83,11 @@ public class State<K> {
 
     /**
      * Builds a State.
-     *
-     * @param <K> The type of the uniquely-identifying state key.
      */
-    static public class Builder<K> {
+    static public class Builder {
         private boolean isInitialState;
 
-        private final K key;
+        private final String key;
         private final HashMap<Class<? extends Event.Payload>, InterruptibleConsumer<Event.Payload>> dispatch;
 
 
@@ -103,7 +101,7 @@ public class State<K> {
          *
          * @param _key the uniquely-identifying key for our new State.
          */
-        public Builder(K _key) {
+        public Builder(String _key) {
             key = _key;
             isInitialState = false;
             dispatch = new HashMap<>();
@@ -116,7 +114,7 @@ public class State<K> {
         /**
          * Sets whether our new State should be the Monitor's initial state.
          */
-        public Builder<K> isInitialState(boolean b) {
+        public Builder isInitialState(boolean b) {
             isInitialState = b;
             return this;
         }
@@ -130,7 +128,7 @@ public class State<K> {
          * @param clazz the subclass of Payload
          * @param f     the handler to be invoked at runtime.
          */
-        public <P extends Event.Payload> Builder<K> withEvent(Class<P> clazz, InterruptibleConsumer<P> f) {
+        public <P extends Event.Payload> Builder withEvent(Class<P> clazz, InterruptibleConsumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
@@ -141,7 +139,7 @@ public class State<K> {
             return this;
         }
 
-        public Builder<K> withEntry(Consumer<Event.Payload> f) {
+        public Builder withEntry(Consumer<Event.Payload> f) {
             Objects.requireNonNull(f);
 
             if (onEntry.isPresent()) {
@@ -151,7 +149,7 @@ public class State<K> {
             return this;
         }
 
-        public Builder<K> withExit(Runnable f) {
+        public Builder withExit(Runnable f) {
             Objects.requireNonNull(f);
 
             if (onExit.isPresent()) {
@@ -167,8 +165,8 @@ public class State<K> {
          *
          * @return the new State
          */
-        public State<K> build() {
-            State<K> s = new State<>();
+        public State build() {
+            State s = new State();
 
             s.dispatch = dispatch;
             s.isInitialState = isInitialState;

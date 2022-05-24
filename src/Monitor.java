@@ -8,18 +8,18 @@ import java.util.Optional;
  *
  * @param <StateKey> The type of identifier used to distinguish different states in event handlers when transitions happen.
  */
-public class Monitor<StateKey> {
+public class Monitor {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<State<StateKey>> currentState;
+    private Optional<State> currentState;
 
-    private final HashMap<StateKey, State<StateKey>> states;
+    private final HashMap<String, State> states;
 
     /**
      * Adds a new State to the state machine.
      *
      * @param s The state.
      */
-    protected void addState(State<StateKey> s) {
+    protected void addState(State s) {
         Objects.requireNonNull(s);
         if (states.containsKey(s.getKey())) {
             throw new RuntimeException("State already present");
@@ -40,7 +40,7 @@ public class Monitor<StateKey> {
      * @param k the key of the state to transition to.
      * @throws RuntimeException if `k` is not a state in the state machine.
      */
-    protected void gotoState(StateKey k) throws TransitionException {
+    protected void gotoState(String k) throws TransitionException {
         Objects.requireNonNull(k);
         if (!states.containsKey(k)) {
             throw new RuntimeException("State not present");
@@ -58,7 +58,7 @@ public class Monitor<StateKey> {
     public void process(Event.Payload p) throws UnhandledEventException {
         Objects.requireNonNull(p);
 
-        State<StateKey> s = currentState.orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state, or is the machine halted?)"));
+        State s = currentState.orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state, or is the machine halted?)"));
 
         System.out.println("DEBUG: In " + s + ": processing event payload " + p);
 
@@ -73,7 +73,7 @@ public class Monitor<StateKey> {
         } catch (TransitionException e) {
             // ...if it does, run entry/exit handlers and swap out the state.
 
-            State<StateKey> next = e.getNewState();
+            State next = e.getNewState();
 
             s.getOnExit().ifPresent(Runnable::run);
             next.getOnEntry().ifPresent(f -> f.accept(p));

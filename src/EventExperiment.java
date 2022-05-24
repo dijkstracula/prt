@@ -2,32 +2,32 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 public class EventExperiment {
-
-    enum ParityStates { EVEN, ODD }
-
     record AddEvent(int amountToAdd) implements Event.Payload { }
     record MulEvent(int amountToMul) implements Event.Payload { }
 
 
-    static class ParityMonitor extends Monitor<ParityStates> {
+    static class ParityMonitor extends Monitor {
+
+        private String EVEN_STATE = "even";
+        private String ODD_STATE = "odd";
 
         public ParityMonitor() {
             super();
 
-            addState(new State.Builder<>(ParityStates.EVEN)
+            addState(new State.Builder(EVEN_STATE)
                     .withEntry(e -> System.out.println("Entering EVEN because of " + e.toString()))
                     .withEvent(AddEvent.class,
-                            ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(ParityStates.ODD); throw new RuntimeException("Should be dead code!"); } })
+                            ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(ODD_STATE); throw new RuntimeException("Should be dead code!"); } })
                     .withExit(() -> System.out.println("Leaving EVEN"))
                     .build());
 
-            addState(new State.Builder<>(ParityStates.ODD)
+            addState(new State.Builder(ODD_STATE)
                     .isInitialState(true)
                     .withEntry(e -> System.out.println("Entering ODD because of " + e.toString()))
                     .withEvent(AddEvent.class,
-                            ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(ParityStates.EVEN); throw new RuntimeException("Should be dead code!"); } })
+                            ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(EVEN_STATE); throw new RuntimeException("Should be dead code!"); } })
                     .withEvent(MulEvent.class,
-                            me -> {if (me.amountToMul % 2 == 0) { gotoState(ParityStates.EVEN); throw new RuntimeException("Should be dead code!"); } })
+                            me -> {if (me.amountToMul % 2 == 0) { gotoState(EVEN_STATE); throw new RuntimeException("Should be dead code!"); } })
                     .withExit(() -> System.out.println("Leaving ODD"))
                     .build());
         }
