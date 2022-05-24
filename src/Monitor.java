@@ -1,7 +1,6 @@
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 
 /**
@@ -10,8 +9,8 @@ import java.util.function.Consumer;
  * @param <StateKey> The type of identifier used to distinguish different states in event handlers when transitions happen.
  */
 public class Monitor<StateKey> {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<State<StateKey>> currentState;
-    private Optional<State<StateKey>> pendingTransition;
 
     private final HashMap<StateKey, State<StateKey>> states;
 
@@ -41,13 +40,13 @@ public class Monitor<StateKey> {
      * @param k the key of the state to transition to.
      * @throws RuntimeException if `k` is not a state in the state machine.
      */
-    protected void gotoState(StateKey k) {
+    protected void gotoState(StateKey k) throws TransitionException {
         Objects.requireNonNull(k);
         if (!states.containsKey(k)) {
             throw new RuntimeException("State not present");
         }
         //System.out.println("DEBUG: transitioning from " + currentState.map(State::toString).orElse("???") + " to " + k + ".");
-        pendingTransition = Optional.of(states.get(k));
+        throw new TransitionException(states.get(k));
     }
 
     /**
@@ -63,18 +62,20 @@ public class Monitor<StateKey> {
 
         System.out.println("DEBUG: In " + s + ": processing event payload " + p);
 
-        Optional<Consumer<Event.Payload>> oc = s.getHandler(p.getClass());
+        Optional<State.InterruptibleConsumer<Event.Payload>> oc = s.getHandler(p.getClass());
         if (oc.isEmpty()) {
             throw new UnhandledEventException(s, p.getClass());
         }
-        oc.get().accept(p);
 
-        // Handle pending transition if one was set.
-        if (pendingTransition.isPresent()) {
-            State<StateKey> next = pendingTransition.get();
-            pendingTransition = Optional.empty();
+        try {
+            // Run the event handler, knowing that it might cause a state transition...
+            oc.get().accept(p);
+        } catch (TransitionException e) {
+            // ...if it does, run entry/exit handlers and swap out the state.
 
-            s.getOnExit().ifPresent(f -> f.run());
+            State<StateKey> next = e.getNewState();
+
+            s.getOnExit().ifPresent(Runnable::run);
             next.getOnEntry().ifPresent(f -> f.accept(p));
 
             currentState = Optional.of(next);
@@ -86,7 +87,6 @@ public class Monitor<StateKey> {
      */
     protected Monitor() {
         currentState = Optional.empty();
-        pendingTransition = Optional.empty();
 
         states = new HashMap<>();
     }

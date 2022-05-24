@@ -13,11 +13,19 @@ import java.util.function.Consumer;
  * @param <K> The type of the uniquely-identifying state key.
  */
 public class State<K> {
+
+    @FunctionalInterface
+    interface InterruptibleConsumer<T> {
+        void accept(T t) throws TransitionException;
+    }
+
     private boolean isInitialState;
     private K key;
-    private HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
+    private HashMap<Class<? extends Event.Payload>, InterruptibleConsumer<Event.Payload>> dispatch;
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<Consumer<Event.Payload>> onEntry;
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<Runnable> onExit;
 
     private State() {}
@@ -56,7 +64,7 @@ public class State<K> {
      * @param clazz the Java Class whose handler we're looking up.
      * @return the handler that a `P` can be called with.
      */
-    public <P extends Event.Payload> Optional<Consumer<Event.Payload>> getHandler(Class<P> clazz) {
+    public <P extends Event.Payload> Optional<InterruptibleConsumer<Event.Payload>> getHandler(Class<P> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
         }
@@ -72,10 +80,12 @@ public class State<K> {
         private boolean isInitialState;
 
         private final K key;
-        private final HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
+        private final HashMap<Class<? extends Event.Payload>, InterruptibleConsumer<Event.Payload>> dispatch;
 
 
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         private Optional<Consumer<Event.Payload>> onEntry;
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         private Optional<Runnable> onExit;
 
         /**
@@ -110,14 +120,14 @@ public class State<K> {
          * @param clazz the subclass of Payload
          * @param f     the handler to be invoked at runtime.
          */
-        public <P extends Event.Payload> Builder<K> withEvent(Class<P> clazz, Consumer<P> f) {
+        public <P extends Event.Payload> Builder<K> withEvent(Class<P> clazz, InterruptibleConsumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
             if (dispatch.containsKey(clazz)) {
                 throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
-            dispatch.put(clazz, (Consumer<Event.Payload>)f);
+            dispatch.put(clazz, (InterruptibleConsumer<Event.Payload>)f);
             return this;
         }
 

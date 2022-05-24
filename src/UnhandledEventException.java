@@ -9,7 +9,7 @@ public class UnhandledEventException extends RuntimeException {
      * Instantiates a new UnhandledEventException.
      *
      * @param s the state missing some event.
-     * @param clazz the subclass of Event.Payload without a handler.
+     * @param c the subclass of Event.Payload without a handler.
      */
     public UnhandledEventException(State s, Class<? extends Event.Payload> c) {
         state = s;

@@ -17,16 +17,17 @@ public class EventExperiment {
             addState(new State.Builder<>(ParityStates.EVEN)
                     .withEntry(e -> System.out.println("Entering EVEN because of " + e.toString()))
                     .withEvent(AddEvent.class,
-                            ae -> {if (ae.amountToAdd % 2 == 1) gotoState(ParityStates.ODD);})
+                            ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(ParityStates.ODD); throw new RuntimeException("Should be dead code!"); } })
                     .withExit(() -> System.out.println("Leaving EVEN"))
                     .build());
+
             addState(new State.Builder<>(ParityStates.ODD)
                     .isInitialState(true)
                     .withEntry(e -> System.out.println("Entering ODD because of " + e.toString()))
                     .withEvent(AddEvent.class,
-                            ae -> {if (ae.amountToAdd % 2 == 1) gotoState(ParityStates.EVEN);})
+                            ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(ParityStates.EVEN); throw new RuntimeException("Should be dead code!"); } })
                     .withEvent(MulEvent.class,
-                            me -> {if (me.amountToMul % 2 == 0) gotoState(ParityStates.EVEN);})
+                            me -> {if (me.amountToMul % 2 == 0) { gotoState(ParityStates.EVEN); throw new RuntimeException("Should be dead code!"); } })
                     .withExit(() -> System.out.println("Leaving ODD"))
                     .build());
         }
