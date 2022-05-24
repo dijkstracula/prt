@@ -11,6 +11,7 @@ import java.util.function.Consumer;
  */
 public class Monitor<StateKey> {
     private Optional<State<StateKey>> currentState;
+    private Optional<State<StateKey>> pendingTransition;
 
     private final HashMap<StateKey, State<StateKey>> states;
 
@@ -45,14 +46,15 @@ public class Monitor<StateKey> {
         if (!states.containsKey(k)) {
             throw new RuntimeException("State not present");
         }
-        System.out.println("DEBUG: transitioning from " + currentState.map(State::toString).orElse("???") + " to " + k + ".");
-        currentState = Optional.of(states.get(k));
+        //System.out.println("DEBUG: transitioning from " + currentState.map(State::toString).orElse("???") + " to " + k + ".");
+        pendingTransition = Optional.of(states.get(k));
     }
 
     /**
      * Synchronously processes one Event.Payload message.
      *
      * @param p the payload.
+     * @throws UnhandledEventException if the payload's type has no associated handler.
      */
     public void process(Event.Payload p) throws UnhandledEventException {
         Objects.requireNonNull(p);
@@ -66,6 +68,17 @@ public class Monitor<StateKey> {
             throw new UnhandledEventException(s, p.getClass());
         }
         oc.get().accept(p);
+
+        // Handle pending transition if one was set.
+        if (pendingTransition.isPresent()) {
+            State<StateKey> next = pendingTransition.get();
+            pendingTransition = Optional.empty();
+
+            s.getOnExit().ifPresent(f -> f.run());
+            next.getOnEntry().ifPresent(f -> f.accept(p));
+
+            currentState = Optional.of(next);
+        }
     }
 
     /**
@@ -73,6 +86,8 @@ public class Monitor<StateKey> {
      */
     protected Monitor() {
         currentState = Optional.empty();
+        pendingTransition = Optional.empty();
+
         states = new HashMap<>();
     }
 

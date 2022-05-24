@@ -15,15 +15,19 @@ public class EventExperiment {
             super();
 
             addState(new State.Builder<>(ParityStates.EVEN)
+                    .withEntry(e -> System.out.println("Entering EVEN because of " + e.toString()))
                     .withEvent(AddEvent.class,
                             ae -> {if (ae.amountToAdd % 2 == 1) gotoState(ParityStates.ODD);})
+                    .withExit(() -> System.out.println("Leaving EVEN"))
                     .build());
             addState(new State.Builder<>(ParityStates.ODD)
                     .isInitialState(true)
+                    .withEntry(e -> System.out.println("Entering ODD because of " + e.toString()))
                     .withEvent(AddEvent.class,
                             ae -> {if (ae.amountToAdd % 2 == 1) gotoState(ParityStates.EVEN);})
                     .withEvent(MulEvent.class,
                             me -> {if (me.amountToMul % 2 == 0) gotoState(ParityStates.EVEN);})
+                    .withExit(() -> System.out.println("Leaving ODD"))
                     .build());
         }
     }
@@ -40,7 +44,7 @@ public class EventExperiment {
             }
         });
         try {
-            payloads.limit(10).forEach(pm::process);
+            payloads.forEach(pm::process);
         } catch (UnhandledEventException e) {
             System.out.println("Uh oh! " + e);
         }

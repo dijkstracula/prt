@@ -17,6 +17,9 @@ public class State<K> {
     private K key;
     private HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
 
+    private Optional<Consumer<Event.Payload>> onEntry;
+    private Optional<Runnable> onExit;
+
     private State() {}
 
     /**
@@ -25,6 +28,14 @@ public class State<K> {
      * @return the key
      */
     public K getKey() { return key; }
+
+    public Optional<Consumer<Event.Payload>> getOnEntry() {
+        return onEntry;
+    }
+
+    public Optional<Runnable> getOnExit() {
+        return onExit;
+    }
 
     /**
      * Returns whether or not this State was marked to be the (unique) initial state of its Monitor.
@@ -63,6 +74,10 @@ public class State<K> {
         private final K key;
         private final HashMap<Class<? extends Event.Payload>, Consumer<Event.Payload>> dispatch;
 
+
+        private Optional<Consumer<Event.Payload>> onEntry;
+        private Optional<Runnable> onExit;
+
         /**
          * Instantiates a new Builder.
          *
@@ -72,7 +87,10 @@ public class State<K> {
             key = _key;
             isInitialState = false;
             dispatch = new HashMap<>();
+            onEntry = Optional.empty();
+            onExit = Optional.empty();
         }
+
 
 
         /**
@@ -103,6 +121,27 @@ public class State<K> {
             return this;
         }
 
+        public Builder<K> withEntry(Consumer<Event.Payload> f) {
+            Objects.requireNonNull(f);
+
+            if (onEntry.isPresent()) {
+                throw new RuntimeException(String.format("onEntry handler already handled for state %s",key));
+            }
+            onEntry = Optional.of(f);
+            return this;
+        }
+
+        public Builder<K> withExit(Runnable f) {
+            Objects.requireNonNull(f);
+
+            if (onExit.isPresent()) {
+                throw new RuntimeException(String.format("onExit handler already handled for state %s",key));
+            }
+            onExit = Optional.of(f);
+            return this;
+        }
+
+
         /**
          * Builds the new State.
          *
@@ -114,6 +153,8 @@ public class State<K> {
             s.dispatch = dispatch;
             s.isInitialState = isInitialState;
             s.key = key;
+            s.onEntry = onEntry;
+            s.onExit = onExit;
 
             return s;
         }
