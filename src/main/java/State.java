@@ -9,8 +9,6 @@ import java.util.function.Consumer;
  * no handler exists for that particular state, the Event is simply dropped.)
  *
  * To construct a State, use the `State.Builder` interface.
- *
- * @param <K> The type of the uniquely-identifying state key.
  */
 public class State {
 

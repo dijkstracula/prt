@@ -6,7 +6,6 @@ import java.util.Optional;
 /**
  * A Monitor encapsulates a state machine.
  *
- * @param <StateKey> The type of identifier used to distinguish different states in event handlers when transitions happen.
  */
 public class Monitor {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
