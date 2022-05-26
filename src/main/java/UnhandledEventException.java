@@ -3,7 +3,7 @@
  */
 public class UnhandledEventException extends RuntimeException {
     private State state;
-    private Class<? extends Event.Payload> clazz;
+    private Class<? extends PObserveEvent.PEvent> clazz;
 
     /**
      * Instantiates a new UnhandledEventException.
@@ -11,7 +11,7 @@ public class UnhandledEventException extends RuntimeException {
      * @param s the state missing some event.
      * @param c the subclass of Event.Payload without a handler.
      */
-    public UnhandledEventException(State s, Class<? extends Event.Payload> c) {
+    public UnhandledEventException(State s, Class<? extends PObserveEvent.PEvent> c) {
         state = s;
         clazz = c;
     }

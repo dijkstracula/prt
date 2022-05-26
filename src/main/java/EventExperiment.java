@@ -2,8 +2,8 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 public class EventExperiment {
-    record AddEvent(int amountToAdd) implements Event.Payload { }
-    record MulEvent(int amountToMul) implements Event.Payload { }
+    record AddEvent(int amountToAdd) implements PObserveEvent.PEvent { }
+    record MulEvent(int amountToMul) implements PObserveEvent.PEvent { }
 
 
     static class ParityMonitor extends Monitor {
@@ -39,7 +39,7 @@ public class EventExperiment {
 
         Random r = new Random();
 
-        Stream<Event.Payload> payloads = Stream.generate(() -> {
+        Stream<PObserveEvent.PEvent> payloads = Stream.generate(() -> {
             if (r.nextBoolean()) {
                 return new AddEvent(r.nextInt(10));
             } else {

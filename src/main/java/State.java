@@ -29,10 +29,10 @@ public class State {
 
     private boolean isInitialState;
     private String key;
-    private HashMap<Class<? extends Event.Payload>, InterruptibleConsumer<Event.Payload>> dispatch;
+    private HashMap<Class<? extends PObserveEvent.PEvent>, InterruptibleConsumer<PObserveEvent.PEvent>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<Consumer<Event.Payload>> onEntry;
+    private Optional<Consumer<PObserveEvent.PEvent>> onEntry;
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<Runnable> onExit;
 
@@ -45,7 +45,7 @@ public class State {
      */
     public String getKey() { return key; }
 
-    public Optional<Consumer<Event.Payload>> getOnEntry() {
+    public Optional<Consumer<PObserveEvent.PEvent>> getOnEntry() {
         return onEntry;
     }
 
@@ -72,7 +72,7 @@ public class State {
      * @param clazz the Java Class whose handler we're looking up.
      * @return the handler that a `P` can be called with.
      */
-    public <P extends Event.Payload> Optional<InterruptibleConsumer<Event.Payload>> getHandler(Class<P> clazz) {
+    public <P extends PObserveEvent.PEvent> Optional<InterruptibleConsumer<PObserveEvent.PEvent>> getHandler(Class<P> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
         }
@@ -86,11 +86,11 @@ public class State {
         private boolean isInitialState;
 
         private final String key;
-        private final HashMap<Class<? extends Event.Payload>, InterruptibleConsumer<Event.Payload>> dispatch;
+        private final HashMap<Class<? extends PObserveEvent.PEvent>, InterruptibleConsumer<PObserveEvent.PEvent>> dispatch;
 
 
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        private Optional<Consumer<Event.Payload>> onEntry;
+        private Optional<Consumer<PObserveEvent.PEvent>> onEntry;
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         private Optional<Runnable> onExit;
 
@@ -126,18 +126,18 @@ public class State {
          * @param clazz the subclass of Payload
          * @param f     the handler to be invoked at runtime.
          */
-        public <P extends Event.Payload> Builder withEvent(Class<P> clazz, InterruptibleConsumer<P> f) {
+        public <P extends PObserveEvent.PEvent> Builder withEvent(Class<P> clazz, InterruptibleConsumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
             if (dispatch.containsKey(clazz)) {
                 throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
-            dispatch.put(clazz, (InterruptibleConsumer<Event.Payload>)f);
+            dispatch.put(clazz, (InterruptibleConsumer<PObserveEvent.PEvent>)f);
             return this;
         }
 
-        public Builder withEntry(Consumer<Event.Payload> f) {
+        public Builder withEntry(Consumer<PObserveEvent.PEvent> f) {
             Objects.requireNonNull(f);
 
             if (onEntry.isPresent()) {

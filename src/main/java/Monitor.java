@@ -68,19 +68,19 @@ public class Monitor {
     /**
      * Synchronously processes one Event.Payload message.
      *
-     * @param p the payload.
-     * @throws UnhandledEventException if the payload's type has no associated handler.
+     * @param p the pEvent.
+     * @throws UnhandledEventException if the pEvent's type has no associated handler.
      */
-    public void process(Event.Payload p) throws UnhandledEventException {
+    public void process(PObserveEvent.PEvent p) throws UnhandledEventException {
         Objects.requireNonNull(p);
         if (!isRunning) {
             throw new RuntimeException("Monitor is not running (did you call ready()?)");
         }
 
 
-        System.out.println("DEBUG: In " + currentState + ": processing event payload " + p);
+        System.out.println("DEBUG: In " + currentState + ": processing event pEvent " + p);
 
-        Optional<State.InterruptibleConsumer<Event.Payload>> oc = currentState.getHandler(p.getClass());
+        Optional<State.InterruptibleConsumer<PObserveEvent.PEvent>> oc = currentState.getHandler(p.getClass());
         if (oc.isEmpty()) {
             throw new UnhandledEventException(currentState, p.getClass());
         }
