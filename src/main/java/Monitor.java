@@ -9,29 +9,41 @@ import java.util.Optional;
  */
 public class Monitor {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<State> currentState;
+    private Optional<State> initialState;
+    private State currentState;
 
     private final HashMap<String, State> states;
+
+    /**
+     * If the Monitor is running, new states must not be able to be added.
+     * If the monitor is not running, events must not be able to be processed and states can't be transitioned.
+     */
+    private boolean isRunning;
 
     /**
      * Adds a new State to the state machine.
      *
      * @param s The state.
      */
-    protected void addState(State s) {
+    public void addState(State s) {
         Objects.requireNonNull(s);
+        if (isRunning) {
+            throw new RuntimeException("Monitor is already running; no new states may be added.");
+        }
+
         if (states.containsKey(s.getKey())) {
             throw new RuntimeException("State already present");
         }
         states.put(s.getKey(), s);
 
         if (s.isInitialState()) {
-            if (currentState.isPresent()) {
-                throw new RuntimeException("Initial state already set to " + currentState.get().getKey());
+            if (initialState.isPresent()) {
+                throw new RuntimeException("Initial state already set to " + initialState.get().getKey());
             }
-            currentState = Optional.of(s);
+            initialState = Optional.of(s);
         }
     }
+
 
     /**
      * Transitions the Monitor to a new state.
@@ -41,6 +53,11 @@ public class Monitor {
      */
     protected void gotoState(String k) throws TransitionException {
         Objects.requireNonNull(k);
+
+        if (!isRunning) {
+            throw new RuntimeException("Monitor is not running (did you call ready()?)");
+        }
+
         if (!states.containsKey(k)) {
             throw new RuntimeException("State not present");
         }
@@ -56,14 +73,16 @@ public class Monitor {
      */
     public void process(Event.Payload p) throws UnhandledEventException {
         Objects.requireNonNull(p);
+        if (!isRunning) {
+            throw new RuntimeException("Monitor is not running (did you call ready()?)");
+        }
 
-        State s = currentState.orElseThrow(() -> new RuntimeException("No current state set (did you specify an initial state, or is the machine halted?)"));
 
-        System.out.println("DEBUG: In " + s + ": processing event payload " + p);
+        System.out.println("DEBUG: In " + currentState + ": processing event payload " + p);
 
-        Optional<State.InterruptibleConsumer<Event.Payload>> oc = s.getHandler(p.getClass());
+        Optional<State.InterruptibleConsumer<Event.Payload>> oc = currentState.getHandler(p.getClass());
         if (oc.isEmpty()) {
-            throw new UnhandledEventException(s, p.getClass());
+            throw new UnhandledEventException(currentState, p.getClass());
         }
 
         try {
@@ -74,20 +93,26 @@ public class Monitor {
 
             State next = e.getNewState();
 
-            s.getOnExit().ifPresent(Runnable::run);
+            currentState.getOnExit().ifPresent(Runnable::run);
             next.getOnEntry().ifPresent(f -> f.accept(p));
 
-            currentState = Optional.of(next);
+            currentState = next;
         }
+    }
+
+    public void ready() {
+        State s = initialState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
+        isRunning = true;
+        currentState = s;
     }
 
     /**
      * Instantiates a new Monitor; users should provide domain-specific functionality in a subclass.
      */
     protected Monitor() {
-        currentState = Optional.empty();
-
+        initialState = Optional.empty();
         states = new HashMap<>();
+        isRunning = false;
     }
 
 

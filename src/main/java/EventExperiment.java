@@ -35,6 +35,8 @@ public class EventExperiment {
 
     public static void main(String[] args) {
         ParityMonitor pm = new ParityMonitor();
+        pm.ready();
+        
         Random r = new Random();
 
         Stream<Event.Payload> payloads = Stream.generate(() -> {
