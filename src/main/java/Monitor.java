@@ -90,15 +90,19 @@ public class Monitor {
             oc.get().accept(p);
         } catch (TransitionException e) {
             // ...if it does, run entry/exit handlers and swap out the state.
-            handleTransition(e);
+            handleTransition(e.getTargetState());
         }
     }
 
-    private void handleTransition(TransitionException e) {
-        State next = e.getNewState();
+    /**
+     * Transitions to `s` by invoking the current state's exit handler and the new state's
+     * entry handler, and updating internal bookkeeping.
+     * @param s The new state.
+     */
+    private void handleTransition(State s) {
 
         currentState.getOnExit().ifPresent(Runnable::run);
-        currentState = next;
+        currentState = s;
 
         Optional<State.TransitionableRunnable> entry = currentState.getOnEntry();
         if (entry.isPresent()) {
@@ -106,11 +110,15 @@ public class Monitor {
                 entry.get().run();
             } catch (TransitionException e2) {
                 // FIXME: This isn't stack-safe.  Confirm the semantics are right and then just make a loop.
-                handleTransition(e2);
+                handleTransition(e2.getTargetState());
             }
         }
     }
 
+    /**
+     * Marks the Monitor as ready to run and consume events.  The initial state's entry handler will be
+     * invoked.
+     */
     public void ready() {
         isRunning = true;
 

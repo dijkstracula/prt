@@ -8,13 +8,13 @@
  * of polymorphism is more trouble than it's worth and we should simply use String keys.
  */
 public class TransitionException extends Exception {
-    private State newState;
+    private State targetState;
 
-    public State getNewState() {
-        return newState;
+    public State getTargetState() {
+        return targetState;
     }
 
     public TransitionException(State s) {
-        this.newState = s;
+        this.targetState = s;
     }
 }
