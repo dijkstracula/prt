@@ -1,7 +1,6 @@
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * A state in a Monitor's transition diagram.  A state contains zero or more Event handlers; when the Monitor
@@ -17,7 +16,7 @@ public class State {
      * @param <T> The type to be consumed.
      */
     @FunctionalInterface
-    interface InterruptibleConsumer<T> {
+    interface TransitionableConsumer<T> {
         /**
          * Invokes the consumer with some `t`; a `TransitionException` may be thrown prior to the consumer terminating,
          * which the caller needs to handle.
@@ -27,12 +26,24 @@ public class State {
         void accept(T t) throws TransitionException;
     }
 
+    /**
+     * Functionally-equivalent to a Runnable, but may throw the checked TransitionException within run().
+     */
+    @FunctionalInterface
+    interface TransitionableRunnable {
+        /**
+         * Runs the Runnable; a `TransitionException` may be thrown prior to the consumer terminating,
+         * @throws TransitionException
+         */
+        void run() throws TransitionException;
+    }
+
     private boolean isInitialState;
     private String key;
-    private HashMap<Class<? extends PObserveEvent.PEvent>, InterruptibleConsumer<PObserveEvent.PEvent>> dispatch;
+    private HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<Consumer<PObserveEvent.PEvent>> onEntry;
+    private Optional<TransitionableRunnable> onEntry;
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<Runnable> onExit;
 
@@ -45,7 +56,7 @@ public class State {
      */
     public String getKey() { return key; }
 
-    public Optional<Consumer<PObserveEvent.PEvent>> getOnEntry() {
+    public Optional<TransitionableRunnable> getOnEntry() {
         return onEntry;
     }
 
@@ -72,7 +83,7 @@ public class State {
      * @param clazz the Java Class whose handler we're looking up.
      * @return the handler that a `P` can be called with.
      */
-    public <P extends PObserveEvent.PEvent> Optional<InterruptibleConsumer<PObserveEvent.PEvent>> getHandler(Class<P> clazz) {
+    public <P extends PObserveEvent.PEvent> Optional<TransitionableConsumer<PObserveEvent.PEvent>> getHandler(Class<P> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
         }
@@ -86,11 +97,11 @@ public class State {
         private boolean isInitialState;
 
         private final String key;
-        private final HashMap<Class<? extends PObserveEvent.PEvent>, InterruptibleConsumer<PObserveEvent.PEvent>> dispatch;
+        private final HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
 
 
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        private Optional<Consumer<PObserveEvent.PEvent>> onEntry;
+        private Optional<TransitionableRunnable> onEntry;
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         private Optional<Runnable> onExit;
 
@@ -126,18 +137,18 @@ public class State {
          * @param clazz the subclass of Payload
          * @param f     the handler to be invoked at runtime.
          */
-        public <P extends PObserveEvent.PEvent> Builder withEvent(Class<P> clazz, InterruptibleConsumer<P> f) {
+        public <P extends PObserveEvent.PEvent> Builder withEvent(Class<P> clazz, TransitionableConsumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
             if (dispatch.containsKey(clazz)) {
                 throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
-            dispatch.put(clazz, (InterruptibleConsumer<PObserveEvent.PEvent>)f);
+            dispatch.put(clazz, (TransitionableConsumer<PObserveEvent.PEvent>)f);
             return this;
         }
 
-        public Builder withEntry(Consumer<PObserveEvent.PEvent> f) {
+        public Builder withEntry(TransitionableRunnable f) {
             Objects.requireNonNull(f);
 
             if (onEntry.isPresent()) {

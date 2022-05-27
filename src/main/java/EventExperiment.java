@@ -15,7 +15,7 @@ public class EventExperiment {
             super();
 
             addState(new State.Builder(EVEN_STATE)
-                    .withEntry(e -> System.out.println("Entering EVEN because of " + e.toString()))
+                    .withEntry(() -> System.out.println("Entering EVEN"))
                     .withEvent(AddEvent.class,
                             ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(ODD_STATE); throw new RuntimeException("Should be dead code!"); } })
                     .withExit(() -> System.out.println("Leaving EVEN"))
@@ -23,7 +23,7 @@ public class EventExperiment {
 
             addState(new State.Builder(ODD_STATE)
                     .isInitialState(true)
-                    .withEntry(e -> System.out.println("Entering ODD because of " + e.toString()))
+                    .withEntry(() -> System.out.println("Entering ODD"))
                     .withEvent(AddEvent.class,
                             ae -> {if (ae.amountToAdd % 2 == 1) { gotoState(EVEN_STATE); throw new RuntimeException("Should be dead code!"); } })
                     .withEvent(MulEvent.class,

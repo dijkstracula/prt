@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 public class Monitor {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<State> initialState;
+    private Optional<State> startState;
     private State currentState;
 
     private final HashMap<String, State> states;
@@ -37,10 +37,10 @@ public class Monitor {
         states.put(s.getKey(), s);
 
         if (s.isInitialState()) {
-            if (initialState.isPresent()) {
-                throw new RuntimeException("Initial state already set to " + initialState.get().getKey());
+            if (startState.isPresent()) {
+                throw new RuntimeException("Initial state already set to " + startState.get().getKey());
             }
-            initialState = Optional.of(s);
+            startState = Optional.of(s);
         }
     }
 
@@ -80,7 +80,7 @@ public class Monitor {
 
         System.out.println("DEBUG: In " + currentState + ": processing event pEvent " + p);
 
-        Optional<State.InterruptibleConsumer<PObserveEvent.PEvent>> oc = currentState.getHandler(p.getClass());
+        Optional<State.TransitionableConsumer<PObserveEvent.PEvent>> oc = currentState.getHandler(p.getClass());
         if (oc.isEmpty()) {
             throw new UnhandledEventException(currentState, p.getClass());
         }
@@ -90,29 +90,43 @@ public class Monitor {
             oc.get().accept(p);
         } catch (TransitionException e) {
             // ...if it does, run entry/exit handlers and swap out the state.
+            handleTransition(e);
+        }
+    }
 
-            State next = e.getNewState();
+    private void handleTransition(TransitionException e) {
+        State next = e.getNewState();
 
-            currentState.getOnExit().ifPresent(Runnable::run);
-            next.getOnEntry().ifPresent(f -> f.accept(p));
+        currentState.getOnExit().ifPresent(Runnable::run);
+        currentState = next;
 
-            currentState = next;
+        Optional<State.TransitionableRunnable> entry = currentState.getOnEntry();
+        if (entry.isPresent()) {
+            try {
+                entry.get().run();
+            } catch (TransitionException e2) {
+                // FIXME: This isn't stack-safe.  Confirm the semantics are right and then just make a loop.
+                handleTransition(e2);
+            }
         }
     }
 
     public void ready() {
-        State s = initialState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
         isRunning = true;
-        currentState = s;
+
+        State s = startState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
+        handleTransition(new TransitionException(s));
     }
 
     /**
      * Instantiates a new Monitor; users should provide domain-specific functionality in a subclass.
      */
     protected Monitor() {
-        initialState = Optional.empty();
+        startState = Optional.empty();
         states = new HashMap<>();
         isRunning = false;
+
+        currentState = new State.Builder("_pre_init").build();
     }
 
 
