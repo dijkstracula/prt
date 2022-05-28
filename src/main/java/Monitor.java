@@ -123,7 +123,7 @@ public class Monitor {
         isRunning = true;
 
         State s = startState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
-        handleTransition(new TransitionException(s));
+        handleTransition(s);
     }
 
     /**

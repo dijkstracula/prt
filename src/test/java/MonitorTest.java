@@ -44,11 +44,25 @@ class MonitorTest {
         }
     }
 
-    class SingleStateMonitor extends Monitor {
+    /**
+     * This Monitor has one piece of ghost state: a counter that can be incremented by
+     * processing events.
+     */
+    class CounterMonitor extends Monitor {
+        record AddEvent(int amountToAdd) implements PObserveEvent.PEvent { }
+
         private String INIT_STATE= "Init";
-        public SingleStateMonitor() {
+
+        public int count;
+
+        public CounterMonitor() {
             super();
-            addState(new State.Builder(INIT_STATE).isInitialState(true).build());
+            count = 0;
+
+            addState(new State.Builder(INIT_STATE)
+                    .isInitialState(true)
+                    .withEvent(AddEvent.class, addEvent -> count += addEvent.amountToAdd)
+                    .build());
         }
     }
 
@@ -57,7 +71,7 @@ class MonitorTest {
         private String B_STATE = "B";
         private String C_STATE = "C";
 
-        public List<String> stateAcc; // We'll sue this to track what states we've transitioned through.
+        public List<String> stateAcc; // We'll use this to track what states we've transitioned through.
         public ChainedEntryHandlerMonitor() {
             super();
 
@@ -65,15 +79,15 @@ class MonitorTest {
 
             addState(new State.Builder(A_STATE)
                     .isInitialState(true)
-                    .withEntry(() -> { gotoState(B_STATE); })
-                    .withExit(() -> stateAcc.add(A_STATE) )
+                    .withEntry(() -> gotoState(B_STATE))
+                    .withExit(() -> stateAcc.add(A_STATE))
                     .build());
             addState(new State.Builder(B_STATE)
-                    .withEntry(() -> { gotoState(C_STATE); })
-                    .withExit(() -> stateAcc.add(B_STATE) )
+                    .withEntry(() -> gotoState(C_STATE))
+                    .withExit(() -> stateAcc.add(B_STATE))
                     .build());
             addState(new State.Builder(C_STATE)
-                    .withEntry(() -> stateAcc.add(C_STATE) )
+                    .withEntry(() -> stateAcc.add(C_STATE))
                     .build());
         }
     }
@@ -96,6 +110,27 @@ class MonitorTest {
         Throwable e;
         e = assertThrows(RuntimeException.class, () -> new NonUniqueStateKeyMonitor().ready());
         assertTrue(e.getMessage().contains("State already present"));
+    }
+
+    @Test
+    @DisplayName("Monitors must be ready()ied before events can be processed")
+    void testNonReadyMonitors() {
+        CounterMonitor m = new CounterMonitor();
+        Throwable e = assertThrows(RuntimeException.class, () -> m.process(new CounterMonitor.AddEvent(42)));
+        assertTrue(e.getMessage().contains("not running"));
+    }
+
+    @Test
+    @DisplayName("Monitor can process ghost state-mutating events")
+    void testStateMutationOnEvent() {
+        CounterMonitor m = new CounterMonitor();
+        m.ready();
+
+        assertEquals(m.count, 0);
+        m.process(new CounterMonitor.AddEvent(1));
+        m.process(new CounterMonitor.AddEvent(2));
+        m.process(new CounterMonitor.AddEvent(3));
+        assertEquals(m.count, 6);
     }
 
     @Test
