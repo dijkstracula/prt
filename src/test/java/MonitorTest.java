@@ -92,11 +92,64 @@ class MonitorTest {
         }
     }
 
+    class GotoStateWithPayloadsMonitor extends Monitor {
+        private String A_STATE = "A";
+        private String B_STATE = "B";
+        private String C_STATE = "C";
+
+        public List<Object> eventsProcessed; // We'll use this to track what events we've processed
+
+        public GotoStateWithPayloadsMonitor() {
+            super();
+
+            eventsProcessed = new ArrayList<>();
+
+            addState(new State.Builder(A_STATE)
+                    .isInitialState(true)
+                    .withEntry(() -> {
+                        gotoState(B_STATE, "Hello from State A");
+                    })
+                    .build());
+            addState(new State.Builder(B_STATE)
+                    .withEntry(s -> {
+                        eventsProcessed.add(s);
+                        gotoState(C_STATE, "Hello from State B");
+                    })
+                    .build());
+            addState(new State.Builder(C_STATE)
+                    .withEntry(s -> eventsProcessed.add(s))
+                    .build());
+        }
+    }
+
+
+    class GotoStateWithIllTypedPayloadsMonitor extends Monitor {
+        private String A_STATE = "A";
+        private String B_STATE = "B";
+
+        public List<String> eventsProcessed; // We'll use this to track what events we've processed
+
+        public GotoStateWithIllTypedPayloadsMonitor() {
+            super();
+
+            eventsProcessed = new ArrayList<>();
+
+            addState(new State.Builder(A_STATE)
+                    .isInitialState(true)
+                    .withEntry(() -> gotoState(B_STATE, Integer.valueOf(42)))
+                    .build());
+            addState(new State.Builder(B_STATE)
+                    .withEntry((String s) -> eventsProcessed.add(s))
+                    .build());
+        }
+    }
+
     /**
      * This monitor immediately asserts.
      */
     class ImmediateAssertionMonitor extends Monitor {
-        private String INIT_STATE= "Init";
+        private String INIT_STATE = "Init";
+
         public ImmediateAssertionMonitor() {
             super();
             addState(new State.Builder(INIT_STATE)
@@ -154,6 +207,23 @@ class MonitorTest {
         m.ready();
 
         assertTrue(m.stateAcc.equals(List.of("A", "B", "C")));
+    }
+
+    @Test
+    @DisplayName("Payloads can be passed to entry handlers")
+    void testChainedEntryHandlersWithPayloads() {
+        GotoStateWithPayloadsMonitor m = new GotoStateWithPayloadsMonitor();
+        m.ready();
+
+        assertTrue(m.eventsProcessed.equals(List.of("Hello from State A", "Hello from State B")));
+    }
+
+    @Test
+    @DisplayName("Ill-typed payload handlers throw")
+    void testChainedEntryHandlersWithIllTypedPayloads() {
+        GotoStateWithIllTypedPayloadsMonitor m = new GotoStateWithIllTypedPayloadsMonitor();
+
+        assertThrows(GotoPayloadClassException.class, () -> m.ready());
     }
 
     @Test

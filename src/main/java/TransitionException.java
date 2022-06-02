@@ -1,3 +1,6 @@
+import java.util.Objects;
+import java.util.Optional;
+
 /**
  * A TransitionException is raised by user handlers when they would like to transition
  * to a new state.
@@ -9,12 +12,28 @@
  */
 public class TransitionException extends Exception {
     private State targetState;
+    private Optional<Object> payload;
 
     public State getTargetState() {
         return targetState;
     }
 
+    public Optional<Object> getPayload() {
+        return payload;
+    }
+
     public TransitionException(State s) {
+        Objects.requireNonNull(s);
+
         this.targetState = s;
+        this.payload = Optional.empty();
+    }
+
+    public TransitionException(State s, Object payload) {
+        Objects.requireNonNull(s);
+        Objects.requireNonNull(payload);
+
+        this.targetState = s;
+        this.payload = Optional.of(payload);
     }
 }

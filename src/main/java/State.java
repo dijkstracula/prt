@@ -20,8 +20,8 @@ public class State {
         /**
          * Invokes the consumer with some `t`; a `TransitionException` may be thrown prior to the consumer terminating,
          * which the caller needs to handle.
-         * @param t
-         * @throws TransitionException
+         * @param t the argument to the function.
+         * @throws TransitionException if invoking the function results in a state transition.
          */
         void accept(T t) throws TransitionException;
     }
@@ -33,7 +33,7 @@ public class State {
     interface TransitionableRunnable {
         /**
          * Runs the Runnable; a `TransitionException` may be thrown prior to the consumer terminating,
-         * @throws TransitionException
+         * @throws TransitionException if invoking the function results in a state transition.
          */
         void run() throws TransitionException;
     }
@@ -43,7 +43,7 @@ public class State {
     private HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<TransitionableRunnable> onEntry;
+    private Optional<TransitionableConsumer<Object>> onEntry;
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<Runnable> onExit;
 
@@ -56,7 +56,7 @@ public class State {
      */
     public String getKey() { return key; }
 
-    public Optional<TransitionableRunnable> getOnEntry() {
+    public Optional<TransitionableConsumer<Object>> getOnEntry() {
         return onEntry;
     }
 
@@ -101,7 +101,7 @@ public class State {
 
 
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        private Optional<TransitionableRunnable> onEntry;
+        private Optional<TransitionableConsumer<Object>> onEntry;
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         private Optional<Runnable> onExit;
 
@@ -129,8 +129,8 @@ public class State {
         }
 
         /**
-         * For a given `class P extends Event.Payload`, register a function `P -> void` with the
-         * class to be invoked when the Monitor is currently in this state and receives an Event
+         * For a given `class P extends Event.Payload`, register a function `P -> void`
+         * to be invoked when the Monitor is currently in this state and receives an Event
          * with Payload type `P`.
          *
          * @param <P>   the subclass of Payload
@@ -148,13 +148,46 @@ public class State {
             return this;
         }
 
+        /**
+         * Register a function `P -> void` to be invoked when the Monitor is currently in
+         * another state and transitions to this one with some particular payload.
+         *
+         * Note: Payloads are untyped, and so conceivably the programmer may configure their
+         * state machine to transition to the current state with a payload _other_ than P!
+         * In that case, a ClassCastException will be thrown _at runtime_.
+         *
+         * TODO: we could simply hard-code this consumer to consume an Optional<j.l.Object>?
+         * I like that less but makes the "untyped-ness" clearer to developers...
+         *
+         * @param f the P -> void function to invoke.
+         * @return The builder
+         * @param <P> The type parameter of the payload we wish to consume.
+         */
+        public <P> Builder withEntry(TransitionableConsumer<P> f) {
+            Objects.requireNonNull(f);
+
+            if (onEntry.isPresent()) {
+                throw new RuntimeException(String.format("onEntry handler already handled for state %s",key));
+            }
+            onEntry = Optional.of((TransitionableConsumer<Object>) f);
+            return this;
+        }
+
+        /**
+         * Register a function `void -> void` to be invoked when the monitor is currently
+         * in another state and transitions to this one.  If a payload was sent along with
+         * the transition, it is discarded.
+         *
+         * @param f the void procedure to invoke.
+         * @return the builder
+         */
         public Builder withEntry(TransitionableRunnable f) {
             Objects.requireNonNull(f);
 
             if (onEntry.isPresent()) {
                 throw new RuntimeException(String.format("onEntry handler already handled for state %s",key));
             }
-            onEntry = Optional.of(f);
+            onEntry = Optional.of(__ -> f.run());
             return this;
         }
 

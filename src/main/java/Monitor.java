@@ -50,23 +50,37 @@ public class Monitor {
     }
 
     /**
-     * Transitions the Monitor to a new state.
+     * Transitions the Monitor to a new state, without including a payload.
      *
      * @param k the key of the state to transition to.
+     *
      * @throws RuntimeException if `k` is not a state in the state machine.
      */
     protected void gotoState(String k) throws TransitionException {
         Objects.requireNonNull(k);
 
-        if (!isRunning) {
-            throw new RuntimeException("Monitor is not running (did you call ready()?)");
+        if (!states.containsKey(k)) {
+            throw new RuntimeException("State not present");
         }
+        throw new TransitionException(states.get(k));
+    }
+
+    /**
+     * Transitions the Monitor to a new state, delivering the given event afterwards.
+     *
+     * @param k the key of the state to transition to.
+     * @param payload The payload to hand to the state entry handler.
+     *
+     * @throws RuntimeException if `k` is not a state in the state machine.
+     */
+    protected <P> void gotoState(String k, P payload) throws TransitionException {
+        Objects.requireNonNull(k);
+        Objects.requireNonNull(payload);
 
         if (!states.containsKey(k)) {
             throw new RuntimeException("State not present");
         }
-        //System.out.println("DEBUG: transitioning from " + currentState.map(State::toString).orElse("???") + " to " + k + ".");
-        throw new TransitionException(states.get(k));
+        throw new TransitionException(states.get(k), payload);
     }
 
     /**
@@ -77,10 +91,10 @@ public class Monitor {
      */
     public void process(PObserveEvent.PEvent p) throws UnhandledEventException {
         Objects.requireNonNull(p);
+
         if (!isRunning) {
             throw new RuntimeException("Monitor is not running (did you call ready()?)");
         }
-
 
         System.out.println("DEBUG: In " + currentState + ": processing event pEvent " + p);
 
@@ -94,7 +108,7 @@ public class Monitor {
             oc.get().accept(p);
         } catch (TransitionException e) {
             // ...if it does, run entry/exit handlers and swap out the state.
-            handleTransition(e.getTargetState());
+            handleTransition(e.getTargetState(), e.getPayload());
         }
     }
 
@@ -103,18 +117,25 @@ public class Monitor {
      * entry handler, and updating internal bookkeeping.
      * @param s The new state.
      */
-    private void handleTransition(State s) {
+    private void handleTransition(State s, Optional<Object> payload) {
+        if (!isRunning) {
+            throw new RuntimeException("Monitor is not running (did you call ready()?)");
+        }
 
         currentState.getOnExit().ifPresent(Runnable::run);
         currentState = s;
 
-        Optional<State.TransitionableRunnable> entry = currentState.getOnEntry();
+        Optional<State.TransitionableConsumer<Object>> entry = currentState.getOnEntry();
         if (entry.isPresent()) {
+            State.TransitionableConsumer<Object> handler = entry.get();
+            Object p = payload.orElse(null);
             try {
-                entry.get().run();
+                handler.accept(p);
             } catch (TransitionException e2) {
                 // FIXME: This isn't stack-safe.  Confirm the semantics are right and then just make a loop.
-                handleTransition(e2.getTargetState());
+                handleTransition(e2.getTargetState(), e2.getPayload());
+            } catch (ClassCastException e2) {
+                throw new GotoPayloadClassException(p, currentState);
             }
         }
     }
@@ -127,7 +148,7 @@ public class Monitor {
         isRunning = true;
 
         State s = startState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
-        handleTransition(s);
+        handleTransition(s, Optional.empty());
     }
 
     /**
