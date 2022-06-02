@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CloneTest {
+public class ValueCloneTest {
 
     @Test
     @DisplayName("Can 'clone' a null value")

@@ -102,4 +102,25 @@ public class Values {
 
         throw new UncloneableValueException(clazz);
     }
+
+    public static <T extends Comparable<T>> int compare(T o1, T o2) {
+        // Just to keep things well-defined, treat null as a minimal value.
+        if (o1 == null) {
+            return o2 == null ? 0 : -1;
+        }
+        if (o2 == null) {
+            return o1 == null ? 0 : 1;
+        }
+
+        // String.compareTo(String) doesn't return a value on [-1, 1] so clamp out-of-range values.
+        int ret = o1.compareTo(o2);
+        if (ret > 1) ret = 1;
+        if (ret < -1) ret = -1;
+
+        return ret;
+    }
+
+    public static boolean equals(Object o1, Object o2) {
+        return Objects.equals(o1, o2);
+    }
 }
