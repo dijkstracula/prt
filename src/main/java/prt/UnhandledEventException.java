@@ -1,12 +1,14 @@
+package prt;
+
 /**
- * Thrown when a given State has no handler for a given Event.
+ * Thrown when a given prt.State has no handler for a given Event.
  */
 public class UnhandledEventException extends RuntimeException {
     private State state;
     private Class<? extends PObserveEvent.PEvent> clazz;
 
     /**
-     * Instantiates a new UnhandledEventException.
+     * Instantiates a new prt.UnhandledEventException.
      *
      * @param s the state missing some event.
      * @param c the subclass of Event.Payload without a handler.
@@ -18,6 +20,6 @@ public class UnhandledEventException extends RuntimeException {
 
     @Override
     public String toString() {
-        return String.format("State %s has no handler for class %s", this.state, clazz.getName());
+        return String.format("prt.State %s has no handler for class %s", this.state, clazz.getName());
     }
 }

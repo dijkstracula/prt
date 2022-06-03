@@ -1,3 +1,5 @@
+package prt;
+
 /**
  * This is meant to stub out a PObserve event that will terminate at a sink such as the Java
  * P runtime.  For monitors, the only thing of interest to us is the `Payload` field.

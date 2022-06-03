@@ -1,8 +1,10 @@
+package prt;
+
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A TransitionException is raised by user handlers when they would like to transition
+ * A prt.TransitionException is raised by user handlers when they would like to transition
  * to a new state.
  *
  * Internal note: Java doesn't let us override j.l.Throwable with a parameterized subtype,

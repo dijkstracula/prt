@@ -1,3 +1,5 @@
+package prt;
+
 import java.util.Random;
 import java.util.stream.Stream;
 

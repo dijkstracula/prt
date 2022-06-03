@@ -1,3 +1,5 @@
+package prt;
+
 /**
  * Analogous to `Microsoft.Coyote.AssertionFailureException`: if a `Plang.Compiler...AnnounceStmt`
  * evaluates at runtime to false, throw this.

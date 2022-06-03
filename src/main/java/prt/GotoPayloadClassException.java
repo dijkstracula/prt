@@ -1,5 +1,7 @@
+package prt;
+
 /**
- * Thrown when the Monitor tries to pass a state transition payload of the wrong type to
+ * Thrown when the prt.Monitor tries to pass a state transition payload of the wrong type to
  * the entry handler for a new state.
  */
 public class GotoPayloadClassException extends RuntimeException {

@@ -1,24 +1,26 @@
+package prt;
+
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A state in a Monitor's transition diagram.  A state contains zero or more Event handlers; when the Monitor
+ * A state in a prt.Monitor's transition diagram.  A state contains zero or more Event handlers; when the prt.Monitor
  * receives an event, it defers behaviour to the current state's handler for that event, if it exists.  (If
  * no handler exists for that particular state, the Event is simply dropped.)
  *
- * To construct a State, use the `State.Builder` interface.
+ * To construct a prt.State, use the `prt.State.Builder` interface.
  */
 public class State {
 
     /**
-     * Functionally-equivalent to a Consumer<T>, but may throw the checked TransitionException within accept().
+     * Functionally-equivalent to a Consumer<T>, but may throw the checked prt.TransitionException within accept().
      * @param <T> The type to be consumed.
      */
     @FunctionalInterface
-    interface TransitionableConsumer<T> {
+    public interface TransitionableConsumer<T> {
         /**
-         * Invokes the consumer with some `t`; a `TransitionException` may be thrown prior to the consumer terminating,
+         * Invokes the consumer with some `t`; a `prt.TransitionException` may be thrown prior to the consumer terminating,
          * which the caller needs to handle.
          * @param t the argument to the function.
          * @throws TransitionException if invoking the function results in a state transition.
@@ -27,12 +29,12 @@ public class State {
     }
 
     /**
-     * Functionally-equivalent to a Runnable, but may throw the checked TransitionException within run().
+     * Functionally-equivalent to a Runnable, but may throw the checked prt.TransitionException within run().
      */
     @FunctionalInterface
-    interface TransitionableRunnable {
+    public interface TransitionableRunnable {
         /**
-         * Runs the Runnable; a `TransitionException` may be thrown prior to the consumer terminating,
+         * Runs the Runnable; a `prt.TransitionException` may be thrown prior to the consumer terminating,
          * @throws TransitionException if invoking the function results in a state transition.
          */
         void run() throws TransitionException;
@@ -50,7 +52,7 @@ public class State {
     private State() {}
 
     /**
-     * Returns the (uniquely-) identifying key for this State, used by the Monitor on state transitions.
+     * Returns the (uniquely-) identifying key for this prt.State, used by the prt.Monitor on state transitions.
      *
      * @return the key
      */
@@ -65,7 +67,7 @@ public class State {
     }
 
     /**
-     * Returns whether or not this State was marked to be the (unique) initial state of its Monitor.
+     * Returns whether or not this prt.State was marked to be the (unique) initial state of its prt.Monitor.
      *
      * @return the boolean
      */
@@ -73,7 +75,7 @@ public class State {
 
     @Override
     public String toString() {
-        return String.format("State[%s]", key);
+        return String.format("prt.State[%s]", key);
     }
 
     /**
@@ -91,7 +93,7 @@ public class State {
     }
 
     /**
-     * Builds a State.
+     * Builds a prt.State.
      */
     static public class Builder {
         private boolean isInitialState;
@@ -108,7 +110,7 @@ public class State {
         /**
          * Instantiates a new Builder.
          *
-         * @param _key the uniquely-identifying key for our new State.
+         * @param _key the uniquely-identifying key for our new prt.State.
          */
         public Builder(String _key) {
             key = _key;
@@ -121,7 +123,7 @@ public class State {
 
 
         /**
-         * Sets whether our new State should be the Monitor's initial state.
+         * Sets whether our new prt.State should be the prt.Monitor's initial state.
          */
         public Builder isInitialState(boolean b) {
             isInitialState = b;
@@ -130,7 +132,7 @@ public class State {
 
         /**
          * For a given `class P extends Event.Payload`, register a function `P -> void`
-         * to be invoked when the Monitor is currently in this state and receives an Event
+         * to be invoked when the prt.Monitor is currently in this state and receives an Event
          * with Payload type `P`.
          *
          * @param <P>   the subclass of Payload
@@ -149,7 +151,7 @@ public class State {
         }
 
         /**
-         * Register a function `P -> void` to be invoked when the Monitor is currently in
+         * Register a function `P -> void` to be invoked when the prt.Monitor is currently in
          * another state and transitions to this one with some particular payload.
          *
          * Note: Payloads are untyped, and so conceivably the programmer may configure their
@@ -203,9 +205,9 @@ public class State {
 
 
         /**
-         * Builds the new State.
+         * Builds the new prt.State.
          *
-         * @return the new State
+         * @return the new prt.State
          */
         public State build() {
             State s = new State();

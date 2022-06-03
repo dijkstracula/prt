@@ -1,10 +1,14 @@
+package prt;
+
+import prt.*;
+
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
 
 /**
- * A Monitor encapsulates a state machine.
+ * A prt.Monitor encapsulates a state machine.
  *
  */
 public class Monitor {
@@ -15,24 +19,24 @@ public class Monitor {
     private final HashMap<String, State> states;
 
     /**
-     * If the Monitor is running, new states must not be able to be added.
+     * If the prt.Monitor is running, new states must not be able to be added.
      * If the monitor is not running, events must not be able to be processed and states can't be transitioned.
      */
     private boolean isRunning;
 
     /**
-     * Adds a new State to the state machine.
+     * Adds a new prt.State to the state machine.
      *
      * @param s The state.
      */
     public void addState(State s) {
         Objects.requireNonNull(s);
         if (isRunning) {
-            throw new RuntimeException("Monitor is already running; no new states may be added.");
+            throw new RuntimeException("prt.Monitor is already running; no new states may be added.");
         }
 
         if (states.containsKey(s.getKey())) {
-            throw new RuntimeException("State already present");
+            throw new RuntimeException("prt.State already present");
         }
         states.put(s.getKey(), s);
 
@@ -50,7 +54,7 @@ public class Monitor {
     }
 
     /**
-     * Transitions the Monitor to a new state, without including a payload.
+     * Transitions the prt.Monitor to a new state, without including a payload.
      *
      * @param k the key of the state to transition to.
      *
@@ -60,13 +64,13 @@ public class Monitor {
         Objects.requireNonNull(k);
 
         if (!states.containsKey(k)) {
-            throw new RuntimeException("State not present");
+            throw new RuntimeException("prt.State not present");
         }
         throw new TransitionException(states.get(k));
     }
 
     /**
-     * Transitions the Monitor to a new state, delivering the given event afterwards.
+     * Transitions the prt.Monitor to a new state, delivering the given event afterwards.
      *
      * @param k the key of the state to transition to.
      * @param payload The payload to hand to the state entry handler.
@@ -78,7 +82,7 @@ public class Monitor {
         Objects.requireNonNull(payload);
 
         if (!states.containsKey(k)) {
-            throw new RuntimeException("State not present");
+            throw new RuntimeException("prt.State not present");
         }
         throw new TransitionException(states.get(k), payload);
     }
@@ -93,7 +97,7 @@ public class Monitor {
         Objects.requireNonNull(p);
 
         if (!isRunning) {
-            throw new RuntimeException("Monitor is not running (did you call ready()?)");
+            throw new RuntimeException("prt.Monitor is not running (did you call ready()?)");
         }
 
         System.out.println("DEBUG: In " + currentState + ": processing event pEvent " + p);
@@ -119,7 +123,7 @@ public class Monitor {
      */
     private void handleTransition(State s, Optional<Object> payload) {
         if (!isRunning) {
-            throw new RuntimeException("Monitor is not running (did you call ready()?)");
+            throw new RuntimeException("prt.Monitor is not running (did you call ready()?)");
         }
 
         currentState.getOnExit().ifPresent(Runnable::run);
@@ -141,7 +145,7 @@ public class Monitor {
     }
 
     /**
-     * Marks the Monitor as ready to run and consume events.  The initial state's entry handler will be
+     * Marks the prt.Monitor as ready to run and consume events.  The initial state's entry handler will be
      * invoked.
      */
     public void ready() {
@@ -152,7 +156,7 @@ public class Monitor {
     }
 
     /**
-     * Instantiates a new Monitor; users should provide domain-specific functionality in a subclass.
+     * Instantiates a new prt.Monitor; users should provide domain-specific functionality in a subclass.
      */
     protected Monitor() {
         startState = Optional.empty();

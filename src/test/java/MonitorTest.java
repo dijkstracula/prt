@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import prt.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ class MonitorTest {
     }
 
     /**
-     * This Monitor has one piece of ghost state: a counter that can be incremented by
+     * This prt.Monitor has one piece of ghost state: a counter that can be incremented by
      * processing events.
      */
     class CounterMonitor extends Monitor {
@@ -107,13 +108,13 @@ class MonitorTest {
             addState(new State.Builder(A_STATE)
                     .isInitialState(true)
                     .withEntry(() -> {
-                        gotoState(B_STATE, "Hello from State A");
+                        gotoState(B_STATE, "Hello from prt.State A");
                     })
                     .build());
             addState(new State.Builder(B_STATE)
                     .withEntry(s -> {
                         eventsProcessed.add(s);
-                        gotoState(C_STATE, "Hello from State B");
+                        gotoState(C_STATE, "Hello from prt.State B");
                     })
                     .build());
             addState(new State.Builder(C_STATE)
@@ -176,7 +177,7 @@ class MonitorTest {
     void testNonUniqueStateKeyConstruction() {
         Throwable e;
         e = assertThrows(RuntimeException.class, () -> new NonUniqueStateKeyMonitor().ready());
-        assertTrue(e.getMessage().contains("State already present"));
+        assertTrue(e.getMessage().contains("prt.State already present"));
     }
 
     @Test
@@ -188,7 +189,7 @@ class MonitorTest {
     }
 
     @Test
-    @DisplayName("Monitor can process ghost state-mutating events")
+    @DisplayName("prt.Monitor can process ghost state-mutating events")
     void testStateMutationOnEvent() {
         CounterMonitor m = new CounterMonitor();
         m.ready();
@@ -215,7 +216,7 @@ class MonitorTest {
         GotoStateWithPayloadsMonitor m = new GotoStateWithPayloadsMonitor();
         m.ready();
 
-        assertTrue(m.eventsProcessed.equals(List.of("Hello from State A", "Hello from State B")));
+        assertTrue(m.eventsProcessed.equals(List.of("Hello from prt.State A", "Hello from prt.State B")));
     }
 
     @Test
