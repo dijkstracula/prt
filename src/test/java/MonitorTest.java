@@ -92,6 +92,20 @@ class MonitorTest {
         }
     }
 
+    /**
+     * This monitor immediately asserts.
+     */
+    class ImmediateAssertionMonitor extends Monitor {
+        private String INIT_STATE= "Init";
+        public ImmediateAssertionMonitor() {
+            super();
+            addState(new State.Builder(INIT_STATE)
+                    .isInitialState(true)
+                    .withEntry(() -> tryAssert(1 > 2, "Math works"))
+                    .build());
+        }
+    }
+
     @Test
     @DisplayName("Monitors require exactly one default state")
     void testDefaultStateConstruction() {
@@ -140,5 +154,13 @@ class MonitorTest {
         m.ready();
 
         assertTrue(m.stateAcc.equals(List.of("A", "B", "C")));
+    }
+
+    @Test
+    @DisplayName("Assertion failures throw")
+    void testAssertionFailureDoesThrow() {
+        ImmediateAssertionMonitor m = new ImmediateAssertionMonitor();
+        Throwable e = assertThrows(PAssertionFailureException.class,
+                () -> m.ready(), "Assertion failed: Math works");
     }
 }

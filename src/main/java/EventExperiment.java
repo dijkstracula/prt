@@ -5,7 +5,6 @@ public class EventExperiment {
     record AddEvent(int amountToAdd) implements PObserveEvent.PEvent { }
     record MulEvent(int amountToMul) implements PObserveEvent.PEvent { }
 
-
     static class ParityMonitor extends Monitor {
 
         private String EVEN_STATE = "even";

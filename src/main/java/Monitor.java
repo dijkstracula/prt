@@ -44,6 +44,10 @@ public class Monitor {
         }
     }
 
+    protected void tryAssert(boolean cond, String msg)
+    {
+        if (!cond) throw new PAssertionFailureException(msg);
+    }
 
     /**
      * Transitions the Monitor to a new state.
