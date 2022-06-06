@@ -29,7 +29,7 @@ public class Monitor {
      *
      * @param s The state.
      */
-    public void addState(State s) {
+    protected void addState(State s) {
         Objects.requireNonNull(s);
         if (isRunning) {
             throw new RuntimeException("prt.Monitor is already running; no new states may be added.");
@@ -46,6 +46,10 @@ public class Monitor {
             }
             startState = Optional.of(s);
         }
+    }
+
+    public String getCurrentState() {
+        return currentState.getKey();
     }
 
     protected void tryAssert(boolean cond, String msg)
