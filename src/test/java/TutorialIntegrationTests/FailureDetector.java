@@ -8,7 +8,7 @@ import prt.*;
 
 
 /***************************************************************************
- * This file was auto-generated on Monday, 06 June 2022 at 09:00:37.
+ * This file was auto-generated on Monday, 06 June 2022 at 14:47:52.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -31,10 +31,14 @@ public class FailureDetector {
     // PMachine Node elided
     static class ReliableFailureDetector extends Monitor {
         private LinkedHashSet<Long> nodesShutdownAndNotDetected = new LinkedHashSet<Long>();
-        private LinkedHashSet<Long> nodesDownDetected = new LinkedHashSet<Long>();
+        public LinkedHashSet<Long> getNodesShutdownAndNotDetected() { return this.nodesShutdownAndNotDetected; };
 
-        private String ALLSHUTDOWNNODESAREDETECTED_STATE = "AllShutdownNodesAreDetected";
-        private String NODESSHUTDOWNBUTNOTDETECTED_STATE = "NodesShutDownButNotDetected";
+        private LinkedHashSet<Long> nodesDownDetected = new LinkedHashSet<Long>();
+        public LinkedHashSet<Long> getNodesDownDetected() { return this.nodesDownDetected; };
+
+
+        public String ALLSHUTDOWNNODESAREDETECTED_STATE = "AllShutdownNodesAreDetected";
+        public String NODESSHUTDOWNBUTNOTDETECTED_STATE = "NodesShutDownButNotDetected";
 
         private void Anon(eNotifyNodesDown pEvent) {
             LinkedHashSet<Long> nodes = pEvent.payload;

@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 03 June 2022 at 12:03:09.
+ * This file was auto-generated on Monday, 06 June 2022 at 15:08:16.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -33,9 +33,15 @@ public class ClientServer {
     // PMachine Client elided
     // PMachine AbstractBankServer elided
     static class BankBalanceIsAlwaysCorrect extends Monitor {
-        private HashMap<Integer,Integer> bankBalance = new HashMap<Integer,Integer>();private HashMap<Integer,HashMap<String, Object>> pendingWithDraws = new HashMap<Integer,HashMap<String, Object>>();
-        private String INIT_STATE = "Init";
-        private String WAITFORWITHDRAWREQANDRESP_STATE = "WaitForWithDrawReqAndResp";
+        private HashMap<Integer,Integer> bankBalance = new HashMap<Integer,Integer>();
+        public HashMap<Integer,Integer> getBankBalance() { return this.bankBalance; };
+
+        private HashMap<Integer,HashMap<String, Object>> pendingWithDraws = new HashMap<Integer,HashMap<String, Object>>();
+        public HashMap<Integer,HashMap<String, Object>> getPendingWithDraws() { return this.pendingWithDraws; };
+
+
+        public String INIT_STATE = "Init";
+        public String WAITFORWITHDRAWREQANDRESP_STATE = "WaitForWithDrawReqAndResp";
 
         private void Anon(eSpec_BankBalanceIsAlwaysCorrect_Init pEvent) {
             HashMap<Integer,Integer> balance = pEvent.payload;
@@ -51,13 +57,13 @@ public class ClientServer {
             String TMP_tmp4 = "";
             int TMP_tmp5 = 0;
 
-            TMP_tmp0 = ((Integer)req.get("accountId"));
+            TMP_tmp0 = (Integer)req.get("accountId");
             TMP_tmp1 = bankBalance.containsKey(TMP_tmp0);
-            TMP_tmp2 = ((Integer)req.get("accountId"));
+            TMP_tmp2 = (Integer)req.get("accountId");
             TMP_tmp3 = new ArrayList<Integer>(bankBalance.keySet());
             TMP_tmp4 = MessageFormat.format("Unknown accountId {0} in the withdraw request. Valid accountIds = {1}", TMP_tmp2, TMP_tmp3);
             tryAssert(TMP_tmp1, TMP_tmp4);
-            TMP_tmp5 = ((Integer)req.get("rId"));
+            TMP_tmp5 = (Integer)req.get("rId");
             pendingWithDraws.put(TMP_tmp5,(HashMap<String, Object>)Values.clone(req));
         }
         private void Anon_2(eWithDrawResp pEvent) {
@@ -117,69 +123,69 @@ public class ClientServer {
             int TMP_tmp52 = 0;
             String TMP_tmp53 = "";
 
-            TMP_tmp0_1 = ((Integer)resp.get("accountId"));
+            TMP_tmp0_1 = (Integer)resp.get("accountId");
             TMP_tmp1_1 = bankBalance.containsKey(TMP_tmp0_1);
-            TMP_tmp2_1 = ((Integer)resp.get("accountId"));
+            TMP_tmp2_1 = (Integer)resp.get("accountId");
             TMP_tmp3_1 = MessageFormat.format("Unknown accountId {0} in the withdraw response!", TMP_tmp2_1);
             tryAssert(TMP_tmp1_1, TMP_tmp3_1);
-            TMP_tmp4_1 = ((Integer)resp.get("rId"));
+            TMP_tmp4_1 = (Integer)resp.get("rId");
             TMP_tmp5_1 = pendingWithDraws.containsKey(TMP_tmp4_1);
-            TMP_tmp6 = ((Integer)resp.get("rId"));
+            TMP_tmp6 = (Integer)resp.get("rId");
             TMP_tmp7 = MessageFormat.format("Unknown rId {0} in the withdraw response!", TMP_tmp6);
             tryAssert(TMP_tmp5_1, TMP_tmp7);
-            TMP_tmp8 = ((Integer)resp.get("balance"));
+            TMP_tmp8 = (Integer)resp.get("balance");
             TMP_tmp9 = (TMP_tmp8 >= 10);
             TMP_tmp10 = "Bank balance in all accounts must always be greater than or equal to 10!!";
             tryAssert(TMP_tmp9, TMP_tmp10);
-            TMP_tmp11 = ((Integer)resp.get("status"));
+            TMP_tmp11 = (Integer)resp.get("status");
             TMP_tmp12 = (TMP_tmp11 == tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal());
             if (TMP_tmp12) {
-                TMP_tmp13 = ((Integer)resp.get("balance"));
-                TMP_tmp14 = ((Integer)resp.get("accountId"));
-                TMP_tmp15 = ((Integer)bankBalance.get(TMP_tmp14));
-                TMP_tmp16 = ((Integer)resp.get("rId"));
-                TMP_tmp17 = ((HashMap<String, Object>)pendingWithDraws.get(TMP_tmp16));
-                TMP_tmp18 = ((Integer)TMP_tmp17.get("amount"));
+                TMP_tmp13 = (Integer)resp.get("balance");
+                TMP_tmp14 = (Integer)resp.get("accountId");
+                TMP_tmp15 = (Integer)bankBalance.get(TMP_tmp14);
+                TMP_tmp16 = (Integer)resp.get("rId");
+                TMP_tmp17 = (HashMap<String, Object>)pendingWithDraws.get(TMP_tmp16);
+                TMP_tmp18 = (Integer)TMP_tmp17.get("amount");
                 TMP_tmp19 = (TMP_tmp15 - TMP_tmp18);
                 TMP_tmp20 = (TMP_tmp13 == TMP_tmp19);
-                TMP_tmp21 = ((Integer)resp.get("accountId"));
-                TMP_tmp22 = ((Integer)resp.get("balance"));
-                TMP_tmp23 = ((Integer)resp.get("accountId"));
-                TMP_tmp24 = ((Integer)bankBalance.get(TMP_tmp23));
-                TMP_tmp25 = ((Integer)resp.get("rId"));
-                TMP_tmp26 = ((HashMap<String, Object>)pendingWithDraws.get(TMP_tmp25));
-                TMP_tmp27 = ((Integer)TMP_tmp26.get("amount"));
+                TMP_tmp21 = (Integer)resp.get("accountId");
+                TMP_tmp22 = (Integer)resp.get("balance");
+                TMP_tmp23 = (Integer)resp.get("accountId");
+                TMP_tmp24 = (Integer)bankBalance.get(TMP_tmp23);
+                TMP_tmp25 = (Integer)resp.get("rId");
+                TMP_tmp26 = (HashMap<String, Object>)pendingWithDraws.get(TMP_tmp25);
+                TMP_tmp27 = (Integer)TMP_tmp26.get("amount");
                 TMP_tmp28 = (TMP_tmp24 - TMP_tmp27);
                 TMP_tmp29 = MessageFormat.format("Bank balance for the account {0} is {1} and not the expected value {2}, Bank is lying!", TMP_tmp21, TMP_tmp22, TMP_tmp28);
                 tryAssert(TMP_tmp20, TMP_tmp29);
-                TMP_tmp30 = ((Integer)resp.get("accountId"));
-                TMP_tmp31 = ((Integer)resp.get("balance"));
+                TMP_tmp30 = (Integer)resp.get("accountId");
+                TMP_tmp31 = (Integer)resp.get("balance");
                 TMP_tmp32 = TMP_tmp31;
                 bankBalance.put(TMP_tmp30,TMP_tmp32);
             }
             else
             {
-                TMP_tmp33 = ((Integer)resp.get("accountId"));
-                TMP_tmp34 = ((Integer)bankBalance.get(TMP_tmp33));
-                TMP_tmp35 = ((Integer)resp.get("rId"));
-                TMP_tmp36 = ((HashMap<String, Object>)pendingWithDraws.get(TMP_tmp35));
-                TMP_tmp37 = ((Integer)TMP_tmp36.get("amount"));
+                TMP_tmp33 = (Integer)resp.get("accountId");
+                TMP_tmp34 = (Integer)bankBalance.get(TMP_tmp33);
+                TMP_tmp35 = (Integer)resp.get("rId");
+                TMP_tmp36 = (HashMap<String, Object>)pendingWithDraws.get(TMP_tmp35);
+                TMP_tmp37 = (Integer)TMP_tmp36.get("amount");
                 TMP_tmp38 = (TMP_tmp34 - TMP_tmp37);
                 TMP_tmp39 = (TMP_tmp38 < 10);
-                TMP_tmp40 = ((Integer)resp.get("rId"));
-                TMP_tmp41 = ((HashMap<String, Object>)pendingWithDraws.get(TMP_tmp40));
-                TMP_tmp42 = ((Integer)TMP_tmp41.get("amount"));
-                TMP_tmp43 = ((Integer)resp.get("accountId"));
-                TMP_tmp44 = ((Integer)bankBalance.get(TMP_tmp43));
+                TMP_tmp40 = (Integer)resp.get("rId");
+                TMP_tmp41 = (HashMap<String, Object>)pendingWithDraws.get(TMP_tmp40);
+                TMP_tmp42 = (Integer)TMP_tmp41.get("amount");
+                TMP_tmp43 = (Integer)resp.get("accountId");
+                TMP_tmp44 = (Integer)bankBalance.get(TMP_tmp43);
                 TMP_tmp45 = MessageFormat.format("Bank must accept the withdraw request for {0}, bank balance is {1}!", TMP_tmp42, TMP_tmp44);
                 tryAssert(TMP_tmp39, TMP_tmp45);
-                TMP_tmp46 = ((Integer)resp.get("accountId"));
-                TMP_tmp47 = ((Integer)bankBalance.get(TMP_tmp46));
-                TMP_tmp48 = ((Integer)resp.get("balance"));
+                TMP_tmp46 = (Integer)resp.get("accountId");
+                TMP_tmp47 = (Integer)bankBalance.get(TMP_tmp46);
+                TMP_tmp48 = (Integer)resp.get("balance");
                 TMP_tmp49 = (TMP_tmp47 == TMP_tmp48);
-                TMP_tmp50 = ((Integer)resp.get("accountId"));
-                TMP_tmp51 = ((Integer)bankBalance.get(TMP_tmp50));
-                TMP_tmp52 = ((Integer)resp.get("balance"));
+                TMP_tmp50 = (Integer)resp.get("accountId");
+                TMP_tmp51 = (Integer)bankBalance.get(TMP_tmp50);
+                TMP_tmp52 = (Integer)resp.get("balance");
                 TMP_tmp53 = MessageFormat.format("Withdraw failed BUT the account balance changed! actual: {0}, bank said: {1}", TMP_tmp51, TMP_tmp52);
                 tryAssert(TMP_tmp49, TMP_tmp53);
             }
@@ -199,15 +205,18 @@ public class ClientServer {
         } // constructor
     } // BankBalanceIsAlwaysCorrect monitor definition
     static class GuaranteedWithDrawProgress extends Monitor {
-        private HashSet<Integer> pendingWDReqs = new HashSet<Integer>();
-        private String NOPENDINGREQUESTS_STATE = "NopendingRequests";
-        private String PENDINGREQS_STATE = "PendingReqs";
+        private LinkedHashSet<Integer> pendingWDReqs = new LinkedHashSet<Integer>();
+        public LinkedHashSet<Integer> getPendingWDReqs() { return this.pendingWDReqs; };
+
+
+        public String NOPENDINGREQUESTS_STATE = "NopendingRequests";
+        public String PENDINGREQS_STATE = "PendingReqs";
 
         private void Anon_3(eWithDrawReq pEvent) {
             HashMap<String, Object> req_1 = pEvent.payload;
             int TMP_tmp0_2 = 0;
 
-            TMP_tmp0_2 = ((Integer)req_1.get("rId"));
+            TMP_tmp0_2 = (Integer)req_1.get("rId");
             pendingWDReqs.add(TMP_tmp0_2);
         }
         private void Anon_4(eWithDrawResp pEvent) throws TransitionException {
@@ -215,19 +224,19 @@ public class ClientServer {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
             int TMP_tmp2_2 = 0;
-            HashSet<Integer> TMP_tmp3_2 = new HashSet<Integer>();
+            LinkedHashSet<Integer> TMP_tmp3_2 = new LinkedHashSet<Integer>();
             String TMP_tmp4_2 = "";
             int TMP_tmp5_2 = 0;
             int TMP_tmp6_1 = 0;
             boolean TMP_tmp7_1 = false;
 
-            TMP_tmp0_3 = ((Integer)resp_1.get("rId"));
+            TMP_tmp0_3 = (Integer)resp_1.get("rId");
             TMP_tmp1_2 = pendingWDReqs.contains(TMP_tmp0_3);
-            TMP_tmp2_2 = ((Integer)resp_1.get("rId"));
-            TMP_tmp3_2 = (HashSet<Integer>)Values.clone(pendingWDReqs);
+            TMP_tmp2_2 = (Integer)resp_1.get("rId");
+            TMP_tmp3_2 = (LinkedHashSet<Integer>)Values.clone(pendingWDReqs);
             TMP_tmp4_2 = MessageFormat.format("unexpected rId: {0} received, expected one of {1}", TMP_tmp2_2, TMP_tmp3_2);
             tryAssert(TMP_tmp1_2, TMP_tmp4_2);
-            TMP_tmp5_2 = ((Integer)resp_1.get("rId"));
+            TMP_tmp5_2 = (Integer)resp_1.get("rId");
             pendingWDReqs.remove(TMP_tmp5_2);
             TMP_tmp6_1 = pendingWDReqs.size();
             TMP_tmp7_1 = (TMP_tmp6_1 == 0);
@@ -240,7 +249,7 @@ public class ClientServer {
             HashMap<String, Object> req_2 = pEvent.payload;
             int TMP_tmp0_4 = 0;
 
-            TMP_tmp0_4 = ((Integer)req_2.get("rId"));
+            TMP_tmp0_4 = (Integer)req_2.get("rId");
             pendingWDReqs.add(TMP_tmp0_4);
         }
 
@@ -260,3 +269,4 @@ public class ClientServer {
     // PMachine TestWithSingleClient elided
     // PMachine TestWithMultipleClients elided
 } // ClientServer.java class definition
+
