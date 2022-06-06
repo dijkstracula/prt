@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import prt.Monitor;
+import prt.PAssertionFailureException;
+import prt.UnhandledEventException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,6 +89,75 @@ public class ClientServerTest {
                             "rId", 0));
             assertThrows(prt.PAssertionFailureException.class,
                     () -> m.process(new eWithDrawResp(withdrawRespPayload)));
+        }
+    }
+
+    public static class GuaranteedWithDrawProgressTest {
+        private Monitor initedMonitor () {
+            GuaranteedWithDrawProgress m = new GuaranteedWithDrawProgress();
+            m.ready();
+
+            return m;
+        }
+
+        @Test
+        @DisplayName("Can process valid events")
+        public void testWithDrawReqs() {
+            Monitor m = initedMonitor();
+
+            HashMap<String, Object> withdrawReqPayload = new HashMap<>(
+                    Map.of("Client", 1L,
+                            "accountId", 100,
+                            "amount", 10,
+                            "rId", 0));
+            m.process(new eWithDrawReq(withdrawReqPayload));
+
+
+            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
+                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            "accountId", 100,
+                            "balance", 90,
+                            "rId", 0));
+            m.process(new eWithDrawResp(withdrawRespPayload));
+        }
+
+        @Test
+        @DisplayName("Throws un invalid state transitions")
+        public void testInvalidWithDrawReqs() {
+            Monitor m = initedMonitor();
+
+            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
+                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            "accountId", 100,
+                            "balance", 90,
+                            "rId", 0));
+
+            // We begin in the NopendingRequests state, but that state has no handler
+            // for a withDrawRewp.
+            assertThrows(UnhandledEventException.class, () -> m.process(new eWithDrawResp(withdrawRespPayload)));
+        }
+
+        @Test
+        @DisplayName("Throws un invalid transactions")
+        public void testInvalidWithDrawReqs2() {
+            Monitor m = initedMonitor();
+
+            HashMap<String, Object> withdrawReqPayload = new HashMap<>(
+                    Map.of("Client", 1L,
+                            "accountId", 100,
+                            "amount", 10,
+                            "rId", 0));
+            m.process(new eWithDrawReq(withdrawReqPayload));
+
+            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
+                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            "accountId", 100,
+                            "balance", 90,
+                            "rId", 99999)); // We have never seen this rID before!
+
+            // We begin in the NopendingRequests state, but that state has no handler
+            // for a withDrawRewp.
+            assertThrows(PAssertionFailureException.class, () -> m.process(new eWithDrawResp(withdrawRespPayload)));
         }
     }
 
