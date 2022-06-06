@@ -123,4 +123,20 @@ public class Values {
     public static boolean equals(Object o1, Object o2) {
         return Objects.equals(o1, o2);
     }
+
+    // A helper that walks a LinkedHashSet's iterator to get the `i`th value in the set.  This is
+    // implemented here as J.u.LinkedHashSet has no equivalent of C# HashSet::elementAt() method.
+    public static <T> T setElementAt(LinkedHashSet<T> s, int i) throws NoSuchElementException
+    {
+        if (i < 0) throw new NoSuchElementException();
+        Iterator<T> it = s.iterator();
+        T ret = it.next();
+
+        while (i > 0) {
+            ret = it.next();
+            i--;
+        }
+
+        return ret;
+    }
 }
