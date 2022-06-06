@@ -13,6 +13,10 @@ import java.util.Optional;
  */
 public class State {
 
+    public enum Temperature {
+        HOT, COLD, UNSET
+    };
+
     /**
      * Functionally-equivalent to a Consumer<T>, but may throw the checked prt.TransitionException within accept().
      * @param <T> The type to be consumed.
@@ -42,6 +46,7 @@ public class State {
 
     private boolean isInitialState;
     private String key;
+    private Temperature temp;
     private HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -99,6 +104,7 @@ public class State {
         private boolean isInitialState;
 
         private final String key;
+        private Temperature temp;
         private final HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
 
 
@@ -118,6 +124,7 @@ public class State {
             dispatch = new HashMap<>();
             onEntry = Optional.empty();
             onExit = Optional.empty();
+            temp = Temperature.UNSET;
         }
 
 
@@ -147,6 +154,16 @@ public class State {
                 throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
             dispatch.put(clazz, (TransitionableConsumer<PObserveEvent.PEvent>)f);
+            return this;
+        }
+
+        /**
+         * Sets the temperature for the current state.
+         *
+         * @param t the temperature.
+         */
+        public Builder withTemperature(Temperature t) {
+            this.temp = t;
             return this;
         }
 
@@ -217,6 +234,7 @@ public class State {
             s.key = key;
             s.onEntry = onEntry;
             s.onExit = onExit;
+            s.temp = temp;
 
             return s;
         }
