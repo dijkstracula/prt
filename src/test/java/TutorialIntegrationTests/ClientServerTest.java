@@ -39,13 +39,9 @@ public class ClientServerTest {
         void assertsOnInvalidAccountID() {
             BankBalanceIsAlwaysCorrect m = initedMonitor();
 
-            HashMap<String, Object> withdrawPayload = new HashMap<>(
-                    Map.of("accountId", 31337, /* Uh oh! This should be 100 or 101. */
-                           "amount", 10,
-                            "rId", 0));
-
             assertThrows(prt.PAssertionFailureException.class,
-                    () -> m.process(new eWithDrawReq(withdrawPayload)),
+                    () -> m.process(new eWithDrawReq(
+                            new Gen_PTuple_2(0L, 31337, 10, 0))),
                     "Assertion failure: Unknown accountId 102 in the withdraw request. Valid accountIds = [100, 101]");
         }
 
@@ -55,19 +51,12 @@ public class ClientServerTest {
         void processValidWithdraws() {
             BankBalanceIsAlwaysCorrect m = initedMonitor();
 
-            HashMap<String, Object> withdrawReqPayload = new HashMap<>(
-                    Map.of("Client", 1L,
-                            "accountId", 100,
-                            "amount", 10,
-                            "rId", 0));
-            m.process(new eWithDrawReq(withdrawReqPayload));
+            m.process(new eWithDrawReq(
+                    new Gen_PTuple_2(1L, 100, 10, 0)
+            ));
 
-            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
-                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
-                            "accountId", 100,
-                            "balance", 32,
-                            "rId", 0));
-            m.process(new eWithDrawResp(withdrawRespPayload));
+            m.process(new eWithDrawResp(
+                    new Gen_PTuple_3(tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(), 100, 32, 0)));
         }
 
         @Test
@@ -75,20 +64,14 @@ public class ClientServerTest {
         void ThrowsOnInvalidWithdraws() {
             BankBalanceIsAlwaysCorrect m = initedMonitor();
 
-            HashMap<String, Object> withdrawReqPayload = new HashMap<>(
-                    Map.of("Client", 1L,
-                            "accountId", 100,
-                            "amount", 10,
-                            "rId", 0));
-            m.process(new eWithDrawReq(withdrawReqPayload));
+            m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
 
-            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
-                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
-                            "accountId", 100,
-                            "balance", 1000, /* Uh oh! This should be 42 - 10 = 32. */
-                            "rId", 0));
             assertThrows(prt.PAssertionFailureException.class,
-                    () -> m.process(new eWithDrawResp(withdrawRespPayload)));
+                    () -> m.process(new eWithDrawResp(new Gen_PTuple_3(
+                            tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            100,
+                            1000, /* Uh oh! The balance should be 42 - 10 = 32. */
+                            0))));
         }
     }
 
@@ -105,20 +88,14 @@ public class ClientServerTest {
         public void testWithDrawReqs() {
             Monitor m = initedMonitor();
 
-            HashMap<String, Object> withdrawReqPayload = new HashMap<>(
-                    Map.of("Client", 1L,
-                            "accountId", 100,
-                            "amount", 10,
-                            "rId", 0));
-            m.process(new eWithDrawReq(withdrawReqPayload));
+            m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
 
-
-            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
-                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
-                            "accountId", 100,
-                            "balance", 90,
-                            "rId", 0));
-            m.process(new eWithDrawResp(withdrawRespPayload));
+            assertThrows(prt.PAssertionFailureException.class,
+                    () -> m.process(new eWithDrawResp(new Gen_PTuple_3(
+                            tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            100,
+                            90,
+                            0))));
         }
 
         @Test
@@ -126,15 +103,14 @@ public class ClientServerTest {
         public void testInvalidWithDrawReqs() {
             Monitor m = initedMonitor();
 
-            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
-                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
-                            "accountId", 100,
-                            "balance", 90,
-                            "rId", 0));
-
             // We begin in the NopendingRequests state, but that state has no handler
             // for a withDrawRewp.
-            assertThrows(UnhandledEventException.class, () -> m.process(new eWithDrawResp(withdrawRespPayload)));
+            assertThrows(UnhandledEventException.class, () -> m.process(new eWithDrawResp(
+                    new Gen_PTuple_3(
+                            tWithDrawRespStatus.WITHDRAW_ERROR.getVal(),
+                            100,
+                            90,
+                            0))));
         }
 
         @Test
@@ -142,22 +118,17 @@ public class ClientServerTest {
         public void testInvalidWithDrawReqs2() {
             Monitor m = initedMonitor();
 
-            HashMap<String, Object> withdrawReqPayload = new HashMap<>(
-                    Map.of("Client", 1L,
-                            "accountId", 100,
-                            "amount", 10,
-                            "rId", 0));
-            m.process(new eWithDrawReq(withdrawReqPayload));
-
-            HashMap<String, Object> withdrawRespPayload = new HashMap<>(
-                    Map.of("status", tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
-                            "accountId", 100,
-                            "balance", 90,
-                            "rId", 99999)); // We have never seen this rID before!
+            m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
 
             // We begin in the NopendingRequests state, but that state has no handler
             // for a withDrawRewp.
-            assertThrows(PAssertionFailureException.class, () -> m.process(new eWithDrawResp(withdrawRespPayload)));
+            assertThrows(PAssertionFailureException.class, () -> m.process(new eWithDrawResp(
+                    new Gen_PTuple_3(
+                            tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            100,
+                            90,
+                            99999 /* We have never seen this rid before! */
+                    ))));
         }
     }
 

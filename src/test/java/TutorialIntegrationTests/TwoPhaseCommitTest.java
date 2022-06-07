@@ -1,8 +1,6 @@
 package TutorialIntegrationTests;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,43 +25,27 @@ public class TwoPhaseCommitTest {
             TwoPhaseCommit.AtomicityInvariant m = initedMonitor();
 
             for (long participant : List.of(1L,2L,3L)) {
-                HashMap<String, Object> prepareResp = new HashMap<>(
-                        Map.of("participant", participant,
-                                "transId", 0,
-                                "status", tTransStatus.SUCCESS.getVal()));
-                m.process(new ePrepareResp(prepareResp));
+                m.process(new ePrepareResp(
+                        new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
             }
 
-            HashMap<String, Object> transResp = new HashMap<>(
-                    Map.of("transId", 0,
-                            "status", tTransStatus.SUCCESS.getVal()));
-            m.process(new eWriteTransResp(transResp));
+            m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS.getVal())));
         }
 
         @Test
-        @DisplayName("Can handle successful commits")
+        @DisplayName("Can handle successful rollbacks")
         public void successfulRollback() {
             TwoPhaseCommit.AtomicityInvariant m = initedMonitor();
 
             // Participants 1 and two say yes...
             for (long participant : List.of(1L,2L)) {
-                HashMap<String, Object> prepareResp = new HashMap<>(
-                        Map.of("participant", participant,
-                                "transId", 0,
-                                "status", tTransStatus.SUCCESS.getVal()));
-                m.process(new ePrepareResp(prepareResp));
+                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
             }
             // Participant 3 says no!
-            HashMap<String, Object> prepareResp = new HashMap<>(
-                    Map.of("participant", 3L,
-                            "transId", 0,
-                            "status", tTransStatus.ERROR.getVal()));
-            m.process(new ePrepareResp(prepareResp));
+            m.process(new ePrepareResp(new Gen_PTuple_5(3L, 0, tTransStatus.ERROR.getVal())));
 
-            HashMap<String, Object> transResp = new HashMap<>(
-                    Map.of("transId", 0,
-                            "status", tTransStatus.ERROR.getVal()));
-            m.process(new eWriteTransResp(transResp));
+            // should be able to handle a txn response with an error
+            m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.ERROR.getVal())));
         }
 
         @Test
@@ -73,17 +55,11 @@ public class TwoPhaseCommitTest {
 
             /* Only two SUCCESSes; one never arrives! */
             for (long participant : List.of(1L,2L)) {
-                HashMap<String, Object> prepareResp = new HashMap<>(
-                        Map.of("participant", participant,
-                                "transId", 0,
-                                "status", tTransStatus.SUCCESS.getVal()));
-                m.process(new ePrepareResp(prepareResp));
+                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
             }
 
-            HashMap<String, Object> transResp = new HashMap<>(
-                    Map.of("transId", 0,
-                            "status", tTransStatus.SUCCESS.getVal()));
-            assertThrows(PAssertionFailureException.class, () -> m.process(new eWriteTransResp(transResp)));
+            assertThrows(PAssertionFailureException.class,
+                    () -> m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS.getVal()))));
         }
 
         @Test
@@ -92,23 +68,13 @@ public class TwoPhaseCommitTest {
             TwoPhaseCommit.AtomicityInvariant m = initedMonitor();
 
             for (long participant : List.of(1L,2L)) {
-                HashMap<String, Object> prepareResp = new HashMap<>(
-                        Map.of("participant", participant,
-                                "transId", 0,
-                                "status", tTransStatus.SUCCESS.getVal()));
-                m.process(new ePrepareResp(prepareResp));
+                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
             }
             // Participant 3 says no dice!
-            HashMap<String, Object> prepareResp = new HashMap<>(
-                    Map.of("participant", 3L,
-                            "transId", 0,
-                            "status", tTransStatus.ERROR.getVal()));
-            m.process(new ePrepareResp(prepareResp));
+            m.process(new ePrepareResp(new Gen_PTuple_5(3L, 0, tTransStatus.ERROR.getVal())));
 
-            HashMap<String, Object> transResp = new HashMap<>(
-                    Map.of("transId", 0,
-                            "status", tTransStatus.SUCCESS.getVal()));
-            assertThrows(PAssertionFailureException.class, () -> m.process(new eWriteTransResp(transResp)));
+            assertThrows(PAssertionFailureException.class,
+                    () -> m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS.getVal()))));
         }
 
     }
