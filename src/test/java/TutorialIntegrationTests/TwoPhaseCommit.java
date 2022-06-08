@@ -4,23 +4,18 @@ import prt.*;
 import java.text.MessageFormat;
 import java.util.*;
 
-
 /***************************************************************************
- * This file was auto-generated on Wednesday, 08 June 2022 at 11:16:40.
+ * This file was auto-generated on Wednesday, 08 June 2022 at 11:42:25.
  * Please do not edit manually!
  **************************************************************************/
 
-enum tTransStatus {
-    SUCCESS(0),
-    ERROR(1),
-    TIMEOUT(2);
-
-    private int val;
-    tTransStatus(int i) { val = i; }
-    public int getVal() { return val; }
-}
-
 public class TwoPhaseCommit {
+    public static class tTransStatus {
+        public static final int SUCCESS = 0;
+        public static final int ERROR = 1;
+        public static final int TIMEOUT = 2;
+    }
+
     static class Gen_PTuple {
         // (key:string,val:int,transId:int)
         public String key;
@@ -359,8 +354,8 @@ public class TwoPhaseCommit {
             if (TMP_tmp3) {
                 TMP_tmp4 = new HashMap<Integer,Integer>();
                 participantsResponse.put(transId,TMP_tmp4);
-                participantsResponse.get(transId).put(tTransStatus.SUCCESS.getVal(),0);
-                participantsResponse.get(transId).put(tTransStatus.ERROR.getVal(),0);
+                participantsResponse.get(transId).put(tTransStatus.SUCCESS,0);
+                participantsResponse.get(transId).put(tTransStatus.ERROR,0);
             }
             TMP_tmp5 = resp.status;
             TMP_tmp6 = participantsResponse.get(transId);
@@ -416,25 +411,25 @@ public class TwoPhaseCommit {
             if (TMP_tmp4_1) {} else
             {
                 TMP_tmp2_1 = resp_1.status;
-                TMP_tmp3_1 = (TMP_tmp2_1 == tTransStatus.TIMEOUT.getVal());
+                TMP_tmp3_1 = (TMP_tmp2_1 == tTransStatus.TIMEOUT);
                 TMP_tmp4_1 = TMP_tmp3_1;
             }
             TMP_tmp5_1 = "Write transaction was responded to the client without receiving any responses from the participants!";
             tryAssert(TMP_tmp4_1, TMP_tmp5_1);
             TMP_tmp6_1 = resp_1.status;
-            TMP_tmp7_1 = (TMP_tmp6_1 == tTransStatus.SUCCESS.getVal());
+            TMP_tmp7_1 = (TMP_tmp6_1 == tTransStatus.SUCCESS);
             if (TMP_tmp7_1) {
                 TMP_tmp8_1 = resp_1.transId;
                 TMP_tmp9_1 = participantsResponse.get(TMP_tmp8_1);
-                TMP_tmp10 = TMP_tmp9_1.get(tTransStatus.SUCCESS.getVal());
+                TMP_tmp10 = TMP_tmp9_1.get(tTransStatus.SUCCESS);
                 TMP_tmp11 = (TMP_tmp10 == numParticipants);
                 TMP_tmp12 = "Write transaction was responded as committed before receiving success from all participants. ";
                 TMP_tmp13 = resp_1.transId;
                 TMP_tmp14 = participantsResponse.get(TMP_tmp13);
-                TMP_tmp15 = TMP_tmp14.get(tTransStatus.SUCCESS.getVal());
+                TMP_tmp15 = TMP_tmp14.get(tTransStatus.SUCCESS);
                 TMP_tmp16 = resp_1.transId;
                 TMP_tmp17 = participantsResponse.get(TMP_tmp16);
-                TMP_tmp18 = TMP_tmp17.get(tTransStatus.ERROR.getVal());
+                TMP_tmp18 = TMP_tmp17.get(tTransStatus.ERROR);
                 TMP_tmp19 = MessageFormat.format("participants sent success: {0}, participants sent error: {1}", TMP_tmp15, TMP_tmp18);
                 TMP_tmp20 = (TMP_tmp12 + TMP_tmp19);
                 tryAssert(TMP_tmp11, TMP_tmp20);
@@ -442,20 +437,20 @@ public class TwoPhaseCommit {
             else
             {
                 TMP_tmp21 = resp_1.status;
-                TMP_tmp22 = (TMP_tmp21 == tTransStatus.ERROR.getVal());
+                TMP_tmp22 = (TMP_tmp21 == tTransStatus.ERROR);
                 if (TMP_tmp22) {
                     TMP_tmp23 = resp_1.transId;
                     TMP_tmp24 = participantsResponse.get(TMP_tmp23);
-                    TMP_tmp25 = TMP_tmp24.get(tTransStatus.ERROR.getVal());
+                    TMP_tmp25 = TMP_tmp24.get(tTransStatus.ERROR);
                     TMP_tmp26 = (TMP_tmp25 > 0);
                     TMP_tmp27 = resp_1.transId;
                     TMP_tmp28 = MessageFormat.format("Write transaction {0} was responded as failed before receiving error from atleast one participant.", TMP_tmp27);
                     TMP_tmp29 = resp_1.transId;
                     TMP_tmp30 = participantsResponse.get(TMP_tmp29);
-                    TMP_tmp31 = TMP_tmp30.get(tTransStatus.SUCCESS.getVal());
+                    TMP_tmp31 = TMP_tmp30.get(tTransStatus.SUCCESS);
                     TMP_tmp32 = resp_1.transId;
                     TMP_tmp33 = participantsResponse.get(TMP_tmp32);
-                    TMP_tmp34 = TMP_tmp33.get(tTransStatus.ERROR.getVal());
+                    TMP_tmp34 = TMP_tmp33.get(tTransStatus.ERROR);
                     TMP_tmp35 = MessageFormat.format("participants sent success: {0}, participants sent error: {1}", TMP_tmp31, TMP_tmp34);
                     TMP_tmp36 = (TMP_tmp28 + TMP_tmp35);
                     tryAssert(TMP_tmp26, TMP_tmp36);

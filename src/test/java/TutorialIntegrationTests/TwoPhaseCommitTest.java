@@ -26,10 +26,10 @@ public class TwoPhaseCommitTest {
 
             for (long participant : List.of(1L,2L,3L)) {
                 m.process(new ePrepareResp(
-                        new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
+                        new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS)));
             }
 
-            m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS.getVal())));
+            m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS)));
         }
 
         @Test
@@ -39,13 +39,13 @@ public class TwoPhaseCommitTest {
 
             // Participants 1 and two say yes...
             for (long participant : List.of(1L,2L)) {
-                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
+                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS)));
             }
             // Participant 3 says no!
-            m.process(new ePrepareResp(new Gen_PTuple_5(3L, 0, tTransStatus.ERROR.getVal())));
+            m.process(new ePrepareResp(new Gen_PTuple_5(3L, 0, tTransStatus.ERROR)));
 
             // should be able to handle a txn response with an error
-            m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.ERROR.getVal())));
+            m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.ERROR)));
         }
 
         @Test
@@ -55,11 +55,11 @@ public class TwoPhaseCommitTest {
 
             /* Only two SUCCESSes; one never arrives! */
             for (long participant : List.of(1L,2L)) {
-                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
+                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS)));
             }
 
             assertThrows(PAssertionFailureException.class,
-                    () -> m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS.getVal()))));
+                    () -> m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS))));
         }
 
         @Test
@@ -68,13 +68,13 @@ public class TwoPhaseCommitTest {
             TwoPhaseCommit.AtomicityInvariant m = initedMonitor();
 
             for (long participant : List.of(1L,2L)) {
-                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS.getVal())));
+                m.process(new ePrepareResp(new Gen_PTuple_5(participant, 0, tTransStatus.SUCCESS)));
             }
             // Participant 3 says no dice!
-            m.process(new ePrepareResp(new Gen_PTuple_5(3L, 0, tTransStatus.ERROR.getVal())));
+            m.process(new ePrepareResp(new Gen_PTuple_5(3L, 0, tTransStatus.ERROR)));
 
             assertThrows(PAssertionFailureException.class,
-                    () -> m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS.getVal()))));
+                    () -> m.process(new eWriteTransResp(new Gen_PTuple_2(0, tTransStatus.SUCCESS))));
         }
 
     }

@@ -4,21 +4,18 @@ import prt.*;
 import java.text.MessageFormat;
 import java.util.*;
 
+
 /***************************************************************************
- * This file was auto-generated on Wednesday, 08 June 2022 at 11:17:00.
+ * This file was auto-generated on Wednesday, 08 June 2022 at 11:38:32.
  * Please do not edit manually!
  **************************************************************************/
 
-enum tWithDrawRespStatus {
-    WITHDRAW_SUCCESS(0),
-    WITHDRAW_ERROR(1);
-
-    private int val;
-    tWithDrawRespStatus(int i) { val = i; }
-    public int getVal() { return val; }
-}
-
 public class ClientServer {
+    public static class tWithDrawRespStatus {
+        public static final int WITHDRAW_SUCCESS = 0;
+        public static final int WITHDRAW_ERROR = 1;
+    }
+
     static class Gen_PTuple {
         // (accountId:int,balance:int)
         public int accountId;
@@ -281,7 +278,7 @@ public class ClientServer {
             TMP_tmp10 = "Bank balance in all accounts must always be greater than or equal to 10!!";
             tryAssert(TMP_tmp9, TMP_tmp10);
             TMP_tmp11 = resp.status;
-            TMP_tmp12 = (TMP_tmp11 == tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal());
+            TMP_tmp12 = (TMP_tmp11 == tWithDrawRespStatus.WITHDRAW_SUCCESS);
             if (TMP_tmp12) {
                 TMP_tmp13 = resp.balance;
                 TMP_tmp14 = resp.accountId;

@@ -56,7 +56,7 @@ public class ClientServerTest {
             ));
 
             m.process(new eWithDrawResp(
-                    new Gen_PTuple_3(tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(), 100, 32, 0)));
+                    new Gen_PTuple_3(tWithDrawRespStatus.WITHDRAW_SUCCESS, 100, 32, 0)));
         }
 
         @Test
@@ -68,7 +68,7 @@ public class ClientServerTest {
 
             assertThrows(prt.PAssertionFailureException.class,
                     () -> m.process(new eWithDrawResp(new Gen_PTuple_3(
-                            tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            tWithDrawRespStatus.WITHDRAW_SUCCESS,
                             100,
                             1000, /* Uh oh! The balance should be 42 - 10 = 32. */
                             0))));
@@ -91,7 +91,7 @@ public class ClientServerTest {
             m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
 
             m.process(new eWithDrawResp(new Gen_PTuple_3(
-                tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                tWithDrawRespStatus.WITHDRAW_SUCCESS,
                 100,
                 90,
                 0)));
@@ -106,7 +106,7 @@ public class ClientServerTest {
             // for a withDrawRewp.
             assertThrows(UnhandledEventException.class, () -> m.process(new eWithDrawResp(
                     new Gen_PTuple_3(
-                            tWithDrawRespStatus.WITHDRAW_ERROR.getVal(),
+                            tWithDrawRespStatus.WITHDRAW_ERROR,
                             100,
                             90,
                             0))));
@@ -123,7 +123,7 @@ public class ClientServerTest {
             // for a withDrawRewp.
             assertThrows(PAssertionFailureException.class, () -> m.process(new eWithDrawResp(
                     new Gen_PTuple_3(
-                            tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                            tWithDrawRespStatus.WITHDRAW_SUCCESS,
                             100,
                             90,
                             99999 /* We have never seen this rid before! */
