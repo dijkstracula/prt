@@ -101,8 +101,9 @@ public class TwoPhaseCommit {
         public PTuple_transId_status(int transId, int status) {
             this.transId = transId;
             this.status = status;
-        }
+        } // clone() method end
 
+<<<<<<< HEAD
         public PTuple_transId_status deepClone() {
             return new PTuple_transId_status(transId, status);
         } // deepClone()
@@ -111,6 +112,11 @@ public class TwoPhaseCommit {
             return Values.deepEquals(this, o2);
         } // deepEquals()
 
+=======
+        public Gen_PTuple_2 clone() {
+            return new Gen_PTuple_2(transId, status);
+        }
+>>>>>>> d6349ab (Integration tests from the P tutorial projects (#16))
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_transId_status");
             sb.append("[");
