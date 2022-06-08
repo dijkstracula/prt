@@ -1,17 +1,24 @@
 package prt;
 
-import prt.*;
-
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+import org.apache.logging.log4j.message.StringMapMessage;
 
 /**
  * A prt.Monitor encapsulates a state machine.
  *
  */
 public class Monitor {
+    private final Logger logger = LogManager.getLogger(this.getClass());
+    private static final Marker PROCESSING_MARKER = MarkerManager.getMarker("EVENT_PROCESSING");
+    private static final Marker TRANSITIONING_MARKER = MarkerManager.getMarker("STATE_TRANSITIONING");
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<State> startState;
     private State currentState;
@@ -104,10 +111,11 @@ public class Monitor {
             throw new RuntimeException("prt.Monitor is not running (did you call ready()?)");
         }
 
-        System.out.println("DEBUG: In " + currentState + ": processing event pEvent " + p);
+        logger.info(PROCESSING_MARKER, new StringMapMessage().with("event", p));
 
         Optional<State.TransitionableConsumer<PObserveEvent.PEvent>> oc = currentState.getHandler(p.getClass());
         if (oc.isEmpty()) {
+            logger.atFatal().log(currentState + " missing event handler for " + p.getClass().getSimpleName());
             throw new UnhandledEventException(currentState, p.getClass());
         }
 
@@ -130,7 +138,7 @@ public class Monitor {
             throw new RuntimeException("prt.Monitor is not running (did you call ready()?)");
         }
 
-        System.out.println("Transitioning to " + s.getKey());
+        logger.info(TRANSITIONING_MARKER, new StringMapMessage().with("state", s));
 
         currentState.getOnExit().ifPresent(Runnable::run);
         currentState = s;
@@ -145,6 +153,7 @@ public class Monitor {
                 // FIXME: This isn't stack-safe.  Confirm the semantics are right and then just make a loop.
                 handleTransition(e2.getTargetState(), e2.getPayload());
             } catch (ClassCastException e2) {
+                logger.atFatal().withThrowable(e2).log("Invalid payload of type " + p.getClass() + " to state " + s.getKey() + "handler");
                 throw new GotoPayloadClassException(p, currentState);
             }
         }
