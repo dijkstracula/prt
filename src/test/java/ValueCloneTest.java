@@ -57,8 +57,8 @@ public class ValueCloneTest {
     @DisplayName("Can clone sets")
     void testCloneSet() {
         // Ensure the clone completes successfully
-        HashSet<Integer> s1 = new HashSet<>(List.of(1,2,3,4,5));
-        HashSet<Integer> s2 = (HashSet<Integer>) Values.clone(s1);
+        LinkedHashSet<Integer> s1 = new LinkedHashSet<>(List.of(1,2,3,4,5));
+        LinkedHashSet<Integer> s2 = (LinkedHashSet<Integer>) Values.clone(s1);
         assertEquals(s1, s2);
 
         // Now mutate an element and ensure only structural equality
@@ -122,13 +122,17 @@ public class ValueCloneTest {
         assertThrows(Values.UncloneableValueException.class, () -> Values.clone(i));
     }
 
+    private class FancyLinkedHashSet<E> extends LinkedHashSet<E> {
+        public FancyLinkedHashSet(List<E> e) { super(e); }
+    }
+
     @Test
     @DisplayName("Cannot clone a subclass of a valid cloneable class")
     void testInvalidCloneOfSubclass() {
         // LinkedHashSet extends hashSet, but we expect this should fail nonetheless.
         // (Relaxing this criterion would require walking the inheritance tree via
         // reflection, and it isn't clear what the return type of the cloned value would be.)
-        LinkedHashSet<Integer> lh = new LinkedHashSet<>(List.of(1,2,3,4,5));
+        FancyLinkedHashSet<Integer> lh = new FancyLinkedHashSet<>(List.of(1,2,3,4,5));
         assertThrows(Values.UncloneableValueException.class, () -> Values.clone(lh));
     }
 }

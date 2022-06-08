@@ -49,9 +49,9 @@ public class Values {
         return cloned;
     }
 
-    private static HashSet<Object> cloneSet(HashSet<?> s)
+    private static LinkedHashSet<Object> cloneSet(LinkedHashSet<?> s)
     {
-        HashSet<Object> cloned = new HashSet<>();
+        LinkedHashSet<Object> cloned = new LinkedHashSet<>();
         for (Object val : s) {
             cloned.add(clone(val));
         }
@@ -99,8 +99,8 @@ public class Values {
             return cloneList((ArrayList<?>) o);
         if (clazz == HashMap.class)
             return cloneMap((HashMap<?, ?>) o);
-        if (clazz == HashSet.class)
-            return cloneSet((HashSet<?>) o);
+        if (clazz == LinkedHashSet.class)
+            return cloneSet((LinkedHashSet<?>) o);
 
         throw new UncloneableValueException(clazz);
     }

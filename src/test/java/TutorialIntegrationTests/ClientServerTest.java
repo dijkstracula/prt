@@ -90,12 +90,11 @@ public class ClientServerTest {
 
             m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
 
-            assertThrows(prt.PAssertionFailureException.class,
-                    () -> m.process(new eWithDrawResp(new Gen_PTuple_3(
-                            tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
-                            100,
-                            90,
-                            0))));
+            m.process(new eWithDrawResp(new Gen_PTuple_3(
+                tWithDrawRespStatus.WITHDRAW_SUCCESS.getVal(),
+                100,
+                90,
+                0)));
         }
 
         @Test
