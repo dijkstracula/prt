@@ -130,6 +130,8 @@ public class Monitor {
             throw new RuntimeException("prt.Monitor is not running (did you call ready()?)");
         }
 
+        System.out.println("Transitioning to " + s.getKey());
+
         currentState.getOnExit().ifPresent(Runnable::run);
         currentState = s;
 
