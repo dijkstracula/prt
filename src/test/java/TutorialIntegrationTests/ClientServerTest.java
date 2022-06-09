@@ -41,7 +41,7 @@ public class ClientServerTest {
 
             assertThrows(prt.PAssertionFailureException.class,
                     () -> m.process(new eWithDrawReq(
-                            new Gen_PTuple_2(0L, 31337, 10, 0))),
+                            new PTuple_source_accountId_amount_rId(0L, 31337, 10, 0))),
                     "Assertion failure: Unknown accountId 102 in the withdraw request. Valid accountIds = [100, 101]");
         }
 
@@ -52,11 +52,12 @@ public class ClientServerTest {
             BankBalanceIsAlwaysCorrect m = initedMonitor();
 
             m.process(new eWithDrawReq(
-                    new Gen_PTuple_2(1L, 100, 10, 0)
+                    new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)
             ));
 
             m.process(new eWithDrawResp(
-                    new Gen_PTuple_3(tWithDrawRespStatus.WITHDRAW_SUCCESS, 100, 32, 0)));
+                    new PTuple_status_accountId_balance_rId(
+                            tWithDrawRespStatus.WITHDRAW_SUCCESS, 100, 32, 0)));
         }
 
         @Test
@@ -64,10 +65,10 @@ public class ClientServerTest {
         void ThrowsOnInvalidWithdraws() {
             BankBalanceIsAlwaysCorrect m = initedMonitor();
 
-            m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
+            m.process(new eWithDrawReq(new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)));
 
             assertThrows(prt.PAssertionFailureException.class,
-                    () -> m.process(new eWithDrawResp(new Gen_PTuple_3(
+                    () -> m.process(new eWithDrawResp(new PTuple_status_accountId_balance_rId(
                             tWithDrawRespStatus.WITHDRAW_SUCCESS,
                             100,
                             1000, /* Uh oh! The balance should be 42 - 10 = 32. */
@@ -88,9 +89,9 @@ public class ClientServerTest {
         public void testWithDrawReqs() {
             Monitor m = initedMonitor();
 
-            m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
+            m.process(new eWithDrawReq(new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)));
 
-            m.process(new eWithDrawResp(new Gen_PTuple_3(
+            m.process(new eWithDrawResp(new PTuple_status_accountId_balance_rId(
                 tWithDrawRespStatus.WITHDRAW_SUCCESS,
                 100,
                 90,
@@ -105,7 +106,7 @@ public class ClientServerTest {
             // We begin in the NopendingRequests state, but that state has no handler
             // for a withDrawRewp.
             assertThrows(UnhandledEventException.class, () -> m.process(new eWithDrawResp(
-                    new Gen_PTuple_3(
+                    new PTuple_status_accountId_balance_rId(
                             tWithDrawRespStatus.WITHDRAW_ERROR,
                             100,
                             90,
@@ -117,12 +118,12 @@ public class ClientServerTest {
         public void testInvalidWithDrawReqs2() {
             Monitor m = initedMonitor();
 
-            m.process(new eWithDrawReq(new Gen_PTuple_2(1L, 100, 10, 0)));
+            m.process(new eWithDrawReq(new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)));
 
             // We begin in the NopendingRequests state, but that state has no handler
             // for a withDrawRewp.
             assertThrows(PAssertionFailureException.class, () -> m.process(new eWithDrawResp(
-                    new Gen_PTuple_3(
+                    new PTuple_status_accountId_balance_rId(
                             tWithDrawRespStatus.WITHDRAW_SUCCESS,
                             100,
                             90,

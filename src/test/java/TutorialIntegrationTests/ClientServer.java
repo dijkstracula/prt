@@ -4,38 +4,39 @@ import prt.*;
 import java.text.MessageFormat;
 import java.util.*;
 
-
 /***************************************************************************
- * This file was auto-generated on Wednesday, 08 June 2022 at 11:38:32.
+ * This file was auto-generated on Thursday, 09 June 2022 at 15:07:29.
  * Please do not edit manually!
  **************************************************************************/
 
 public class ClientServer {
+    /** Enums */
     public static class tWithDrawRespStatus {
         public static final int WITHDRAW_SUCCESS = 0;
         public static final int WITHDRAW_ERROR = 1;
     }
 
-    static class Gen_PTuple {
+    /** Tuples */
+    static class PTuple_accountId_balance {
         // (accountId:int,balance:int)
         public int accountId;
         public int balance;
 
-        public Gen_PTuple() {
+        public PTuple_accountId_balance() {
             this.accountId = 0;
             this.balance = 0;
         }
 
-        public Gen_PTuple(int accountId, int balance) {
+        public PTuple_accountId_balance(int accountId, int balance) {
             this.accountId = accountId;
             this.balance = balance;
         }
 
-        public Gen_PTuple clone() {
-            return new Gen_PTuple(accountId, balance);
+        public PTuple_accountId_balance clone() {
+            return new PTuple_accountId_balance(accountId, balance);
         } // clone() method end
         public String toString() {
-            StringBuilder sb = new StringBuilder("Gen_PTuple");
+            StringBuilder sb = new StringBuilder("PTuple_accountId_balance");
             sb.append("[");
             sb.append("accountId=");
             sb.append(accountId);
@@ -45,59 +46,59 @@ public class ClientServer {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //Gen_PTuple class definition
+    } //PTuple_accountId_balance class definition
 
-    static class Gen_PTuple_1 {
+    static class PTuple_accountId {
         // (accountId:int)
         public int accountId;
 
-        public Gen_PTuple_1() {
+        public PTuple_accountId() {
             this.accountId = 0;
         }
 
-        public Gen_PTuple_1(int accountId) {
+        public PTuple_accountId(int accountId) {
             this.accountId = accountId;
         }
 
-        public Gen_PTuple_1 clone() {
-            return new Gen_PTuple_1(accountId);
+        public PTuple_accountId clone() {
+            return new PTuple_accountId(accountId);
         } // clone() method end
         public String toString() {
-            StringBuilder sb = new StringBuilder("Gen_PTuple_1");
+            StringBuilder sb = new StringBuilder("PTuple_accountId");
             sb.append("[");
             sb.append("accountId=");
             sb.append(accountId);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //Gen_PTuple_1 class definition
+    } //PTuple_accountId class definition
 
-    static class Gen_PTuple_2 {
+    static class PTuple_source_accountId_amount_rId {
         // (source:Client,accountId:int,amount:int,rId:int)
         public long source;
         public int accountId;
         public int amount;
         public int rId;
 
-        public Gen_PTuple_2() {
+        public PTuple_source_accountId_amount_rId() {
             this.source = 0L;
             this.accountId = 0;
             this.amount = 0;
             this.rId = 0;
         }
 
-        public Gen_PTuple_2(long source, int accountId, int amount, int rId) {
+        public PTuple_source_accountId_amount_rId(long source, int accountId, int amount, int rId) {
             this.source = source;
             this.accountId = accountId;
             this.amount = amount;
             this.rId = rId;
         }
 
-        public Gen_PTuple_2 clone() {
-            return new Gen_PTuple_2(source, accountId, amount, rId);
+        public PTuple_source_accountId_amount_rId clone() {
+            return new PTuple_source_accountId_amount_rId(source, accountId, amount, rId);
         } // clone() method end
         public String toString() {
-            StringBuilder sb = new StringBuilder("Gen_PTuple_2");
+            StringBuilder sb = new StringBuilder("PTuple_source_accountId_amount_rId");
             sb.append("[");
             sb.append("source=");
             sb.append(source);
@@ -113,34 +114,34 @@ public class ClientServer {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //Gen_PTuple_2 class definition
+    } //PTuple_source_accountId_amount_rId class definition
 
-    static class Gen_PTuple_3 {
+    static class PTuple_status_accountId_balance_rId {
         // (status:tWithDrawRespStatus,accountId:int,balance:int,rId:int)
         public int status;
         public int accountId;
         public int balance;
         public int rId;
 
-        public Gen_PTuple_3() {
+        public PTuple_status_accountId_balance_rId() {
             this.status = 0;
             this.accountId = 0;
             this.balance = 0;
             this.rId = 0;
         }
 
-        public Gen_PTuple_3(int status, int accountId, int balance, int rId) {
+        public PTuple_status_accountId_balance_rId(int status, int accountId, int balance, int rId) {
             this.status = status;
             this.accountId = accountId;
             this.balance = balance;
             this.rId = rId;
         }
 
-        public Gen_PTuple_3 clone() {
-            return new Gen_PTuple_3(status, accountId, balance, rId);
+        public PTuple_status_accountId_balance_rId clone() {
+            return new PTuple_status_accountId_balance_rId(status, accountId, balance, rId);
         } // clone() method end
         public String toString() {
-            StringBuilder sb = new StringBuilder("Gen_PTuple_3");
+            StringBuilder sb = new StringBuilder("PTuple_status_accountId_balance_rId");
             sb.append("[");
             sb.append("status=");
             sb.append(status);
@@ -156,16 +157,17 @@ public class ClientServer {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //Gen_PTuple_3 class definition
+    } //PTuple_status_accountId_balance_rId class definition
 
 
+    /** Events */
     record DefaultEvent() implements PObserveEvent.PEvent { }
     record PHalt() implements PObserveEvent.PEvent { }
-    record eUpdateQuery(Gen_PTuple payload) implements PObserveEvent.PEvent { }
-    record eReadQuery(Gen_PTuple_1 payload) implements PObserveEvent.PEvent { }
-    record eReadQueryResp(Gen_PTuple payload) implements PObserveEvent.PEvent { }
-    record eWithDrawReq(Gen_PTuple_2 payload) implements PObserveEvent.PEvent { }
-    record eWithDrawResp(Gen_PTuple_3 payload) implements PObserveEvent.PEvent { }
+    record eUpdateQuery(PTuple_accountId_balance payload) implements PObserveEvent.PEvent { }
+    record eReadQuery(PTuple_accountId payload) implements PObserveEvent.PEvent { }
+    record eReadQueryResp(PTuple_accountId_balance payload) implements PObserveEvent.PEvent { }
+    record eWithDrawReq(PTuple_source_accountId_amount_rId payload) implements PObserveEvent.PEvent { }
+    record eWithDrawResp(PTuple_status_accountId_balance_rId payload) implements PObserveEvent.PEvent { }
     record eSpec_BankBalanceIsAlwaysCorrect_Init(HashMap<Integer,Integer> payload) implements PObserveEvent.PEvent { }
 
     // PMachine BankServer elided
@@ -176,8 +178,8 @@ public class ClientServer {
         private HashMap<Integer,Integer> bankBalance = new HashMap<Integer,Integer>();
         public HashMap<Integer,Integer> getBankBalance() { return this.bankBalance; };
 
-        private HashMap<Integer,Gen_PTuple_2> pendingWithDraws = new HashMap<Integer,Gen_PTuple_2>();
-        public HashMap<Integer,Gen_PTuple_2> getPendingWithDraws() { return this.pendingWithDraws; };
+        private HashMap<Integer,PTuple_source_accountId_amount_rId> pendingWithDraws = new HashMap<Integer,PTuple_source_accountId_amount_rId>();
+        public HashMap<Integer,PTuple_source_accountId_amount_rId> getPendingWithDraws() { return this.pendingWithDraws; };
 
 
         public String INIT_STATE = "Init";
@@ -189,7 +191,7 @@ public class ClientServer {
             bankBalance = (HashMap<Integer,Integer>)Values.clone(balance);
         }
         private void Anon_1(eWithDrawReq pEvent) {
-            Gen_PTuple_2 req = pEvent.payload;
+            PTuple_source_accountId_amount_rId req = pEvent.payload;
             int TMP_tmp0 = 0;
             boolean TMP_tmp1 = false;
             int TMP_tmp2 = 0;
@@ -207,7 +209,7 @@ public class ClientServer {
             pendingWithDraws.put(TMP_tmp5,req.clone());
         }
         private void Anon_2(eWithDrawResp pEvent) {
-            Gen_PTuple_3 resp = pEvent.payload;
+            PTuple_status_accountId_balance_rId resp = pEvent.payload;
             int TMP_tmp0_1 = 0;
             boolean TMP_tmp1_1 = false;
             int TMP_tmp2_1 = 0;
@@ -225,7 +227,7 @@ public class ClientServer {
             int TMP_tmp14 = 0;
             int TMP_tmp15 = 0;
             int TMP_tmp16 = 0;
-            Gen_PTuple_2 TMP_tmp17 = new Gen_PTuple_2();
+            PTuple_source_accountId_amount_rId TMP_tmp17 = new PTuple_source_accountId_amount_rId();
             int TMP_tmp18 = 0;
             int TMP_tmp19 = 0;
             boolean TMP_tmp20 = false;
@@ -234,7 +236,7 @@ public class ClientServer {
             int TMP_tmp23 = 0;
             int TMP_tmp24 = 0;
             int TMP_tmp25 = 0;
-            Gen_PTuple_2 TMP_tmp26 = new Gen_PTuple_2();
+            PTuple_source_accountId_amount_rId TMP_tmp26 = new PTuple_source_accountId_amount_rId();
             int TMP_tmp27 = 0;
             int TMP_tmp28 = 0;
             String TMP_tmp29 = "";
@@ -244,12 +246,12 @@ public class ClientServer {
             int TMP_tmp33 = 0;
             int TMP_tmp34 = 0;
             int TMP_tmp35 = 0;
-            Gen_PTuple_2 TMP_tmp36 = new Gen_PTuple_2();
+            PTuple_source_accountId_amount_rId TMP_tmp36 = new PTuple_source_accountId_amount_rId();
             int TMP_tmp37 = 0;
             int TMP_tmp38 = 0;
             boolean TMP_tmp39 = false;
             int TMP_tmp40 = 0;
-            Gen_PTuple_2 TMP_tmp41 = new Gen_PTuple_2();
+            PTuple_source_accountId_amount_rId TMP_tmp41 = new PTuple_source_accountId_amount_rId();
             int TMP_tmp42 = 0;
             int TMP_tmp43 = 0;
             int TMP_tmp44 = 0;
@@ -353,14 +355,14 @@ public class ClientServer {
         public String PENDINGREQS_STATE = "PendingReqs";
 
         private void Anon_3(eWithDrawReq pEvent) {
-            Gen_PTuple_2 req_1 = pEvent.payload;
+            PTuple_source_accountId_amount_rId req_1 = pEvent.payload;
             int TMP_tmp0_2 = 0;
 
             TMP_tmp0_2 = req_1.rId;
             pendingWDReqs.add(TMP_tmp0_2);
         }
         private void Anon_4(eWithDrawResp pEvent) throws TransitionException {
-            Gen_PTuple_3 resp_1 = pEvent.payload;
+            PTuple_status_accountId_balance_rId resp_1 = pEvent.payload;
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
             int TMP_tmp2_2 = 0;
@@ -386,7 +388,7 @@ public class ClientServer {
             }
         }
         private void Anon_5(eWithDrawReq pEvent) {
-            Gen_PTuple_2 req_2 = pEvent.payload;
+            PTuple_source_accountId_amount_rId req_2 = pEvent.payload;
             int TMP_tmp0_4 = 0;
 
             TMP_tmp0_4 = req_2.rId;
