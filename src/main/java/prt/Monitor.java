@@ -59,9 +59,24 @@ public class Monitor {
         return currentState.getKey();
     }
 
+    /**
+     * Throws a runtime exception if the given boolean is false.
+     * @param cond The predicate to assert on.
+     * @param msg The message to deliver if the predicate is false.
+     */
     protected void tryAssert(boolean cond, String msg)
     {
         if (!cond) throw new PAssertionFailureException(msg);
+    }
+
+    /**
+     * Interrupts the current event handler and processes the given event in the current state
+     * @param ev The event to process.
+     * @throws RaiseEventException
+     */
+    protected void tryRaiseEvent(PObserveEvent.PEvent ev) throws RaiseEventException
+    {
+        throw new RaiseEventException(ev);
     }
 
     /**
@@ -120,13 +135,20 @@ public class Monitor {
         }
 
         try {
-            // Run the event handler, knowing that it might cause a state transition...
+            // Run the event handler, knowing that it might cause:
             oc.get().accept(p);
         } catch (TransitionException e) {
-            // ...if it does, run entry/exit handlers and swap out the state.
+            // ...A state transition: if it does, run entry/exit handlers and swap out the state.
             handleTransition(e.getTargetState(), e.getPayload());
+        } catch (RaiseEventException e) {
+            // ...An event to be raised.  If it does, process the event in the current state.
+            process(e.getEvent());
+        } catch (ClassCastException e2) {
+            // ...An invalid cast: in the case where the event handler's type parameter is incompatible
+            // with the runtime type of `p`.  This is a code generation or programming error.
+            throw new GotoPayloadClassException(p, currentState);
         }
-    }
+}
 
     /**
      * Transitions to `s` by invoking the current state's exit handler and the new state's
@@ -148,12 +170,17 @@ public class Monitor {
             State.TransitionableConsumer<Object> handler = entry.get();
             Object p = payload.orElse(null);
             try {
+                // Run the event handler, knowing that it might cause:
                 handler.accept(p);
             } catch (TransitionException e2) {
-                // FIXME: This isn't stack-safe.  Confirm the semantics are right and then just make a loop.
+                // ...A state transition: if it does, run entry/exit handlers and swap out the state.
                 handleTransition(e2.getTargetState(), e2.getPayload());
+            } catch (RaiseEventException e2) {
+                // ...An event to be raised.  If it does, process the event in the current state.
+                process(e2.getEvent());
             } catch (ClassCastException e2) {
-                logger.atFatal().withThrowable(e2).log("Invalid payload of type " + p.getClass() + " to state " + s.getKey() + "handler");
+                // ...An invalid cast: in the case where the event handler's type parameter is incompatible
+                // with the runtime type of `p`.  This is a code generation or programming error.
                 throw new GotoPayloadClassException(p, currentState);
             }
         }
@@ -180,6 +207,4 @@ public class Monitor {
 
         currentState = new State.Builder("_pre_init").build();
     }
-
-
 }
