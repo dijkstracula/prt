@@ -1,25 +1,17 @@
-package TutorialIntegrationTests;
-
-
-import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import prt.Monitor;
-import prt.PAssertionFailureException;
-import prt.UnhandledEventException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static TutorialIntegrationTests.FailureDetector.*;
+import static TutorialMonitors.FailureDetector.*;
 
 public class FailureDetectorTest {
     @Test
     @DisplayName("Can notify nodes down")
-    void testCanNotifyNodesDown() {
+    public void testCanNotifyNodesDown() {
         ReliableFailureDetector m  = new ReliableFailureDetector();
         m.ready();
 

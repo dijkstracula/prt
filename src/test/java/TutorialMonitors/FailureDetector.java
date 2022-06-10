@@ -1,14 +1,11 @@
-package TutorialIntegrationTests;
+package TutorialMonitors;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 import prt.*;
 
-
 /***************************************************************************
- * This file was auto-generated on Friday, 10 June 2022 at 15:21:12.
+ * This file was auto-generated on Friday, 10 June 2022 at 16:22:20.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -17,7 +14,7 @@ public class FailureDetector {
 
     /** Tuples */
     // (fd:FailureDetector,trial:int)
-    static class PTuple_fd_trial implements Values.PTuple<PTuple_fd_trial> {
+    public static class PTuple_fd_trial implements Values.PTuple<PTuple_fd_trial> {
         public long fd;
         public int trial;
 
@@ -50,7 +47,7 @@ public class FailureDetector {
     } //PTuple_fd_trial class definition
 
     // (node:Node,trial:int)
-    static class PTuple_node_trial implements Values.PTuple<PTuple_node_trial> {
+    public static class PTuple_node_trial implements Values.PTuple<PTuple_node_trial> {
         public long node;
         public int trial;
 
@@ -83,7 +80,7 @@ public class FailureDetector {
     } //PTuple_node_trial class definition
 
     // (numNodes:int,numClients:int)
-    static class PTuple_numNodes_numClients implements Values.PTuple<PTuple_numNodes_numClients> {
+    public static class PTuple_numNodes_numClients implements Values.PTuple<PTuple_numNodes_numClients> {
         public int numNodes;
         public int numClients;
 
@@ -116,7 +113,7 @@ public class FailureDetector {
     } //PTuple_numNodes_numClients class definition
 
     // (nodes:set[machine],nFailures:int)
-    static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
+    public static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
@@ -150,22 +147,22 @@ public class FailureDetector {
 
 
     /** Events */
-    record DefaultEvent() implements PObserveEvent.PEvent { }
-    record PHalt() implements PObserveEvent.PEvent { }
-    record ePing(PTuple_fd_trial payload) implements PObserveEvent.PEvent { }
-    record ePong(PTuple_node_trial payload) implements PObserveEvent.PEvent { }
-    record eNotifyNodesDown(LinkedHashSet<Long> payload) implements PObserveEvent.PEvent { }
-    record eStartTimer() implements PObserveEvent.PEvent { }
-    record eCancelTimer() implements PObserveEvent.PEvent { }
-    record eTimeOut() implements PObserveEvent.PEvent { }
-    record eDelayedTimeOut() implements PObserveEvent.PEvent { }
-    record eDelayNodeFailure() implements PObserveEvent.PEvent { }
-    record eShutDown(long payload) implements PObserveEvent.PEvent { }
+    public record DefaultEvent() implements PObserveEvent.PEvent { }
+    public record PHalt() implements PObserveEvent.PEvent { }
+    public record ePing(PTuple_fd_trial payload) implements PObserveEvent.PEvent { }
+    public record ePong(PTuple_node_trial payload) implements PObserveEvent.PEvent { }
+    public record eNotifyNodesDown(LinkedHashSet<Long> payload) implements PObserveEvent.PEvent { }
+    public record eStartTimer() implements PObserveEvent.PEvent { }
+    public record eCancelTimer() implements PObserveEvent.PEvent { }
+    public record eTimeOut() implements PObserveEvent.PEvent { }
+    public record eDelayedTimeOut() implements PObserveEvent.PEvent { }
+    public record eDelayNodeFailure() implements PObserveEvent.PEvent { }
+    public record eShutDown(long payload) implements PObserveEvent.PEvent { }
 
     // PMachine Client elided
     // PMachine FailureDetector elided
     // PMachine Node elided
-    static class ReliableFailureDetector extends Monitor {
+    public static class ReliableFailureDetector extends Monitor {
         private LinkedHashSet<Long> nodesShutdownAndNotDetected = new LinkedHashSet<Long>();
         public LinkedHashSet<Long> getNodesShutdownAndNotDetected() { return this.nodesShutdownAndNotDetected; };
 

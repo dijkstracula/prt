@@ -1,12 +1,12 @@
-package TutorialIntegrationTests;
-import prt.*;
+package TutorialMonitors;
 
 import java.text.MessageFormat;
 import java.util.*;
 
+import prt.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 10 June 2022 at 15:19:29.
+ * This file was auto-generated on Friday, 10 June 2022 at 16:20:23.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -19,7 +19,7 @@ public class ClientServer {
 
     /** Tuples */
     // (accountId:int,balance:int)
-    static class PTuple_accountId_balance implements Values.PTuple<PTuple_accountId_balance> {
+    public static class PTuple_accountId_balance implements Values.PTuple<PTuple_accountId_balance> {
         public int accountId;
         public int balance;
 
@@ -52,7 +52,7 @@ public class ClientServer {
     } //PTuple_accountId_balance class definition
 
     // (accountId:int)
-    static class PTuple_accountId implements Values.PTuple<PTuple_accountId> {
+    public static class PTuple_accountId implements Values.PTuple<PTuple_accountId> {
         public int accountId;
 
         public PTuple_accountId() {
@@ -81,7 +81,7 @@ public class ClientServer {
     } //PTuple_accountId class definition
 
     // (source:Client,accountId:int,amount:int,rId:int)
-    static class PTuple_source_accountId_amount_rId implements Values.PTuple<PTuple_source_accountId_amount_rId> {
+    public static class PTuple_source_accountId_amount_rId implements Values.PTuple<PTuple_source_accountId_amount_rId> {
         public long source;
         public int accountId;
         public int amount;
@@ -122,7 +122,7 @@ public class ClientServer {
     } //PTuple_source_accountId_amount_rId class definition
 
     // (status:tWithDrawRespStatus,accountId:int,balance:int,rId:int)
-    static class PTuple_status_accountId_balance_rId implements Values.PTuple<PTuple_status_accountId_balance_rId> {
+    public static class PTuple_status_accountId_balance_rId implements Values.PTuple<PTuple_status_accountId_balance_rId> {
         public int status;
         public int accountId;
         public int balance;
@@ -164,20 +164,20 @@ public class ClientServer {
 
 
     /** Events */
-    record DefaultEvent() implements PObserveEvent.PEvent { }
-    record PHalt() implements PObserveEvent.PEvent { }
-    record eUpdateQuery(PTuple_accountId_balance payload) implements PObserveEvent.PEvent { }
-    record eReadQuery(PTuple_accountId payload) implements PObserveEvent.PEvent { }
-    record eReadQueryResp(PTuple_accountId_balance payload) implements PObserveEvent.PEvent { }
-    record eWithDrawReq(PTuple_source_accountId_amount_rId payload) implements PObserveEvent.PEvent { }
-    record eWithDrawResp(PTuple_status_accountId_balance_rId payload) implements PObserveEvent.PEvent { }
-    record eSpec_BankBalanceIsAlwaysCorrect_Init(HashMap<Integer,Integer> payload) implements PObserveEvent.PEvent { }
+    public record DefaultEvent() implements PObserveEvent.PEvent { }
+    public record PHalt() implements PObserveEvent.PEvent { }
+    public record eUpdateQuery(PTuple_accountId_balance payload) implements PObserveEvent.PEvent { }
+    public record eReadQuery(PTuple_accountId payload) implements PObserveEvent.PEvent { }
+    public record eReadQueryResp(PTuple_accountId_balance payload) implements PObserveEvent.PEvent { }
+    public record eWithDrawReq(PTuple_source_accountId_amount_rId payload) implements PObserveEvent.PEvent { }
+    public record eWithDrawResp(PTuple_status_accountId_balance_rId payload) implements PObserveEvent.PEvent { }
+    public record eSpec_BankBalanceIsAlwaysCorrect_Init(HashMap<Integer,Integer> payload) implements PObserveEvent.PEvent { }
 
     // PMachine BankServer elided
     // PMachine Database elided
     // PMachine Client elided
     // PMachine AbstractBankServer elided
-    static class BankBalanceIsAlwaysCorrect extends Monitor {
+    public static class BankBalanceIsAlwaysCorrect extends Monitor {
         private HashMap<Integer,Integer> bankBalance = new HashMap<Integer,Integer>();
         public HashMap<Integer,Integer> getBankBalance() { return this.bankBalance; };
 
@@ -349,7 +349,7 @@ public class ClientServer {
                     .build());
         } // constructor
     } // BankBalanceIsAlwaysCorrect monitor definition
-    static class GuaranteedWithDrawProgress extends Monitor {
+    public static class GuaranteedWithDrawProgress extends Monitor {
         private LinkedHashSet<Integer> pendingWDReqs = new LinkedHashSet<Integer>();
         public LinkedHashSet<Integer> getPendingWDReqs() { return this.pendingWDReqs; };
 

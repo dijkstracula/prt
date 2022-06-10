@@ -1,11 +1,11 @@
-package TutorialIntegrationTests;
+package TutorialMonitors;
 import prt.*;
 
 import java.text.MessageFormat;
 import java.util.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 10 June 2022 at 15:20:32.
+ * This file was auto-generated on Friday, 10 June 2022 at 16:20:49.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -19,7 +19,7 @@ public class TwoPhaseCommit {
 
     /** Tuples */
     // (key:string,val:int,transId:int)
-    static class PTuple_key_val_transId implements Values.PTuple<PTuple_key_val_transId> {
+    public static class PTuple_key_val_transId implements Values.PTuple<PTuple_key_val_transId> {
         public String key;
         public int val;
         public int transId;
@@ -56,7 +56,7 @@ public class TwoPhaseCommit {
     } //PTuple_key_val_transId class definition
 
     // (client:Client,trans:(key:string,val:int,transId:int))
-    static class PTuple_client_trans implements Values.PTuple<PTuple_client_trans> {
+    public static class PTuple_client_trans implements Values.PTuple<PTuple_client_trans> {
         public long client;
         public PTuple_key_val_transId trans;
 
@@ -89,7 +89,7 @@ public class TwoPhaseCommit {
     } //PTuple_client_trans class definition
 
     // (transId:int,status:tTransStatus)
-    static class PTuple_transId_status implements Values.PTuple<PTuple_transId_status> {
+    public static class PTuple_transId_status implements Values.PTuple<PTuple_transId_status> {
         public int transId;
         public int status;
 
@@ -122,7 +122,7 @@ public class TwoPhaseCommit {
     } //PTuple_transId_status class definition
 
     // (client:Client,key:string)
-    static class PTuple_client_key implements Values.PTuple<PTuple_client_key> {
+    public static class PTuple_client_key implements Values.PTuple<PTuple_client_key> {
         public long client;
         public String key;
 
@@ -155,7 +155,7 @@ public class TwoPhaseCommit {
     } //PTuple_client_key class definition
 
     // (key:string,val:int,status:tTransStatus)
-    static class PTuple_key_val_status implements Values.PTuple<PTuple_key_val_status> {
+    public static class PTuple_key_val_status implements Values.PTuple<PTuple_key_val_status> {
         public String key;
         public int val;
         public int status;
@@ -192,7 +192,7 @@ public class TwoPhaseCommit {
     } //PTuple_key_val_status class definition
 
     // (participant:Participant,transId:int,status:tTransStatus)
-    static class PTuple_participant_transId_status implements Values.PTuple<PTuple_participant_transId_status> {
+    public static class PTuple_participant_transId_status implements Values.PTuple<PTuple_participant_transId_status> {
         public long participant;
         public int transId;
         public int status;
@@ -229,7 +229,7 @@ public class TwoPhaseCommit {
     } //PTuple_participant_transId_status class definition
 
     // (numClients:int,numParticipants:int,numTransPerClient:int,failParticipants:int)
-    static class PTuple_numClients_numParticipants_numTransPerClient_failParticipants implements Values.PTuple<PTuple_numClients_numParticipants_numTransPerClient_failParticipants> {
+    public static class PTuple_numClients_numParticipants_numTransPerClient_failParticipants implements Values.PTuple<PTuple_numClients_numParticipants_numTransPerClient_failParticipants> {
         public int numClients;
         public int numParticipants;
         public int numTransPerClient;
@@ -270,7 +270,7 @@ public class TwoPhaseCommit {
     } //PTuple_numClients_numParticipants_numTransPerClient_failParticipants class definition
 
     // (nodes:set[machine],nFailures:int)
-    static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
+    public static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
@@ -304,28 +304,28 @@ public class TwoPhaseCommit {
 
 
     /** Events */
-    record DefaultEvent() implements PObserveEvent.PEvent { }
-    record PHalt() implements PObserveEvent.PEvent { }
-    record eWriteTransReq(PTuple_client_trans payload) implements PObserveEvent.PEvent { }
-    record eWriteTransResp(PTuple_transId_status payload) implements PObserveEvent.PEvent { }
-    record eReadTransReq(PTuple_client_key payload) implements PObserveEvent.PEvent { }
-    record eReadTransResp(PTuple_key_val_status payload) implements PObserveEvent.PEvent { }
-    record ePrepareReq(PTuple_key_val_transId payload) implements PObserveEvent.PEvent { }
-    record ePrepareResp(PTuple_participant_transId_status payload) implements PObserveEvent.PEvent { }
-    record eCommitTrans(int payload) implements PObserveEvent.PEvent { }
-    record eAbortTrans(int payload) implements PObserveEvent.PEvent { }
-    record eInformCoordinator(long payload) implements PObserveEvent.PEvent { }
-    record eMonitor_AtomicityInitialize(int payload) implements PObserveEvent.PEvent { }
-    record eStartTimer() implements PObserveEvent.PEvent { }
-    record eCancelTimer() implements PObserveEvent.PEvent { }
-    record eTimeOut() implements PObserveEvent.PEvent { }
-    record eDelayedTimeOut() implements PObserveEvent.PEvent { }
-    record eDelayNodeFailure() implements PObserveEvent.PEvent { }
-    record eShutDown(long payload) implements PObserveEvent.PEvent { }
+    public record DefaultEvent() implements PObserveEvent.PEvent { }
+    public record PHalt() implements PObserveEvent.PEvent { }
+    public record eWriteTransReq(PTuple_client_trans payload) implements PObserveEvent.PEvent { }
+    public record eWriteTransResp(PTuple_transId_status payload) implements PObserveEvent.PEvent { }
+    public record eReadTransReq(PTuple_client_key payload) implements PObserveEvent.PEvent { }
+    public record eReadTransResp(PTuple_key_val_status payload) implements PObserveEvent.PEvent { }
+    public record ePrepareReq(PTuple_key_val_transId payload) implements PObserveEvent.PEvent { }
+    public record ePrepareResp(PTuple_participant_transId_status payload) implements PObserveEvent.PEvent { }
+    public record eCommitTrans(int payload) implements PObserveEvent.PEvent { }
+    public record eAbortTrans(int payload) implements PObserveEvent.PEvent { }
+    public record eInformCoordinator(long payload) implements PObserveEvent.PEvent { }
+    public record eMonitor_AtomicityInitialize(int payload) implements PObserveEvent.PEvent { }
+    public record eStartTimer() implements PObserveEvent.PEvent { }
+    public record eCancelTimer() implements PObserveEvent.PEvent { }
+    public record eTimeOut() implements PObserveEvent.PEvent { }
+    public record eDelayedTimeOut() implements PObserveEvent.PEvent { }
+    public record eDelayNodeFailure() implements PObserveEvent.PEvent { }
+    public record eShutDown(long payload) implements PObserveEvent.PEvent { }
 
     // PMachine Coordinator elided
     // PMachine Participant elided
-    static class AtomicityInvariant extends Monitor {
+    public static class AtomicityInvariant extends Monitor {
         private HashMap<Integer,HashMap<Integer,Integer>> participantsResponse = new HashMap<Integer,HashMap<Integer,Integer>>();
         public HashMap<Integer,HashMap<Integer,Integer>> getParticipantsResponse() { return this.participantsResponse; };
 
@@ -482,7 +482,7 @@ public class TwoPhaseCommit {
                     .build());
         } // constructor
     } // AtomicityInvariant monitor definition
-    static class Progress extends Monitor {
+    public static class Progress extends Monitor {
         private int pendingTransactions = 0;
         public int getPendingTransactions() { return this.pendingTransactions; };
 

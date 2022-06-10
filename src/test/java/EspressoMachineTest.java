@@ -1,15 +1,13 @@
-package TutorialIntegrationTests;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static TutorialIntegrationTests.EspressoMachine.*;
+import static TutorialMonitors.EspressoMachine.*;
 
 public class EspressoMachineTest {
     @Test
     @DisplayName("Can start up the espresso machine")
-    public void startupTest() {
+    public void testStartup() {
         EspressoMachineModesOfOperation m = new EspressoMachineModesOfOperation();
         m.ready();
 
@@ -20,7 +18,7 @@ public class EspressoMachineTest {
 
     @Test
     @DisplayName("Can drive the espresso machine")
-    public void operationalTest() {
+    public void testOperation() {
         EspressoMachineModesOfOperation m = new EspressoMachineModesOfOperation();
         m.ready();
 
@@ -34,7 +32,7 @@ public class EspressoMachineTest {
 
     @Test
     @DisplayName("Can drive the espresso machine into an error state and recover")
-    public void errorTest() {
+    public void testError() {
         EspressoMachineModesOfOperation m = new EspressoMachineModesOfOperation();
         m.ready();
 

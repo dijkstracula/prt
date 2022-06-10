@@ -1,11 +1,8 @@
-package TutorialIntegrationTests;
+package TutorialMonitors;
 import prt.*;
 
-import java.text.MessageFormat;
-import java.util.*;
-
 /***************************************************************************
- * This file was auto-generated on Friday, 10 June 2022 at 15:20:54.
+ * This file was auto-generated on Friday, 10 June 2022 at 16:21:49.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -27,38 +24,38 @@ public class EspressoMachine {
     /** Tuples */
 
     /** Events */
-    record DefaultEvent() implements PObserveEvent.PEvent { }
-    record PHalt() implements PObserveEvent.PEvent { }
-    record eWarmUpReq() implements PObserveEvent.PEvent { }
-    record eGrindBeansReq() implements PObserveEvent.PEvent { }
-    record eStartEspressoReq() implements PObserveEvent.PEvent { }
-    record eStartSteamerReq() implements PObserveEvent.PEvent { }
-    record eStopSteamerReq() implements PObserveEvent.PEvent { }
-    record eGrindBeansCompleted() implements PObserveEvent.PEvent { }
-    record eEspressoCompleted() implements PObserveEvent.PEvent { }
-    record eWarmUpCompleted() implements PObserveEvent.PEvent { }
-    record eNoWaterError() implements PObserveEvent.PEvent { }
-    record eNoBeansError() implements PObserveEvent.PEvent { }
-    record eWarmerError() implements PObserveEvent.PEvent { }
-    record eEspressoButtonPressed() implements PObserveEvent.PEvent { }
-    record eSteamerButtonOff() implements PObserveEvent.PEvent { }
-    record eSteamerButtonOn() implements PObserveEvent.PEvent { }
-    record eOpenGroundsDoor() implements PObserveEvent.PEvent { }
-    record eCloseGroundsDoor() implements PObserveEvent.PEvent { }
-    record eResetCoffeeMaker() implements PObserveEvent.PEvent { }
-    record eCoffeeMakerError(int payload) implements PObserveEvent.PEvent { }
-    record eCoffeeMakerReady() implements PObserveEvent.PEvent { }
-    record eCoffeeMachineUser(long payload) implements PObserveEvent.PEvent { }
-    record eInWarmUpState() implements PObserveEvent.PEvent { }
-    record eInReadyState() implements PObserveEvent.PEvent { }
-    record eInBeansGrindingState() implements PObserveEvent.PEvent { }
-    record eInCoffeeBrewingState() implements PObserveEvent.PEvent { }
-    record eErrorHappened() implements PObserveEvent.PEvent { }
-    record eResetPerformed() implements PObserveEvent.PEvent { }
+    public record DefaultEvent() implements PObserveEvent.PEvent { }
+    public record PHalt() implements PObserveEvent.PEvent { }
+    public record eWarmUpReq() implements PObserveEvent.PEvent { }
+    public record eGrindBeansReq() implements PObserveEvent.PEvent { }
+    public record eStartEspressoReq() implements PObserveEvent.PEvent { }
+    public record eStartSteamerReq() implements PObserveEvent.PEvent { }
+    public record eStopSteamerReq() implements PObserveEvent.PEvent { }
+    public record eGrindBeansCompleted() implements PObserveEvent.PEvent { }
+    public record eEspressoCompleted() implements PObserveEvent.PEvent { }
+    public record eWarmUpCompleted() implements PObserveEvent.PEvent { }
+    public record eNoWaterError() implements PObserveEvent.PEvent { }
+    public record eNoBeansError() implements PObserveEvent.PEvent { }
+    public record eWarmerError() implements PObserveEvent.PEvent { }
+    public record eEspressoButtonPressed() implements PObserveEvent.PEvent { }
+    public record eSteamerButtonOff() implements PObserveEvent.PEvent { }
+    public record eSteamerButtonOn() implements PObserveEvent.PEvent { }
+    public record eOpenGroundsDoor() implements PObserveEvent.PEvent { }
+    public record eCloseGroundsDoor() implements PObserveEvent.PEvent { }
+    public record eResetCoffeeMaker() implements PObserveEvent.PEvent { }
+    public record eCoffeeMakerError(int payload) implements PObserveEvent.PEvent { }
+    public record eCoffeeMakerReady() implements PObserveEvent.PEvent { }
+    public record eCoffeeMachineUser(long payload) implements PObserveEvent.PEvent { }
+    public record eInWarmUpState() implements PObserveEvent.PEvent { }
+    public record eInReadyState() implements PObserveEvent.PEvent { }
+    public record eInBeansGrindingState() implements PObserveEvent.PEvent { }
+    public record eInCoffeeBrewingState() implements PObserveEvent.PEvent { }
+    public record eErrorHappened() implements PObserveEvent.PEvent { }
+    public record eResetPerformed() implements PObserveEvent.PEvent { }
 
     // PMachine EspressoCoffeeMaker elided
     // PMachine CoffeeMakerControlPanel elided
-    static class EspressoMachineModesOfOperation extends Monitor {
+    public static class EspressoMachineModesOfOperation extends Monitor {
 
         public String STARTUP_STATE = "StartUp";
         public String WARMUP_STATE = "WarmUp";

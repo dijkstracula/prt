@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MonitorTest {
+public class MonitorTest {
     /**
      * This monitor has no default state; an exception should be raised when .ready() is called.
      */
