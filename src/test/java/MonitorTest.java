@@ -160,6 +160,76 @@ class MonitorTest {
         }
     }
 
+    /* Here is a simple auto-generated monitor with a single event and a single piece of ghost state. */
+    public class A_Event_test {
+        /***************************************************************************
+         * This file was auto-generated on Friday, 10 June 2022 at 10:52:00.
+         * Please do not edit manually!
+         **************************************************************************/
+
+        /** Enums */
+
+        /** Tuples */
+        static class PTuple_a {
+            // (a:int)
+            public int a;
+
+            public PTuple_a() {
+                this.a = 0;
+            }
+
+            public PTuple_a(int a) {
+                this.a = a;
+            }
+
+            public PTuple_a clone() {
+                return new PTuple_a(a);
+            } // clone() method end
+            public String toString() {
+                StringBuilder sb = new StringBuilder("PTuple_a");
+                sb.append("[");
+                sb.append("a=");
+                sb.append(a);
+                sb.append("]");
+                return sb.toString();
+            } // toString()
+        } //PTuple_a class definition
+
+
+        /** Events */
+        record DefaultEvent() implements PObserveEvent.PEvent { }
+        record PHalt() implements PObserveEvent.PEvent { }
+        record ev(PTuple_a payload) implements PObserveEvent.PEvent { }
+
+        static class A_Event extends Monitor {
+            private PTuple_a v = new PTuple_a();
+            public PTuple_a getV() { return this.v; };
+
+
+            public String INIT_STATE = "Init";
+
+            private void Anon(ev pEvent) {
+                PTuple_a ev_1 = pEvent.payload;
+                int TMP_tmp0 = 0;
+                int TMP_tmp1 = 0;
+                int TMP_tmp2 = 0;
+
+                TMP_tmp0 = v.a;
+                TMP_tmp1 = ev_1.a;
+                TMP_tmp2 = (TMP_tmp0 + TMP_tmp1);
+                v.a = TMP_tmp2;
+            }
+
+            public A_Event() {
+                super();
+                addState(new State.Builder(INIT_STATE)
+                        .isInitialState(true)
+                        .withEvent(ev.class, this::Anon)
+                        .build());
+            } // constructor
+        } // foo monitor definition
+    } // foo.java class definition
+
     @Test
     @DisplayName("Monitors require exactly one default state")
     void testDefaultStateConstruction() {
@@ -233,5 +303,18 @@ class MonitorTest {
         ImmediateAssertionMonitor m = new ImmediateAssertionMonitor();
         Throwable e = assertThrows(PAssertionFailureException.class,
                 () -> m.ready(), "Assertion failed: Math works");
+    }
+
+    @Test
+    @DisplayName("Throws on receiving DefaultEvent and PHalt()")
+    void testThrowsOnDefaultEventAndPHalt() {
+        A_Event_test.A_Event m = new A_Event_test.A_Event();
+        m.ready();
+
+        assertThrows(UnhandledEventException.class,
+                () -> m.process(new A_Event_test.DefaultEvent()));
+        assertThrows(UnhandledEventException.class,
+                () -> m.process(new A_Event_test.PHalt()));
+
     }
 }

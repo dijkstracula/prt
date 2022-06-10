@@ -17,7 +17,7 @@ public class ValueCompareTest {
     @Test
     @DisplayName("compare() is well-defined for nulls")
     public void testNullComparisons() {
-        Integer i = new Integer(42);
+        Integer i = 42;
         assertEquals(Values.compare(null, i), -1);
         assertEquals(Values.compare(null, null), 0);
         assertEquals(Values.compare(i, null), 1);
