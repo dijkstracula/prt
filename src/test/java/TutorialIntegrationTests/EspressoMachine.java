@@ -5,32 +5,28 @@ import java.text.MessageFormat;
 import java.util.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 03 June 2022 at 13:24:00.
+ * This file was auto-generated on Friday, 10 June 2022 at 15:20:54.
  * Please do not edit manually!
  **************************************************************************/
 
-enum tCoffeeMakerState {
-    NotWarmedUp(0),
-    Ready(1),
-    NoBeansError(2),
-    NoWaterError(3);
-
-    private int val;
-    tCoffeeMakerState(int i) { val = i; }
-    public int getVal() { return val; }
-}
-enum tCoffeeMakerOperations {
-    CM_PressEspressoButton(0),
-    CM_PressSteamerButton(1),
-    CM_PressResetButton(2),
-    CM_ClearGrounds(3);
-
-    private int val;
-    tCoffeeMakerOperations(int i) { val = i; }
-    public int getVal() { return val; }
-}
-
 public class EspressoMachine {
+    /** Enums */
+    public static class tCoffeeMakerState {
+        public static final int NotWarmedUp = 0;
+        public static final int Ready = 1;
+        public static final int NoBeansError = 2;
+        public static final int NoWaterError = 3;
+    }
+    public static class tCoffeeMakerOperations {
+        public static final int CM_PressEspressoButton = 0;
+        public static final int CM_PressSteamerButton = 1;
+        public static final int CM_PressResetButton = 2;
+        public static final int CM_ClearGrounds = 3;
+    }
+
+    /** Tuples */
+
+    /** Events */
     record DefaultEvent() implements PObserveEvent.PEvent { }
     record PHalt() implements PObserveEvent.PEvent { }
     record eWarmUpReq() implements PObserveEvent.PEvent { }
@@ -64,12 +60,12 @@ public class EspressoMachine {
     // PMachine CoffeeMakerControlPanel elided
     static class EspressoMachineModesOfOperation extends Monitor {
 
-        private String STARTUP_STATE = "StartUp";
-        private String WARMUP_STATE = "WarmUp";
-        private String READY_STATE = "Ready";
-        private String BEANGRINDING_STATE = "BeanGrinding";
-        private String MAKINGCOFFEE_STATE = "MakingCoffee";
-        private String ERROR_STATE = "Error";
+        public String STARTUP_STATE = "StartUp";
+        public String WARMUP_STATE = "WarmUp";
+        public String READY_STATE = "Ready";
+        public String BEANGRINDING_STATE = "BeanGrinding";
+        public String MAKINGCOFFEE_STATE = "MakingCoffee";
+        public String ERROR_STATE = "Error";
 
 
         public EspressoMachineModesOfOperation() {

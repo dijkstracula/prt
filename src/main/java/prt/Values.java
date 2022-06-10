@@ -6,6 +6,25 @@ import java.util.*;
  * Holds some routines for value cloning and comparisons.
  */
 public class Values {
+    public interface PTuple<P extends PTuple<?>> {
+        /**
+         * Performs a deep copy of a P tuple by
+         * (The performance difference between a hand-rolled deep copy and using serializers
+         * appears to be significant[1], so doing the former seems to be a good idea.)
+         * [1]: <a href="https://www.infoworld.com/article/2077578/java-tip-76--an-alternative-to-the-deep-copy-technique.html">...</a>
+         *
+         * @return a structurally-equivalent version of `this` but such that mutations of
+         * one object are not visible within the other.
+         */
+        P deepClone();
+
+        /**
+         * Performs a deep equality check against another Object.
+         * @param o2 The other object.
+         * @return If this and o2 are object of the same class, and their fields are deeply equal to each other's.
+         */
+        boolean deepEquals(P o2);
+    }
 
     public static class UncloneableValueException extends RuntimeException {
         public UncloneableValueException(Class<?> c) {
@@ -44,7 +63,7 @@ public class Values {
         ArrayList<Object> cloned = new ArrayList<>();
         cloned.ensureCapacity(a.size());
         for (Object val : a) {
-            cloned.add(clone(val));
+            cloned.add(deepClone(val));
         }
         return cloned;
     }
@@ -53,7 +72,7 @@ public class Values {
     {
         LinkedHashSet<Object> cloned = new LinkedHashSet<>();
         for (Object val : s) {
-            cloned.add(clone(val));
+            cloned.add(deepClone(val));
         }
         return cloned;
     }
@@ -61,12 +80,17 @@ public class Values {
     private static HashMap<Object, Object> cloneMap(HashMap<?, ?> m)
     {
         HashMap<Object, Object> cloned = new HashMap<>();
-        for (Map.Entry e : m.entrySet()) {
-            Object k = clone(e.getKey());
-            Object v = clone(e.getValue());
+        for (Map.Entry<?,?> e : m.entrySet()) {
+            Object k = deepClone(e.getKey());
+            Object v = deepClone(e.getValue());
             cloned.put(k, v);
         }
         return cloned;
+    }
+
+    private static PTuple<?> cloneTuple(PTuple<?> tuple)
+    {
+        return tuple.deepClone();
     }
 
     /**
@@ -79,10 +103,12 @@ public class Values {
      * @return a structurally-equivalent version of `o` but such that mutations of
      * one object are not visible within the other.
      */
-    public static Object clone(Object o) {
+    public static Object deepClone(Object o) {
         if (o == null) {
             return null;
         }
+        if (o instanceof PTuple<?>)
+            return cloneTuple((PTuple<?>) o);
 
         Class<?> clazz = o.getClass();
         if (clazz == Boolean.class)
@@ -101,6 +127,7 @@ public class Values {
             return cloneMap((HashMap<?, ?>) o);
         if (clazz == LinkedHashSet.class)
             return cloneSet((LinkedHashSet<?>) o);
+
 
         throw new UncloneableValueException(clazz);
     }
@@ -122,8 +149,8 @@ public class Values {
         return ret;
     }
 
-    public static boolean equals(Object o1, Object o2) {
-        return Objects.equals(o1, o2);
+    public static boolean deepEquals(Object o1, Object o2) {
+        return Objects.deepEquals(o1, o2);
     }
 
     // A helper that walks a LinkedHashSet's iterator to get the `i`th value in the set.  This is

@@ -4,8 +4,9 @@ import prt.*;
 import java.text.MessageFormat;
 import java.util.*;
 
+
 /***************************************************************************
- * This file was auto-generated on Thursday, 09 June 2022 at 15:07:29.
+ * This file was auto-generated on Friday, 10 June 2022 at 15:19:29.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -17,8 +18,8 @@ public class ClientServer {
     }
 
     /** Tuples */
-    static class PTuple_accountId_balance {
-        // (accountId:int,balance:int)
+    // (accountId:int,balance:int)
+    static class PTuple_accountId_balance implements Values.PTuple<PTuple_accountId_balance> {
         public int accountId;
         public int balance;
 
@@ -32,24 +33,26 @@ public class ClientServer {
             this.balance = balance;
         }
 
-        public PTuple_accountId_balance clone() {
+        public PTuple_accountId_balance deepClone() {
             return new PTuple_accountId_balance(accountId, balance);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_accountId_balance o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_accountId_balance");
             sb.append("[");
-            sb.append("accountId=");
-            sb.append(accountId);
-            sb.append(",");
-            sb.append("balance=");
-            sb.append(balance);
+            sb.append("accountId=" + accountId);
+            sb.append(",balance=" + balance);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_accountId_balance class definition
 
-    static class PTuple_accountId {
-        // (accountId:int)
+    // (accountId:int)
+    static class PTuple_accountId implements Values.PTuple<PTuple_accountId> {
         public int accountId;
 
         public PTuple_accountId() {
@@ -60,21 +63,25 @@ public class ClientServer {
             this.accountId = accountId;
         }
 
-        public PTuple_accountId clone() {
+        public PTuple_accountId deepClone() {
             return new PTuple_accountId(accountId);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_accountId o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_accountId");
             sb.append("[");
-            sb.append("accountId=");
-            sb.append(accountId);
+            sb.append("accountId=" + accountId);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_accountId class definition
 
-    static class PTuple_source_accountId_amount_rId {
-        // (source:Client,accountId:int,amount:int,rId:int)
+    // (source:Client,accountId:int,amount:int,rId:int)
+    static class PTuple_source_accountId_amount_rId implements Values.PTuple<PTuple_source_accountId_amount_rId> {
         public long source;
         public int accountId;
         public int amount;
@@ -94,30 +101,28 @@ public class ClientServer {
             this.rId = rId;
         }
 
-        public PTuple_source_accountId_amount_rId clone() {
+        public PTuple_source_accountId_amount_rId deepClone() {
             return new PTuple_source_accountId_amount_rId(source, accountId, amount, rId);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_source_accountId_amount_rId o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_source_accountId_amount_rId");
             sb.append("[");
-            sb.append("source=");
-            sb.append(source);
-            sb.append(",");
-            sb.append("accountId=");
-            sb.append(accountId);
-            sb.append(",");
-            sb.append("amount=");
-            sb.append(amount);
-            sb.append(",");
-            sb.append("rId=");
-            sb.append(rId);
+            sb.append("source=" + source);
+            sb.append(",accountId=" + accountId);
+            sb.append(",amount=" + amount);
+            sb.append(",rId=" + rId);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_source_accountId_amount_rId class definition
 
-    static class PTuple_status_accountId_balance_rId {
-        // (status:tWithDrawRespStatus,accountId:int,balance:int,rId:int)
+    // (status:tWithDrawRespStatus,accountId:int,balance:int,rId:int)
+    static class PTuple_status_accountId_balance_rId implements Values.PTuple<PTuple_status_accountId_balance_rId> {
         public int status;
         public int accountId;
         public int balance;
@@ -137,23 +142,21 @@ public class ClientServer {
             this.rId = rId;
         }
 
-        public PTuple_status_accountId_balance_rId clone() {
+        public PTuple_status_accountId_balance_rId deepClone() {
             return new PTuple_status_accountId_balance_rId(status, accountId, balance, rId);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_status_accountId_balance_rId o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_status_accountId_balance_rId");
             sb.append("[");
-            sb.append("status=");
-            sb.append(status);
-            sb.append(",");
-            sb.append("accountId=");
-            sb.append(accountId);
-            sb.append(",");
-            sb.append("balance=");
-            sb.append(balance);
-            sb.append(",");
-            sb.append("rId=");
-            sb.append(rId);
+            sb.append("status=" + status);
+            sb.append(",accountId=" + accountId);
+            sb.append(",balance=" + balance);
+            sb.append(",rId=" + rId);
             sb.append("]");
             return sb.toString();
         } // toString()
@@ -188,7 +191,7 @@ public class ClientServer {
         private void Anon(eSpec_BankBalanceIsAlwaysCorrect_Init pEvent) {
             HashMap<Integer,Integer> balance = pEvent.payload;
 
-            bankBalance = (HashMap<Integer,Integer>)Values.clone(balance);
+            bankBalance = (HashMap<Integer,Integer>)Values.deepClone(balance);
         }
         private void Anon_1(eWithDrawReq pEvent) {
             PTuple_source_accountId_amount_rId req = pEvent.payload;
@@ -206,7 +209,7 @@ public class ClientServer {
             TMP_tmp4 = MessageFormat.format("Unknown accountId {0} in the withdraw request. Valid accountIds = {1}", TMP_tmp2, TMP_tmp3);
             tryAssert(TMP_tmp1, TMP_tmp4);
             TMP_tmp5 = req.rId;
-            pendingWithDraws.put(TMP_tmp5,req.clone());
+            pendingWithDraws.put(TMP_tmp5,req.deepClone());
         }
         private void Anon_2(eWithDrawResp pEvent) {
             PTuple_status_accountId_balance_rId resp = pEvent.payload;
@@ -361,7 +364,7 @@ public class ClientServer {
             TMP_tmp0_2 = req_1.rId;
             pendingWDReqs.add(TMP_tmp0_2);
         }
-        private void Anon_4(eWithDrawResp pEvent) throws TransitionException {
+        private void Anon_4(eWithDrawResp pEvent)throws TransitionException {
             PTuple_status_accountId_balance_rId resp_1 = pEvent.payload;
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
@@ -375,7 +378,7 @@ public class ClientServer {
             TMP_tmp0_3 = resp_1.rId;
             TMP_tmp1_2 = pendingWDReqs.contains(TMP_tmp0_3);
             TMP_tmp2_2 = resp_1.rId;
-            TMP_tmp3_2 = (LinkedHashSet<Integer>)Values.clone(pendingWDReqs);
+            TMP_tmp3_2 = (LinkedHashSet<Integer>)Values.deepClone(pendingWDReqs);
             TMP_tmp4_2 = MessageFormat.format("unexpected rId: {0} received, expected one of {1}", TMP_tmp2_2, TMP_tmp3_2);
             tryAssert(TMP_tmp1_2, TMP_tmp4_2);
             TMP_tmp5_2 = resp_1.rId;

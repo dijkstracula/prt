@@ -7,5 +7,7 @@ package prt;
  * @param pEvent The P event of interest to us.
  */
 public record PObserveEvent(int ts, PEvent pEvent) {
-    public interface PEvent {}
+    public interface PEvent {
+    }
+
 }

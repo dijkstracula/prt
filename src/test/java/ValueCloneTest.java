@@ -13,23 +13,23 @@ public class ValueCloneTest {
     @Test
     @DisplayName("Can 'clone' a null value")
     void testNullClone() {
-        assertEquals(Values.clone(null), null);
+        assertEquals(Values.deepClone(null), null);
     }
 
     @Test
     @DisplayName("Can clone boxed primitive types")
     void testClonePrimitives() {
         Boolean b = Boolean.valueOf(true);
-        assertEquals(Values.clone(b), b);
+        assertEquals(Values.deepClone(b), b);
 
         Integer i = Integer.valueOf(31337);
-        assertEquals(Values.clone(i), i);
+        assertEquals(Values.deepClone(i), i);
 
         Float f = Float.valueOf(1.61803f);
-        assertEquals(Values.clone(f), f);
+        assertEquals(Values.deepClone(f), f);
 
         Long l = Long.valueOf(314159265L);
-        assertEquals(Values.clone(l), l);
+        assertEquals(Values.deepClone(l), l);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class ValueCloneTest {
     void testCloneList() {
         // Ensure the clone completes successfully
         ArrayList<Integer> a1 = new ArrayList<>(List.of(1,2,3,4,5));
-        ArrayList<Integer> a2 = (ArrayList<Integer>) Values.clone(a1);
+        ArrayList<Integer> a2 = (ArrayList<Integer>) Values.deepClone(a1);
         assertEquals(a1, a2);
 
         // Now reassign an element and ensure only structural equality
@@ -58,7 +58,7 @@ public class ValueCloneTest {
     void testCloneSet() {
         // Ensure the clone completes successfully
         LinkedHashSet<Integer> s1 = new LinkedHashSet<>(List.of(1,2,3,4,5));
-        LinkedHashSet<Integer> s2 = (LinkedHashSet<Integer>) Values.clone(s1);
+        LinkedHashSet<Integer> s2 = (LinkedHashSet<Integer>) Values.deepClone(s1);
         assertEquals(s1, s2);
 
         // Now mutate an element and ensure only structural equality
@@ -75,7 +75,7 @@ public class ValueCloneTest {
                 "A", 1,
                 "B", 2,
                 "C", 3));
-        HashMap<String, Integer> m2 = (HashMap<String, Integer>) Values.clone(m1);
+        HashMap<String, Integer> m2 = (HashMap<String, Integer>) Values.deepClone(m1);
         assertEquals(m1, m2);
 
 
@@ -105,12 +105,38 @@ public class ValueCloneTest {
                 "123", new ArrayList<>(List.of(1,2,3)),
                 "987", new ArrayList<>(List.of(9,8,7))
         ));
-        HashMap<String, ArrayList<Integer>> m2 = (HashMap<String, ArrayList<Integer>>) Values.clone(m1);
+        HashMap<String, ArrayList<Integer>> m2 = (HashMap<String, ArrayList<Integer>>) Values.deepClone(m1);
         assertEquals(m1, m2);
 
         // Mutate a mutable reference value and ensure no aliasing
         m1.get("123").add(4);
         assertNotEquals(m1, m2);
+    }
+
+
+    static class PTuple_a implements Values.PTuple<PTuple_a> {
+        public ArrayList<Integer> a;
+
+        public PTuple_a() { this.a = new ArrayList<Integer>(); }
+        public PTuple_a(ArrayList<Integer> a) { this.a = a; }
+        public PTuple_a deepClone() { return new PTuple_a((ArrayList<Integer>)Values.deepClone(a)); }
+        public boolean deepEquals(PTuple_a o2) { return Values.deepEquals(this, o2); }
+        public String toString() {
+            StringBuilder sb = new StringBuilder("PTuple_a");
+            sb.append("["); sb.append("a=" + a); sb.append("]");
+            return sb.toString();
+        } // toString()
+    } //PTuple_a class definition
+
+    @Test
+    @DisplayName("Can clone a tuple")
+    void testPtupleClone() {
+        PTuple_a t1 = new PTuple_a(new ArrayList<>(List.of(1,2,3)));
+        PTuple_a t2 = (PTuple_a) Values.deepClone(t1);
+
+        t1.a.add(99);
+        assertFalse(t1.deepEquals(t2));
+        assertNotEquals(t1.a, t2.a);
     }
 
     @Test
@@ -119,7 +145,7 @@ public class ValueCloneTest {
         // AtomicInteger extends j.l.Number extends j.l.Object - this is a totally
         // distinct class from any P value the Java code generator emits.
         AtomicInteger i = new AtomicInteger(42);
-        assertThrows(Values.UncloneableValueException.class, () -> Values.clone(i));
+        assertThrows(Values.UncloneableValueException.class, () -> Values.deepClone(i));
     }
 
     private class FancyLinkedHashSet<E> extends LinkedHashSet<E> {
@@ -133,6 +159,6 @@ public class ValueCloneTest {
         // (Relaxing this criterion would require walking the inheritance tree via
         // reflection, and it isn't clear what the return type of the cloned value would be.)
         FancyLinkedHashSet<Integer> lh = new FancyLinkedHashSet<>(List.of(1,2,3,4,5));
-        assertThrows(Values.UncloneableValueException.class, () -> Values.clone(lh));
+        assertThrows(Values.UncloneableValueException.class, () -> Values.deepClone(lh));
     }
 }

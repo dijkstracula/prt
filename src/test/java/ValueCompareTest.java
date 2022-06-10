@@ -47,25 +47,25 @@ public class ValueCompareTest {
     @DisplayName("equals() is well-defined for nulls")
     public void testNullEquality() {
         Object o = new Object();
-        assertFalse(Values.equals(o, null));
-        assertTrue(Values.equals(null, null));
-        assertFalse(Values.equals(null, o));
+        assertFalse(Values.deepEquals(o, null));
+        assertTrue(Values.deepEquals(null, null));
+        assertFalse(Values.deepEquals(null, o));
     }
 
     @Test
     @DisplayName("equals() does not coerse numeric types")
     public void testNoCorersionForEquality() {
         // int <-> bool
-        assertFalse(Values.equals(0, false));
-        assertFalse(Values.equals(1, true));
+        assertFalse(Values.deepEquals(0, false));
+        assertFalse(Values.deepEquals(1, true));
 
         // int <-> float
-        assertFalse(Values.equals(0, 0.0));
-        assertFalse(Values.equals(42, 42.0f));
+        assertFalse(Values.deepEquals(0, 0.0));
+        assertFalse(Values.deepEquals(42, 42.0f));
 
         // int <-> long
-        assertFalse(Values.equals(0, 0L));
-        assertFalse(Values.equals(42, 42L));
+        assertFalse(Values.deepEquals(0, 0L));
+        assertFalse(Values.deepEquals(42, 42L));
     }
 
     @Test
@@ -75,6 +75,6 @@ public class ValueCompareTest {
         HashMap<String, ArrayList<Integer>> m2 = new HashMap<>(Map.of("123", new ArrayList<>(List.of(1, 2, 3))));
 
         assertFalse(m1.get("123") == m2.get("123")); // Ensure that the values are different references
-        assertTrue(Values.equals(m1, m2));
+        assertTrue(Values.deepEquals(m1, m2));
     }
 }

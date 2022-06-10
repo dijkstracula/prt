@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 /***************************************************************************
- * This file was auto-generated on Thursday, 09 June 2022 at 14:52:48.
+ * This file was auto-generated on Friday, 10 June 2022 at 15:20:32.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -18,8 +18,8 @@ public class TwoPhaseCommit {
     }
 
     /** Tuples */
-    static class PTuple_key_val_transId {
-        // (key:string,val:int,transId:int)
+    // (key:string,val:int,transId:int)
+    static class PTuple_key_val_transId implements Values.PTuple<PTuple_key_val_transId> {
         public String key;
         public int val;
         public int transId;
@@ -36,27 +36,27 @@ public class TwoPhaseCommit {
             this.transId = transId;
         }
 
-        public PTuple_key_val_transId clone() {
+        public PTuple_key_val_transId deepClone() {
             return new PTuple_key_val_transId(key, val, transId);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_key_val_transId o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_key_val_transId");
             sb.append("[");
-            sb.append("key=");
-            sb.append(key);
-            sb.append(",");
-            sb.append("val=");
-            sb.append(val);
-            sb.append(",");
-            sb.append("transId=");
-            sb.append(transId);
+            sb.append("key=" + key);
+            sb.append(",val=" + val);
+            sb.append(",transId=" + transId);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_key_val_transId class definition
 
-    static class PTuple_client_trans {
-        // (client:Client,trans:(key:string,val:int,transId:int))
+    // (client:Client,trans:(key:string,val:int,transId:int))
+    static class PTuple_client_trans implements Values.PTuple<PTuple_client_trans> {
         public long client;
         public PTuple_key_val_transId trans;
 
@@ -70,24 +70,26 @@ public class TwoPhaseCommit {
             this.trans = trans;
         }
 
-        public PTuple_client_trans clone() {
-            return new PTuple_client_trans(client, trans.clone());
-        } // clone() method end
+        public PTuple_client_trans deepClone() {
+            return new PTuple_client_trans(client, trans.deepClone());
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_client_trans o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_client_trans");
             sb.append("[");
-            sb.append("client=");
-            sb.append(client);
-            sb.append(",");
-            sb.append("trans=");
-            sb.append(trans);
+            sb.append("client=" + client);
+            sb.append(",trans=" + trans);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_client_trans class definition
 
-    static class PTuple_transId_status {
-        // (transId:int,status:tTransStatus)
+    // (transId:int,status:tTransStatus)
+    static class PTuple_transId_status implements Values.PTuple<PTuple_transId_status> {
         public int transId;
         public int status;
 
@@ -101,24 +103,26 @@ public class TwoPhaseCommit {
             this.status = status;
         }
 
-        public PTuple_transId_status clone() {
+        public PTuple_transId_status deepClone() {
             return new PTuple_transId_status(transId, status);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_transId_status o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_transId_status");
             sb.append("[");
-            sb.append("transId=");
-            sb.append(transId);
-            sb.append(",");
-            sb.append("status=");
-            sb.append(status);
+            sb.append("transId=" + transId);
+            sb.append(",status=" + status);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_transId_status class definition
 
-    static class PTuple_client_key {
-        // (client:Client,key:string)
+    // (client:Client,key:string)
+    static class PTuple_client_key implements Values.PTuple<PTuple_client_key> {
         public long client;
         public String key;
 
@@ -132,24 +136,26 @@ public class TwoPhaseCommit {
             this.key = key;
         }
 
-        public PTuple_client_key clone() {
+        public PTuple_client_key deepClone() {
             return new PTuple_client_key(client, key);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_client_key o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_client_key");
             sb.append("[");
-            sb.append("client=");
-            sb.append(client);
-            sb.append(",");
-            sb.append("key=");
-            sb.append(key);
+            sb.append("client=" + client);
+            sb.append(",key=" + key);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_client_key class definition
 
-    static class PTuple_key_val_status {
-        // (key:string,val:int,status:tTransStatus)
+    // (key:string,val:int,status:tTransStatus)
+    static class PTuple_key_val_status implements Values.PTuple<PTuple_key_val_status> {
         public String key;
         public int val;
         public int status;
@@ -166,27 +172,27 @@ public class TwoPhaseCommit {
             this.status = status;
         }
 
-        public PTuple_key_val_status clone() {
+        public PTuple_key_val_status deepClone() {
             return new PTuple_key_val_status(key, val, status);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_key_val_status o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_key_val_status");
             sb.append("[");
-            sb.append("key=");
-            sb.append(key);
-            sb.append(",");
-            sb.append("val=");
-            sb.append(val);
-            sb.append(",");
-            sb.append("status=");
-            sb.append(status);
+            sb.append("key=" + key);
+            sb.append(",val=" + val);
+            sb.append(",status=" + status);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_key_val_status class definition
 
-    static class PTuple_participant_transId_status {
-        // (participant:Participant,transId:int,status:tTransStatus)
+    // (participant:Participant,transId:int,status:tTransStatus)
+    static class PTuple_participant_transId_status implements Values.PTuple<PTuple_participant_transId_status> {
         public long participant;
         public int transId;
         public int status;
@@ -203,27 +209,27 @@ public class TwoPhaseCommit {
             this.status = status;
         }
 
-        public PTuple_participant_transId_status clone() {
+        public PTuple_participant_transId_status deepClone() {
             return new PTuple_participant_transId_status(participant, transId, status);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_participant_transId_status o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_participant_transId_status");
             sb.append("[");
-            sb.append("participant=");
-            sb.append(participant);
-            sb.append(",");
-            sb.append("transId=");
-            sb.append(transId);
-            sb.append(",");
-            sb.append("status=");
-            sb.append(status);
+            sb.append("participant=" + participant);
+            sb.append(",transId=" + transId);
+            sb.append(",status=" + status);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_participant_transId_status class definition
 
-    static class PTuple_numClients_numParticipants_numTransPerClient_failParticipants {
-        // (numClients:int,numParticipants:int,numTransPerClient:int,failParticipants:int)
+    // (numClients:int,numParticipants:int,numTransPerClient:int,failParticipants:int)
+    static class PTuple_numClients_numParticipants_numTransPerClient_failParticipants implements Values.PTuple<PTuple_numClients_numParticipants_numTransPerClient_failParticipants> {
         public int numClients;
         public int numParticipants;
         public int numTransPerClient;
@@ -243,30 +249,28 @@ public class TwoPhaseCommit {
             this.failParticipants = failParticipants;
         }
 
-        public PTuple_numClients_numParticipants_numTransPerClient_failParticipants clone() {
+        public PTuple_numClients_numParticipants_numTransPerClient_failParticipants deepClone() {
             return new PTuple_numClients_numParticipants_numTransPerClient_failParticipants(numClients, numParticipants, numTransPerClient, failParticipants);
-        } // clone() method end
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_numClients_numParticipants_numTransPerClient_failParticipants o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_numClients_numParticipants_numTransPerClient_failParticipants");
             sb.append("[");
-            sb.append("numClients=");
-            sb.append(numClients);
-            sb.append(",");
-            sb.append("numParticipants=");
-            sb.append(numParticipants);
-            sb.append(",");
-            sb.append("numTransPerClient=");
-            sb.append(numTransPerClient);
-            sb.append(",");
-            sb.append("failParticipants=");
-            sb.append(failParticipants);
+            sb.append("numClients=" + numClients);
+            sb.append(",numParticipants=" + numParticipants);
+            sb.append(",numTransPerClient=" + numTransPerClient);
+            sb.append(",failParticipants=" + failParticipants);
             sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_numClients_numParticipants_numTransPerClient_failParticipants class definition
 
-    static class PTuple_nodes_nFailures {
-        // (nodes:set[machine],nFailures:int)
+    // (nodes:set[machine],nFailures:int)
+    static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
@@ -280,17 +284,19 @@ public class TwoPhaseCommit {
             this.nFailures = nFailures;
         }
 
-        public PTuple_nodes_nFailures clone() {
-            return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.clone(nodes), nFailures);
-        } // clone() method end
+        public PTuple_nodes_nFailures deepClone() {
+            return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
+        } // deepClone()
+
+        public boolean deepEquals(PTuple_nodes_nFailures o2) {
+            return Values.deepEquals(this, o2);
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_nodes_nFailures");
             sb.append("[");
-            sb.append("nodes=");
-            sb.append(nodes);
-            sb.append(",");
-            sb.append("nFailures=");
-            sb.append(nFailures);
+            sb.append("nodes=" + nodes);
+            sb.append(",nFailures=" + nFailures);
             sb.append("]");
             return sb.toString();
         } // toString()
@@ -491,7 +497,7 @@ public class TwoPhaseCommit {
             TMP_tmp0_2 = (pendingTransactions + 1);
             pendingTransactions = TMP_tmp0_2;
         }
-        private void Anon_4(eWriteTransResp pEvent) throws TransitionException {
+        private void Anon_4(eWriteTransResp pEvent)throws TransitionException {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
 
