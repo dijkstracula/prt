@@ -18,18 +18,19 @@ public class State {
     };
 
     /**
-     * Functionally-equivalent to a Consumer<T>, but may throw the checked prt.TransitionException within accept().
+     * Functionally-equivalent to a Consumer<T>, but may throw exceptional control flow within accept().
      * @param <T> The type to be consumed.
      */
     @FunctionalInterface
     public interface TransitionableConsumer<T> {
         /**
-         * Invokes the consumer with some `t`; a `prt.TransitionException` may be thrown prior to the consumer terminating,
-         * which the caller needs to handle.
+         * Invokes the consumer with some `t`; PRT runtime control flow exceptions may be thrown prior to the
+         * consumer terminating, which the runtime needs to handle.
          * @param t the argument to the function.
          * @throws TransitionException if invoking the function results in a state transition.
+         * @throws RaiseEventException if invoking the function results in a raised event.
          */
-        void accept(T t) throws TransitionException;
+        void accept(T t) throws TransitionException, RaiseEventException;
     }
 
     /**

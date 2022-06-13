@@ -230,6 +230,25 @@ public class MonitorTest {
         } // foo monitor definition
     } // foo.java class definition
 
+    class RaiseEventMonitor extends Monitor {
+        private String INIT_STATE = "Init";
+
+        record testEvent() implements PObserveEvent.PEvent { }
+        record noopEvent() implements PObserveEvent.PEvent { }
+
+        public RaiseEventMonitor() {
+            super();
+            addState(new State.Builder(INIT_STATE)
+                    .isInitialState(true)
+                    .withEvent(testEvent.class, e -> {
+                        tryRaiseEvent(new noopEvent());
+                        throw new RuntimeException("tryRaiseEvent must terminate executing the current event");
+                    })
+                    .withEvent(noopEvent.class, __ -> {})
+                    .build());
+        }
+    }
+
     @Test
     @DisplayName("Monitors require exactly one default state")
     void testDefaultStateConstruction() {
@@ -315,6 +334,14 @@ public class MonitorTest {
                 () -> m.process(new A_Event_test.DefaultEvent()));
         assertThrows(UnhandledEventException.class,
                 () -> m.process(new A_Event_test.PHalt()));
+    }
 
+    @Test
+    @DisplayName("tryRaiseEvent interrupts control flow")
+    void testTryRaiseEvent() {
+        RaiseEventMonitor m = new RaiseEventMonitor();
+        m.ready();
+
+        m.process(new RaiseEventMonitor.testEvent());
     }
 }
