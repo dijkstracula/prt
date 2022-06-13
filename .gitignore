@@ -30,3 +30,6 @@ bin/
 
 ### Maven ###
 target/
+
+### Log4J ###
+*.log

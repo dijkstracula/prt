@@ -72,7 +72,7 @@ public class State {
     }
 
     /**
-     * Returns whether or not this prt.State was marked to be the (unique) initial state of its prt.Monitor.
+     * Returns whether this prt.State was marked to be the (unique) initial state of its prt.Monitor.
      *
      * @return the boolean
      */
