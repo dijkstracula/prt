@@ -1,3 +1,4 @@
+import TutorialMonitors.ClientServer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.Values;
@@ -144,6 +145,14 @@ public class ValueCloneTest {
         t1.a.add(99);
         assertFalse(t1.deepEquals(t2));
         assertNotEquals(t1.a, t2.a);
+    }
+
+    @Test
+    @DisplayName("Can clone int-extracted enums")
+    void testEnumClone() {
+        int e1 = ClientServer.tWithDrawRespStatus.WITHDRAW_SUCCESS;
+        int e2 = (int) Values.deepClone(e1);
+        assertTrue(Values.deepEquals(e1, e2));
     }
 
     @Test
