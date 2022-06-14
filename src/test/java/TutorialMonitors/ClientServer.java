@@ -5,8 +5,9 @@ import java.util.*;
 
 import prt.*;
 
+
 /***************************************************************************
- * This file was auto-generated on Friday, 10 June 2022 at 16:20:23.
+ * This file was auto-generated on Tuesday, 14 June 2022 at 12:17:26.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -37,8 +38,11 @@ public class ClientServer {
             return new PTuple_accountId_balance(accountId, balance);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_accountId_balance o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_accountId_balance other) {
+            return (true
+                    && this.accountId == other.accountId
+                    && this.balance == other.balance
+            );
         } // deepEquals()
 
         public String toString() {
@@ -67,8 +71,10 @@ public class ClientServer {
             return new PTuple_accountId(accountId);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_accountId o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_accountId other) {
+            return (true
+                    && this.accountId == other.accountId
+            );
         } // deepEquals()
 
         public String toString() {
@@ -105,8 +111,13 @@ public class ClientServer {
             return new PTuple_source_accountId_amount_rId(source, accountId, amount, rId);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_source_accountId_amount_rId o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_source_accountId_amount_rId other) {
+            return (true
+                    && this.source == other.source
+                    && this.accountId == other.accountId
+                    && this.amount == other.amount
+                    && this.rId == other.rId
+            );
         } // deepEquals()
 
         public String toString() {
@@ -146,8 +157,13 @@ public class ClientServer {
             return new PTuple_status_accountId_balance_rId(status, accountId, balance, rId);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_status_accountId_balance_rId o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_status_accountId_balance_rId other) {
+            return (true
+                    && this.status == other.status
+                    && this.accountId == other.accountId
+                    && this.balance == other.balance
+                    && this.rId == other.rId
+            );
         } // deepEquals()
 
         public String toString() {
@@ -279,11 +295,11 @@ public class ClientServer {
             TMP_tmp7 = MessageFormat.format("Unknown rId {0} in the withdraw response!", TMP_tmp6);
             tryAssert(TMP_tmp5_1, TMP_tmp7);
             TMP_tmp8 = resp.balance;
-            TMP_tmp9 = (TMP_tmp8 >= 10);
+            TMP_tmp9 = TMP_tmp8 >= 10;
             TMP_tmp10 = "Bank balance in all accounts must always be greater than or equal to 10!!";
             tryAssert(TMP_tmp9, TMP_tmp10);
             TMP_tmp11 = resp.status;
-            TMP_tmp12 = (TMP_tmp11 == tWithDrawRespStatus.WITHDRAW_SUCCESS);
+            TMP_tmp12 = TMP_tmp11 == tWithDrawRespStatus.WITHDRAW_SUCCESS;
             if (TMP_tmp12) {
                 TMP_tmp13 = resp.balance;
                 TMP_tmp14 = resp.accountId;
@@ -291,8 +307,8 @@ public class ClientServer {
                 TMP_tmp16 = resp.rId;
                 TMP_tmp17 = pendingWithDraws.get(TMP_tmp16);
                 TMP_tmp18 = TMP_tmp17.amount;
-                TMP_tmp19 = (TMP_tmp15 - TMP_tmp18);
-                TMP_tmp20 = (TMP_tmp13 == TMP_tmp19);
+                TMP_tmp19 = TMP_tmp15 - TMP_tmp18;
+                TMP_tmp20 = TMP_tmp13 == TMP_tmp19;
                 TMP_tmp21 = resp.accountId;
                 TMP_tmp22 = resp.balance;
                 TMP_tmp23 = resp.accountId;
@@ -300,7 +316,7 @@ public class ClientServer {
                 TMP_tmp25 = resp.rId;
                 TMP_tmp26 = pendingWithDraws.get(TMP_tmp25);
                 TMP_tmp27 = TMP_tmp26.amount;
-                TMP_tmp28 = (TMP_tmp24 - TMP_tmp27);
+                TMP_tmp28 = TMP_tmp24 - TMP_tmp27;
                 TMP_tmp29 = MessageFormat.format("Bank balance for the account {0} is {1} and not the expected value {2}, Bank is lying!", TMP_tmp21, TMP_tmp22, TMP_tmp28);
                 tryAssert(TMP_tmp20, TMP_tmp29);
                 TMP_tmp30 = resp.accountId;
@@ -315,8 +331,8 @@ public class ClientServer {
                 TMP_tmp35 = resp.rId;
                 TMP_tmp36 = pendingWithDraws.get(TMP_tmp35);
                 TMP_tmp37 = TMP_tmp36.amount;
-                TMP_tmp38 = (TMP_tmp34 - TMP_tmp37);
-                TMP_tmp39 = (TMP_tmp38 < 10);
+                TMP_tmp38 = TMP_tmp34 - TMP_tmp37;
+                TMP_tmp39 = TMP_tmp38 < 10;
                 TMP_tmp40 = resp.rId;
                 TMP_tmp41 = pendingWithDraws.get(TMP_tmp40);
                 TMP_tmp42 = TMP_tmp41.amount;
@@ -327,7 +343,7 @@ public class ClientServer {
                 TMP_tmp46 = resp.accountId;
                 TMP_tmp47 = bankBalance.get(TMP_tmp46);
                 TMP_tmp48 = resp.balance;
-                TMP_tmp49 = (TMP_tmp47 == TMP_tmp48);
+                TMP_tmp49 = TMP_tmp47 == TMP_tmp48;
                 TMP_tmp50 = resp.accountId;
                 TMP_tmp51 = bankBalance.get(TMP_tmp50);
                 TMP_tmp52 = resp.balance;
@@ -384,7 +400,7 @@ public class ClientServer {
             TMP_tmp5_2 = resp_1.rId;
             pendingWDReqs.remove(TMP_tmp5_2);
             TMP_tmp6_1 = pendingWDReqs.size();
-            TMP_tmp7_1 = (TMP_tmp6_1 == 0);
+            TMP_tmp7_1 = TMP_tmp6_1 == 0;
             if (TMP_tmp7_1) {
                 gotoState(NOPENDINGREQUESTS_STATE);
                 return;

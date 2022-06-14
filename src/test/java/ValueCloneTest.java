@@ -1,3 +1,4 @@
+import TutorialMonitors.ClientServer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.Values;
@@ -114,13 +115,18 @@ public class ValueCloneTest {
     }
 
 
+    // (a:seq[int])
     static class PTuple_a implements Values.PTuple<PTuple_a> {
         public ArrayList<Integer> a;
-
         public PTuple_a() { this.a = new ArrayList<Integer>(); }
         public PTuple_a(ArrayList<Integer> a) { this.a = a; }
-        public PTuple_a deepClone() { return new PTuple_a((ArrayList<Integer>)Values.deepClone(a)); }
-        public boolean deepEquals(PTuple_a o2) { return Values.deepEquals(this, o2); }
+        public PTuple_a deepClone() { return new PTuple_a((ArrayList<Integer>)Values.deepClone(a)); } // deepClone()
+        public boolean deepEquals(PTuple_a other) {
+            return (true
+                    && Values.deepEquals(this.a, other.a)
+            );
+        } // deepEquals()
+
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_a");
             sb.append("["); sb.append("a=" + a); sb.append("]");
@@ -134,9 +140,19 @@ public class ValueCloneTest {
         PTuple_a t1 = new PTuple_a(new ArrayList<>(List.of(1,2,3)));
         PTuple_a t2 = (PTuple_a) Values.deepClone(t1);
 
+        assertTrue(t1.deepEquals(t2));
+
         t1.a.add(99);
         assertFalse(t1.deepEquals(t2));
         assertNotEquals(t1.a, t2.a);
+    }
+
+    @Test
+    @DisplayName("Can clone int-extracted enums")
+    void testEnumClone() {
+        int e1 = ClientServer.tWithDrawRespStatus.WITHDRAW_SUCCESS;
+        int e2 = (int) Values.deepClone(e1);
+        assertTrue(Values.deepEquals(e1, e2));
     }
 
     @Test
