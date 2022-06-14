@@ -6,7 +6,7 @@ import prt.PAssertionFailureException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static TutorialMonitors.TwoPhaseCommit.*;
+import static tutorialmonitors.TwoPhaseCommit.*;
 
 public class TwoPhaseCommitTest {
     private AtomicityInvariant initedMonitor() {

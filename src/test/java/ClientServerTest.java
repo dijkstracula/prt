@@ -4,11 +4,13 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import parsers.ClientServerTraceParser;
 import prt.*;
+import tutorialmonitors.ClientServer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static TutorialMonitors.ClientServer.*;
+import static tutorialmonitors.ClientServer.*;
 
 public class ClientServerTest {
     private BankBalanceIsAlwaysCorrect initedBankBalanceIsAlwaysCorrect() {
@@ -122,5 +124,40 @@ public class ClientServerTest {
                         90,
                         99999 /* We have never seen this rid before! */
                 ))));
+    }
+
+    @Test
+    @DisplayName("equality makes sense for generated events")
+    public void testEqualityOnEventObjects() {
+        ClientServer.PTuple_source_accountId_amount_rId t1 =
+                new ClientServer.PTuple_source_accountId_amount_rId(4L, 0, 2, 1);
+        ClientServer.PTuple_source_accountId_amount_rId t2 = t1.deepClone();
+        assertTrue(Values.deepEquals(t1, t2));
+    }
+
+    @Test
+    @DisplayName("can drive a ClientServer monitor from parsed events")
+    public void testParseEventsAndMonitorExecution() {
+        //  pmc POutput/netcoreapp3.1/ClientServer.dll \
+        //      -m PImplementation.tcSingleClient.Execute \
+        //      -i 100 -v | grep SendLog | head
+        String logs = """
+<SendLog> 'Client(4)' in state 'WithdrawMoney' sent event 'eWithDrawReq with payload (<source:Client(4), accountId:0, amount:29, rId:1, >)' to 'BankServer(3)'.
+<SendLog> 'BankServer(3)' in state 'WaitForWithdrawRequests' sent event 'eWithDrawResp with payload (<status:0, accountId:0, balance:11, rId:1, >)' to 'Client(4)'.
+<SendLog> 'Client(4)' in state 'WithdrawMoney' sent event 'eWithDrawReq with payload (<source:Client(4), accountId:0, amount:6, rId:2, >)' to 'BankServer(3)'.
+<SendLog> 'BankServer(3)' in state 'WaitForWithdrawRequests' sent event 'eWithDrawResp with payload (<status:1, accountId:0, balance:11, rId:2, >)' to 'Client(4)'.
+<SendLog> 'Client(4)' in state 'WithdrawMoney' sent event 'eWithDrawReq with payload (<source:Client(4), accountId:0, amount:7, rId:3, >)' to 'BankServer(3)'.
+<SendLog> 'BankServer(3)' in state 'WaitForWithdrawRequests' sent event 'eWithDrawResp with payload (<status:1, accountId:0, balance:11, rId:3, >)' to 'Client(4)'.
+<SendLog> 'Client(4)' in state 'WithdrawMoney' sent event 'eWithDrawReq with payload (<source:Client(4), accountId:0, amount:4, rId:4, >)' to 'BankServer(3)'.
+<SendLog> 'BankServer(3)' in state 'WaitForWithdrawRequests' sent event 'eWithDrawResp with payload (<status:1, accountId:0, balance:11, rId:4, >)' to 'Client(4)'.
+<SendLog> 'Client(4)' in state 'WithdrawMoney' sent event 'eWithDrawReq with payload (<source:Client(4), accountId:0, amount:3, rId:5, >)' to 'BankServer(3)'.
+<SendLog> 'BankServer(3)' in state 'WaitForWithdrawRequests' sent event 'eWithDrawResp with payload (<status:1, accountId:0, balance:11, rId:5, >)' to 'Client(4)'.""";
+        HashMap<Integer, Integer> initialBalances = new HashMap<>(Map.of(0, 40));
+
+        BankBalanceIsAlwaysCorrect m = new BankBalanceIsAlwaysCorrect();
+        m.ready();
+        m.process(new eSpec_BankBalanceIsAlwaysCorrect_Init(initialBalances));
+
+        ClientServerTraceParser.eventsFrom(logs.lines()).forEach(e -> m.process(e.pEvent()));
     }
 }

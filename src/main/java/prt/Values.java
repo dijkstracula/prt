@@ -210,6 +210,13 @@ public class Values {
                 return deepTupleEquals((PTuple) o1, (PTuple) o2);
             }
 
+            if (o1 instanceof PObserveEvent && o2 instanceof PObserveEvent) {
+                PObserveEvent p1 = (PObserveEvent) o1;
+                PObserveEvent p2 = (PObserveEvent) o2;
+                return p1.ts() == p2.ts() &&
+                        Values.deepEquals(p1.pEvent(), p2.pEvent());
+            }
+
             // Otherwise, dispatch on the classes.
             Class<?> c1 = o1.getClass();
             Class<?> c2 = o2.getClass();

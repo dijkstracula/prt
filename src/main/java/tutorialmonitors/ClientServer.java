@@ -1,13 +1,12 @@
-package TutorialMonitors;
+package tutorialmonitors;
 
 import java.text.MessageFormat;
 import java.util.*;
 
 import prt.*;
 
-
 /***************************************************************************
- * This file was auto-generated on Tuesday, 14 June 2022 at 12:17:26.
+ * This file was auto-generated on Tuesday, 14 June 2022 at 12:57:27.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -37,6 +36,12 @@ public class ClientServer {
         public PTuple_accountId_balance deepClone() {
             return new PTuple_accountId_balance(accountId, balance);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_accountId_balance)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_accountId_balance other) {
             return (true
@@ -70,6 +75,12 @@ public class ClientServer {
         public PTuple_accountId deepClone() {
             return new PTuple_accountId(accountId);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_accountId)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_accountId other) {
             return (true
@@ -110,6 +121,12 @@ public class ClientServer {
         public PTuple_source_accountId_amount_rId deepClone() {
             return new PTuple_source_accountId_amount_rId(source, accountId, amount, rId);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_source_accountId_amount_rId)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_source_accountId_amount_rId other) {
             return (true
@@ -156,6 +173,12 @@ public class ClientServer {
         public PTuple_status_accountId_balance_rId deepClone() {
             return new PTuple_status_accountId_balance_rId(status, accountId, balance, rId);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_status_accountId_balance_rId)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_status_accountId_balance_rId other) {
             return (true

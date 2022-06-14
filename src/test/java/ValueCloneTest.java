@@ -1,7 +1,7 @@
-import TutorialMonitors.ClientServer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.Values;
+import tutorialmonitors.ClientServer;
 
 
 import java.util.*;
