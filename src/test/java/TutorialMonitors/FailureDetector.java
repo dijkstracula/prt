@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import prt.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 10 June 2022 at 16:22:20.
+ * This file was auto-generated on Tuesday, 14 June 2022 at 12:23:56.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -32,8 +32,11 @@ public class FailureDetector {
             return new PTuple_fd_trial(fd, trial);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_fd_trial o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_fd_trial other) {
+            return (true
+                    && this.fd == other.fd
+                    && this.trial == other.trial
+            );
         } // deepEquals()
 
         public String toString() {
@@ -65,8 +68,11 @@ public class FailureDetector {
             return new PTuple_node_trial(node, trial);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_node_trial o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_node_trial other) {
+            return (true
+                    && this.node == other.node
+                    && this.trial == other.trial
+            );
         } // deepEquals()
 
         public String toString() {
@@ -98,8 +104,11 @@ public class FailureDetector {
             return new PTuple_numNodes_numClients(numNodes, numClients);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_numNodes_numClients o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_numNodes_numClients other) {
+            return (true
+                    && this.numNodes == other.numNodes
+                    && this.numClients == other.numClients
+            );
         } // deepEquals()
 
         public String toString() {
@@ -131,8 +140,11 @@ public class FailureDetector {
             return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
         } // deepClone()
 
-        public boolean deepEquals(PTuple_nodes_nFailures o2) {
-            return Values.deepEquals(this, o2);
+        public boolean deepEquals(PTuple_nodes_nFailures other) {
+            return (true
+                    && Values.deepEquals(this.nodes, other.nodes)
+                    && this.nFailures == other.nFailures
+            );
         } // deepEquals()
 
         public String toString() {
@@ -185,7 +197,7 @@ public class FailureDetector {
 
             while ((true)) {
                 TMP_tmp0 = nodes.size();
-                TMP_tmp1 = (i < TMP_tmp0);
+                TMP_tmp1 = i < TMP_tmp0;
                 TMP_tmp2 = TMP_tmp1;
                 if (TMP_tmp2) {} else
                 {
@@ -195,7 +207,7 @@ public class FailureDetector {
                 nodesShutdownAndNotDetected.remove(TMP_tmp3);
                 TMP_tmp4 = Values.setElementAt(nodes, i);
                 nodesDownDetected.add(TMP_tmp4);
-                TMP_tmp5 = (i + 1);
+                TMP_tmp5 = i + 1;
                 i = TMP_tmp5;
             }
         }
@@ -230,7 +242,7 @@ public class FailureDetector {
 
             while ((true)) {
                 TMP_tmp0_2 = nodes_1.size();
-                TMP_tmp1_2 = (i_1 < TMP_tmp0_2);
+                TMP_tmp1_2 = i_1 < TMP_tmp0_2;
                 TMP_tmp2_2 = TMP_tmp1_2;
                 if (TMP_tmp2_2) {} else
                 {
@@ -240,11 +252,11 @@ public class FailureDetector {
                 nodesShutdownAndNotDetected.remove(TMP_tmp3_2);
                 TMP_tmp4_1 = Values.setElementAt(nodes_1, i_1);
                 nodesDownDetected.add(TMP_tmp4_1);
-                TMP_tmp5_1 = (i_1 + 1);
+                TMP_tmp5_1 = i_1 + 1;
                 i_1 = TMP_tmp5_1;
             }
             TMP_tmp6 = nodesShutdownAndNotDetected.size();
-            TMP_tmp7 = (TMP_tmp6 == 0);
+            TMP_tmp7 = TMP_tmp6 == 0;
             if (TMP_tmp7) {
                 gotoState(ALLSHUTDOWNNODESAREDETECTED_STATE);
                 return;
