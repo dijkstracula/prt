@@ -1,4 +1,4 @@
-package TutorialMonitors;
+package tutorialmonitors;
 
 import java.util.LinkedHashSet;
 

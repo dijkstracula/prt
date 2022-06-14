@@ -1,4 +1,4 @@
-package TutorialMonitors;
+package tutorialmonitors;
 import prt.*;
 
 import java.text.MessageFormat;
