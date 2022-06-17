@@ -388,6 +388,14 @@ public class MonitorTest {
     }
 
     @Test
+    @DisplayName("Event handlers consuuming arguments in ready() must consume them!")
+    void testInitialEntryHandlerMustHaveAnArg() {
+        GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
+                new GotoStateWithPayloadsMonitorIncludingInitialEntryHandler();
+        assertThrows(NullPointerException.class, () -> m.ready());
+    }
+
+    @Test
     @DisplayName("Ill-typed payload handlers throw")
     void testChainedEntryHandlersWithIllTypedPayloads() {
         GotoStateWithIllTypedPayloadsMonitor m = new GotoStateWithIllTypedPayloadsMonitor();

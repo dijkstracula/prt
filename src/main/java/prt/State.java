@@ -192,7 +192,7 @@ public class State {
             if (onEntry.isPresent()) {
                 throw new RuntimeException(String.format("onEntry handler already handled for state %s",key));
             }
-            onEntry = Optional.of((TransitionableConsumer<Object>) f);
+            onEntry = Optional.of( o -> { Objects.requireNonNull(o); f.accept((P)o); });
             return this;
         }
 
