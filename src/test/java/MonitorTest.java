@@ -1,10 +1,13 @@
 import events.PObserveEvent;
+import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.*;
+import tutorialmonitors.ClientServer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,7 +54,24 @@ public class MonitorTest {
      * processing events.
      */
     class CounterMonitor extends Monitor {
-        record AddEvent(int amountToAdd) implements PObserveEvent.PEvent { }
+
+        class AddEvent implements PObserveEvent.PEvent<Integer> {
+            @Override
+            public boolean equals(Object o) {
+                return Values.deepEquals(this, o);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(payload);
+            }
+
+            private int payload;
+            public AddEvent(int payload) {
+                this.payload = payload;
+            }
+            public Integer getPayload() { return payload; }
+        }
 
         private String INIT_STATE= "Init";
 
@@ -63,7 +83,7 @@ public class MonitorTest {
 
             addState(new State.Builder(INIT_STATE)
                     .isInitialState(true)
-                    .withEvent(AddEvent.class, addEvent -> count += addEvent.amountToAdd)
+                    .withEvent(AddEvent.class, i -> count += i)
                     .build());
         }
     }
@@ -171,7 +191,7 @@ public class MonitorTest {
         /** Enums */
 
         /** Tuples */
-        static class PTuple_a {
+        class PTuple_a {
             // (a:int)
             public int a;
 
@@ -198,19 +218,28 @@ public class MonitorTest {
 
 
         /** Events */
-        record DefaultEvent() implements PObserveEvent.PEvent { }
-        record PHalt() implements PObserveEvent.PEvent { }
-        record ev(PTuple_a payload) implements PObserveEvent.PEvent { }
+        public class DefaultEvent implements PObserveEvent.PEvent<Void> {
+            public Void getPayload() { return null; }
+        }
+        public  class PHalt implements PObserveEvent.PEvent<Void> {
+            public Void getPayload() { return null; }
+        }
+        public class ev implements PObserveEvent.PEvent<PTuple_a> {
+            private PTuple_a payload;
+            public ev(PTuple_a payload) {
+                this.payload = payload;
+            }
+            public PTuple_a getPayload() { return payload; }
+        }
 
-        static class A_Event extends Monitor {
+        class A_Event extends Monitor {
             private PTuple_a v = new PTuple_a();
             public PTuple_a getV() { return this.v; };
 
 
             public String INIT_STATE = "Init";
 
-            private void Anon(ev pEvent) {
-                PTuple_a ev_1 = pEvent.payload;
+            private void Anon(PTuple_a ev_1) {
                 int TMP_tmp0 = 0;
                 int TMP_tmp1 = 0;
                 int TMP_tmp2 = 0;
@@ -234,14 +263,19 @@ public class MonitorTest {
     class RaiseEventMonitor extends Monitor {
         private String INIT_STATE = "Init";
 
-        record testEvent() implements PObserveEvent.PEvent { }
-        record noopEvent() implements PObserveEvent.PEvent { }
+
+        public class testEvent implements PObserveEvent.PEvent<Void> {
+            public Void getPayload() { return null; }
+        }
+        public class noopEvent implements PObserveEvent.PEvent<Void> {
+            public Void getPayload() { return null; }
+        }
 
         public RaiseEventMonitor() {
             super();
             addState(new State.Builder(INIT_STATE)
                     .isInitialState(true)
-                    .withEvent(testEvent.class, e -> {
+                    .withEvent(testEvent.class, __ -> {
                         tryRaiseEvent(new noopEvent());
                         throw new RuntimeException("tryRaiseEvent must terminate executing the current event");
                     })
@@ -274,7 +308,7 @@ public class MonitorTest {
     @DisplayName("Monitors must be ready()ied before events can be processed")
     void testNonReadyMonitors() {
         CounterMonitor m = new CounterMonitor();
-        Throwable e = assertThrows(RuntimeException.class, () -> m.process(new CounterMonitor.AddEvent(42)));
+        Throwable e = assertThrows(RuntimeException.class, () -> m.process(m.new AddEvent(42)));
         assertTrue(e.getMessage().contains("not running"));
     }
 
@@ -285,9 +319,9 @@ public class MonitorTest {
         m.ready();
 
         assertEquals(m.count, 0);
-        m.process(new CounterMonitor.AddEvent(1));
-        m.process(new CounterMonitor.AddEvent(2));
-        m.process(new CounterMonitor.AddEvent(3));
+        m.process(m.new AddEvent(1));
+        m.process(m.new AddEvent(2));
+        m.process(m.new AddEvent(3));
         assertEquals(m.count, 6);
     }
 
@@ -326,23 +360,11 @@ public class MonitorTest {
     }
 
     @Test
-    @DisplayName("Throws on receiving DefaultEvent and PHalt()")
-    void testThrowsOnDefaultEventAndPHalt() {
-        A_Event_test.A_Event m = new A_Event_test.A_Event();
-        m.ready();
-
-        assertThrows(UnhandledEventException.class,
-                () -> m.process(new A_Event_test.DefaultEvent()));
-        assertThrows(UnhandledEventException.class,
-                () -> m.process(new A_Event_test.PHalt()));
-    }
-
-    @Test
     @DisplayName("tryRaiseEvent interrupts control flow")
     void testTryRaiseEvent() {
         RaiseEventMonitor m = new RaiseEventMonitor();
         m.ready();
 
-        m.process(new RaiseEventMonitor.testEvent());
+        m.process(m.new testEvent());
     }
 }
