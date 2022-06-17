@@ -1,6 +1,7 @@
 package parsers;
 
-import prt.PObserveEvent;
+import events.PObserveEvent;
+import events.TimestampInterval;
 import tutorialmonitors.ClientServer;
 
 import java.util.HashMap;
@@ -116,8 +117,9 @@ public class ClientServerTraceParser {
         String payload = r.group(2);
 
         if (handlers.containsKey(evtName)) {
+            ts++;
             Function<String, PObserveEvent.PEvent> f = handlers.get(evtName);
-            return Stream.of(new PObserveEvent(ts++, f.apply(payload)));
+            return Stream.of(new PObserveEvent(new TimestampInterval(ts), f.apply(payload)));
         }
         return Stream.empty();
     }

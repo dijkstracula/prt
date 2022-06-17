@@ -1,4 +1,5 @@
 package tutorialmonitors;
+import events.PObserveEvent;
 import prt.*;
 
 /***************************************************************************

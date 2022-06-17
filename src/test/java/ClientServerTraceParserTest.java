@@ -1,10 +1,12 @@
+import events.TimestampInterval;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import parsers.*;
-import prt.PObserveEvent;
+import events.PObserveEvent;
 import tutorialmonitors.ClientServer;
 
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -40,8 +42,9 @@ public class ClientServerTraceParserTest {
                 .toList();
 
         assertEquals(1, evs.size());
-        assertEquals(new PObserveEvent(0,
-                            new ClientServer.eWithDrawReq(
+        assertEquals(new PObserveEvent(
+                        new TimestampInterval(1L),
+                        new ClientServer.eWithDrawReq(
                                     new ClientServer.PTuple_source_accountId_amount_rId(4L, 0, 2, 1))),
                     evs.get(0));
     }
@@ -58,7 +61,9 @@ public class ClientServerTraceParserTest {
 
         assertEquals(1, evs.size());
         assertEquals(
-                new PObserveEvent(0, new ClientServer.eReadQuery(new ClientServer.PTuple_accountId(0))),
+                new PObserveEvent(
+                        new TimestampInterval(1L),
+                        new ClientServer.eReadQuery(new ClientServer.PTuple_accountId(0))),
                 evs.get(0));
     }
 
@@ -73,7 +78,9 @@ public class ClientServerTraceParserTest {
 
         assertEquals(1, evs.size());
         assertEquals(
-                new PObserveEvent(0, new ClientServer.eReadQueryResp(new ClientServer.PTuple_accountId_balance(0, 15))),
+                new PObserveEvent(
+                        new TimestampInterval(1L),
+                        new ClientServer.eReadQueryResp(new ClientServer.PTuple_accountId_balance(0, 15))),
                 evs.get(0));
     }
 
@@ -89,16 +96,18 @@ public class ClientServerTraceParserTest {
         Iterator<PObserveEvent> it = evs.iterator();
 
         assertEquals(
-                new PObserveEvent(0,
+                new PObserveEvent(new TimestampInterval(1L),
                     new ClientServer.eWithDrawReq(
                             new ClientServer.PTuple_source_accountId_amount_rId(4L, 0, 2, 1))),
                 it.next());
         assertEquals(
-                new PObserveEvent(1, new ClientServer.eReadQuery(new ClientServer.PTuple_accountId(0))),
+                new PObserveEvent(new TimestampInterval(2L),
+                        new ClientServer.eReadQuery(new ClientServer.PTuple_accountId(0))),
                 it.next());
         assertEquals(
-                new PObserveEvent(2, new ClientServer.eReadQueryResp(
-                        new ClientServer.PTuple_accountId_balance(0, 15))),
+                new PObserveEvent(new TimestampInterval(3L),
+                        new ClientServer.eReadQueryResp(
+                            new ClientServer.PTuple_accountId_balance(0, 15))),
                 it.next());
     }
 }

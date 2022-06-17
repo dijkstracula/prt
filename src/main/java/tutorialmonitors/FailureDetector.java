@@ -2,6 +2,7 @@ package tutorialmonitors;
 
 import java.util.LinkedHashSet;
 
+import events.PObserveEvent;
 import prt.*;
 
 /***************************************************************************
