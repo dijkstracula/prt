@@ -1,12 +1,13 @@
 package tutorialmonitors;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 
 import events.PObserveEvent;
 import prt.*;
 
 /***************************************************************************
- * This file was auto-generated on Tuesday, 14 June 2022 at 12:23:56.
+ * This file was auto-generated on Friday, 17 June 2022 at 14:33:58.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -32,6 +33,12 @@ public class FailureDetector {
         public PTuple_fd_trial deepClone() {
             return new PTuple_fd_trial(fd, trial);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_fd_trial)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_fd_trial other) {
             return (true
@@ -69,6 +76,12 @@ public class FailureDetector {
             return new PTuple_node_trial(node, trial);
         } // deepClone()
 
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_node_trial)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_node_trial other) {
             return (true
                     && this.node == other.node
@@ -104,6 +117,12 @@ public class FailureDetector {
         public PTuple_numNodes_numClients deepClone() {
             return new PTuple_numNodes_numClients(numNodes, numClients);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_numNodes_numClients)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_numNodes_numClients other) {
             return (true
@@ -141,6 +160,12 @@ public class FailureDetector {
             return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
         } // deepClone()
 
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_nodes_nFailures)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_nodes_nFailures other) {
             return (true
                     && Values.deepEquals(this.nodes, other.nodes)
@@ -160,17 +185,193 @@ public class FailureDetector {
 
 
     /** Events */
-    public record DefaultEvent() implements PObserveEvent.PEvent { }
-    public record PHalt() implements PObserveEvent.PEvent { }
-    public record ePing(PTuple_fd_trial payload) implements PObserveEvent.PEvent { }
-    public record ePong(PTuple_node_trial payload) implements PObserveEvent.PEvent { }
-    public record eNotifyNodesDown(LinkedHashSet<Long> payload) implements PObserveEvent.PEvent { }
-    public record eStartTimer() implements PObserveEvent.PEvent { }
-    public record eCancelTimer() implements PObserveEvent.PEvent { }
-    public record eTimeOut() implements PObserveEvent.PEvent { }
-    public record eDelayedTimeOut() implements PObserveEvent.PEvent { }
-    public record eDelayNodeFailure() implements PObserveEvent.PEvent { }
-    public record eShutDown(long payload) implements PObserveEvent.PEvent { }
+    public static class DefaultEvent implements PObserveEvent.PEvent<Void> {
+        public DefaultEvent() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            DefaultEvent that = (DefaultEvent)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for DefaultEvent
+    public static class PHalt implements PObserveEvent.PEvent<Void> {
+        public PHalt() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PHalt that = (PHalt)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for PHalt
+    public static class ePing implements PObserveEvent.PEvent<PTuple_fd_trial> {
+        public ePing(PTuple_fd_trial p) { this.payload = p; }
+        private PTuple_fd_trial payload;
+        public PTuple_fd_trial getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ePing that = (ePing)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for ePing
+    public static class ePong implements PObserveEvent.PEvent<PTuple_node_trial> {
+        public ePong(PTuple_node_trial p) { this.payload = p; }
+        private PTuple_node_trial payload;
+        public PTuple_node_trial getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ePong that = (ePong)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for ePong
+    public static class eNotifyNodesDown implements PObserveEvent.PEvent<LinkedHashSet<Long>> {
+        public eNotifyNodesDown(LinkedHashSet<Long> p) { this.payload = p; }
+        private LinkedHashSet<Long> payload;
+        public LinkedHashSet<Long> getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eNotifyNodesDown that = (eNotifyNodesDown)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eNotifyNodesDown
+    public static class eStartTimer implements PObserveEvent.PEvent<Void> {
+        public eStartTimer() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eStartTimer that = (eStartTimer)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eStartTimer
+    public static class eCancelTimer implements PObserveEvent.PEvent<Void> {
+        public eCancelTimer() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eCancelTimer that = (eCancelTimer)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCancelTimer
+    public static class eTimeOut implements PObserveEvent.PEvent<Void> {
+        public eTimeOut() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eTimeOut that = (eTimeOut)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eTimeOut
+    public static class eDelayedTimeOut implements PObserveEvent.PEvent<Void> {
+        public eDelayedTimeOut() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eDelayedTimeOut that = (eDelayedTimeOut)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eDelayedTimeOut
+    public static class eDelayNodeFailure implements PObserveEvent.PEvent<Void> {
+        public eDelayNodeFailure() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eDelayNodeFailure that = (eDelayNodeFailure)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eDelayNodeFailure
+    public static class eShutDown implements PObserveEvent.PEvent<Long> {
+        public eShutDown(long p) { this.payload = p; }
+        private Long payload;
+        public Long getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eShutDown that = (eShutDown)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eShutDown
 
     // PMachine Client elided
     // PMachine FailureDetector elided
@@ -186,8 +387,7 @@ public class FailureDetector {
         public String ALLSHUTDOWNNODESAREDETECTED_STATE = "AllShutdownNodesAreDetected";
         public String NODESSHUTDOWNBUTNOTDETECTED_STATE = "NodesShutDownButNotDetected";
 
-        private void Anon(eNotifyNodesDown pEvent) {
-            LinkedHashSet<Long> nodes = pEvent.payload;
+        private void Anon(LinkedHashSet<Long> nodes) {
             int i = 0;
             int TMP_tmp0 = 0;
             boolean TMP_tmp1 = false;
@@ -212,8 +412,7 @@ public class FailureDetector {
                 i = TMP_tmp5;
             }
         }
-        private void Anon_1(eShutDown pEvent)throws TransitionException {
-            long node = pEvent.payload;
+        private void Anon_1(long node)throws TransitionException {
             long TMP_tmp0_1 = 0L;
             boolean TMP_tmp1_1 = false;
             boolean TMP_tmp2_1 = false;
@@ -229,8 +428,7 @@ public class FailureDetector {
                 return;
             }
         }
-        private void Anon_2(eNotifyNodesDown pEvent)throws TransitionException {
-            LinkedHashSet<Long> nodes_1 = pEvent.payload;
+        private void Anon_2(LinkedHashSet<Long> nodes_1)throws TransitionException {
             int i_1 = 0;
             int TMP_tmp0_2 = 0;
             boolean TMP_tmp1_2 = false;
@@ -263,8 +461,7 @@ public class FailureDetector {
                 return;
             }
         }
-        private void Anon_3(eShutDown pEvent) {
-            long node_1 = pEvent.payload;
+        private void Anon_3(long node_1) {
             long TMP_tmp0_3 = 0L;
             boolean TMP_tmp1_3 = false;
             boolean TMP_tmp2_3 = false;

@@ -2,8 +2,10 @@ package tutorialmonitors;
 import events.PObserveEvent;
 import prt.*;
 
+import java.util.Objects;
+
 /***************************************************************************
- * This file was auto-generated on Tuesday, 14 June 2022 at 12:23:01.
+ * This file was auto-generated on Friday, 17 June 2022 at 14:32:19.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -25,34 +27,482 @@ public class EspressoMachine {
     /** Tuples */
 
     /** Events */
-    public record DefaultEvent() implements PObserveEvent.PEvent { }
-    public record PHalt() implements PObserveEvent.PEvent { }
-    public record eWarmUpReq() implements PObserveEvent.PEvent { }
-    public record eGrindBeansReq() implements PObserveEvent.PEvent { }
-    public record eStartEspressoReq() implements PObserveEvent.PEvent { }
-    public record eStartSteamerReq() implements PObserveEvent.PEvent { }
-    public record eStopSteamerReq() implements PObserveEvent.PEvent { }
-    public record eGrindBeansCompleted() implements PObserveEvent.PEvent { }
-    public record eEspressoCompleted() implements PObserveEvent.PEvent { }
-    public record eWarmUpCompleted() implements PObserveEvent.PEvent { }
-    public record eNoWaterError() implements PObserveEvent.PEvent { }
-    public record eNoBeansError() implements PObserveEvent.PEvent { }
-    public record eWarmerError() implements PObserveEvent.PEvent { }
-    public record eEspressoButtonPressed() implements PObserveEvent.PEvent { }
-    public record eSteamerButtonOff() implements PObserveEvent.PEvent { }
-    public record eSteamerButtonOn() implements PObserveEvent.PEvent { }
-    public record eOpenGroundsDoor() implements PObserveEvent.PEvent { }
-    public record eCloseGroundsDoor() implements PObserveEvent.PEvent { }
-    public record eResetCoffeeMaker() implements PObserveEvent.PEvent { }
-    public record eCoffeeMakerError(int payload) implements PObserveEvent.PEvent { }
-    public record eCoffeeMakerReady() implements PObserveEvent.PEvent { }
-    public record eCoffeeMachineUser(long payload) implements PObserveEvent.PEvent { }
-    public record eInWarmUpState() implements PObserveEvent.PEvent { }
-    public record eInReadyState() implements PObserveEvent.PEvent { }
-    public record eInBeansGrindingState() implements PObserveEvent.PEvent { }
-    public record eInCoffeeBrewingState() implements PObserveEvent.PEvent { }
-    public record eErrorHappened() implements PObserveEvent.PEvent { }
-    public record eResetPerformed() implements PObserveEvent.PEvent { }
+    public static class DefaultEvent implements PObserveEvent.PEvent<Void> {
+        public DefaultEvent() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            DefaultEvent that = (DefaultEvent)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for DefaultEvent
+    public static class PHalt implements PObserveEvent.PEvent<Void> {
+        public PHalt() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PHalt that = (PHalt)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for PHalt
+    public static class eWarmUpReq implements PObserveEvent.PEvent<Void> {
+        public eWarmUpReq() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eWarmUpReq that = (eWarmUpReq)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eWarmUpReq
+    public static class eGrindBeansReq implements PObserveEvent.PEvent<Void> {
+        public eGrindBeansReq() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eGrindBeansReq that = (eGrindBeansReq)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eGrindBeansReq
+    public static class eStartEspressoReq implements PObserveEvent.PEvent<Void> {
+        public eStartEspressoReq() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eStartEspressoReq that = (eStartEspressoReq)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eStartEspressoReq
+    public static class eStartSteamerReq implements PObserveEvent.PEvent<Void> {
+        public eStartSteamerReq() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eStartSteamerReq that = (eStartSteamerReq)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eStartSteamerReq
+    public static class eStopSteamerReq implements PObserveEvent.PEvent<Void> {
+        public eStopSteamerReq() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eStopSteamerReq that = (eStopSteamerReq)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eStopSteamerReq
+    public static class eGrindBeansCompleted implements PObserveEvent.PEvent<Void> {
+        public eGrindBeansCompleted() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eGrindBeansCompleted that = (eGrindBeansCompleted)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eGrindBeansCompleted
+    public static class eEspressoCompleted implements PObserveEvent.PEvent<Void> {
+        public eEspressoCompleted() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eEspressoCompleted that = (eEspressoCompleted)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eEspressoCompleted
+    public static class eWarmUpCompleted implements PObserveEvent.PEvent<Void> {
+        public eWarmUpCompleted() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eWarmUpCompleted that = (eWarmUpCompleted)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eWarmUpCompleted
+    public static class eNoWaterError implements PObserveEvent.PEvent<Void> {
+        public eNoWaterError() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eNoWaterError that = (eNoWaterError)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eNoWaterError
+    public static class eNoBeansError implements PObserveEvent.PEvent<Void> {
+        public eNoBeansError() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eNoBeansError that = (eNoBeansError)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eNoBeansError
+    public static class eWarmerError implements PObserveEvent.PEvent<Void> {
+        public eWarmerError() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eWarmerError that = (eWarmerError)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eWarmerError
+    public static class eEspressoButtonPressed implements PObserveEvent.PEvent<Void> {
+        public eEspressoButtonPressed() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eEspressoButtonPressed that = (eEspressoButtonPressed)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eEspressoButtonPressed
+    public static class eSteamerButtonOff implements PObserveEvent.PEvent<Void> {
+        public eSteamerButtonOff() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eSteamerButtonOff that = (eSteamerButtonOff)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eSteamerButtonOff
+    public static class eSteamerButtonOn implements PObserveEvent.PEvent<Void> {
+        public eSteamerButtonOn() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eSteamerButtonOn that = (eSteamerButtonOn)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eSteamerButtonOn
+    public static class eOpenGroundsDoor implements PObserveEvent.PEvent<Void> {
+        public eOpenGroundsDoor() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eOpenGroundsDoor that = (eOpenGroundsDoor)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eOpenGroundsDoor
+    public static class eCloseGroundsDoor implements PObserveEvent.PEvent<Void> {
+        public eCloseGroundsDoor() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eCloseGroundsDoor that = (eCloseGroundsDoor)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCloseGroundsDoor
+    public static class eResetCoffeeMaker implements PObserveEvent.PEvent<Void> {
+        public eResetCoffeeMaker() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eResetCoffeeMaker that = (eResetCoffeeMaker)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eResetCoffeeMaker
+    public static class eCoffeeMakerError implements PObserveEvent.PEvent<Integer> {
+        public eCoffeeMakerError(int p) { this.payload = p; }
+        private Integer payload;
+        public Integer getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eCoffeeMakerError that = (eCoffeeMakerError)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCoffeeMakerError
+    public static class eCoffeeMakerReady implements PObserveEvent.PEvent<Void> {
+        public eCoffeeMakerReady() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eCoffeeMakerReady that = (eCoffeeMakerReady)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCoffeeMakerReady
+    public static class eCoffeeMachineUser implements PObserveEvent.PEvent<Long> {
+        public eCoffeeMachineUser(long p) { this.payload = p; }
+        private Long payload;
+        public Long getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eCoffeeMachineUser that = (eCoffeeMachineUser)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCoffeeMachineUser
+    public static class eInWarmUpState implements PObserveEvent.PEvent<Void> {
+        public eInWarmUpState() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eInWarmUpState that = (eInWarmUpState)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eInWarmUpState
+    public static class eInReadyState implements PObserveEvent.PEvent<Void> {
+        public eInReadyState() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eInReadyState that = (eInReadyState)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eInReadyState
+    public static class eInBeansGrindingState implements PObserveEvent.PEvent<Void> {
+        public eInBeansGrindingState() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eInBeansGrindingState that = (eInBeansGrindingState)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eInBeansGrindingState
+    public static class eInCoffeeBrewingState implements PObserveEvent.PEvent<Void> {
+        public eInCoffeeBrewingState() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eInCoffeeBrewingState that = (eInCoffeeBrewingState)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eInCoffeeBrewingState
+    public static class eErrorHappened implements PObserveEvent.PEvent<Void> {
+        public eErrorHappened() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eErrorHappened that = (eErrorHappened)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eErrorHappened
+    public static class eResetPerformed implements PObserveEvent.PEvent<Void> {
+        public eResetPerformed() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            eResetPerformed that = (eResetPerformed)o;
+            return Values.deepEquals(this.payload, that.payload);
+        }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eResetPerformed
 
     // PMachine EspressoCoffeeMaker elided
     // PMachine CoffeeMakerControlPanel elided

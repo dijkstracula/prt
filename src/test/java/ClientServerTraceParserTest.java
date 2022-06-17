@@ -24,8 +24,7 @@ public class ClientServerTraceParserTest {
         };
 
         List<PObserveEvent> evs = ClientServerTraceParser
-                .eventsFrom(Arrays.stream(lines))
-                .toList();
+                .eventsFrom(Arrays.stream(lines)).toList();
 
         assertEquals(evs.size(), 0);
     }

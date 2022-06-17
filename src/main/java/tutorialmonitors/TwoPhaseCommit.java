@@ -1,12 +1,12 @@
 package tutorialmonitors;
 import events.PObserveEvent;
+
 import prt.*;
 
 import java.text.MessageFormat;
 import java.util.*;
-
 /***************************************************************************
- * This file was auto-generated on Tuesday, 14 June 2022 at 12:22:08.
+ * This file was auto-generated on Friday, 17 June 2022 at 14:23:46.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -40,6 +40,19 @@ public class TwoPhaseCommit {
         public PTuple_key_val_transId deepClone() {
             return new PTuple_key_val_transId(key, val, transId);
         } // deepClone()
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PTuple_key_val_transId that = (PTuple_key_val_transId) o;
+            return val == that.val && transId == that.transId && Objects.equals(key, that.key);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, val, transId);
+        }
 
         public boolean deepEquals(PTuple_key_val_transId other) {
             return (true
@@ -79,6 +92,12 @@ public class TwoPhaseCommit {
             return new PTuple_client_trans(client, trans.deepClone());
         } // deepClone()
 
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_client_trans)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_client_trans other) {
             return (true
                     && this.client == other.client
@@ -115,6 +134,12 @@ public class TwoPhaseCommit {
             return new PTuple_transId_status(transId, status);
         } // deepClone()
 
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_transId_status)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_transId_status other) {
             return (true
                     && this.transId == other.transId
@@ -150,6 +175,12 @@ public class TwoPhaseCommit {
         public PTuple_client_key deepClone() {
             return new PTuple_client_key(client, key);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_client_key)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_client_key other) {
             return (true
@@ -189,6 +220,12 @@ public class TwoPhaseCommit {
         public PTuple_key_val_status deepClone() {
             return new PTuple_key_val_status(key, val, status);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_key_val_status)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_key_val_status other) {
             return (true
@@ -230,6 +267,12 @@ public class TwoPhaseCommit {
         public PTuple_participant_transId_status deepClone() {
             return new PTuple_participant_transId_status(participant, transId, status);
         } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_participant_transId_status)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_participant_transId_status other) {
             return (true
@@ -275,6 +318,12 @@ public class TwoPhaseCommit {
             return new PTuple_numClients_numParticipants_numTransPerClient_failParticipants(numClients, numParticipants, numTransPerClient, failParticipants);
         } // deepClone()
 
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_numClients_numParticipants_numTransPerClient_failParticipants)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_numClients_numParticipants_numTransPerClient_failParticipants other) {
             return (true
                     && this.numClients == other.numClients
@@ -315,6 +364,12 @@ public class TwoPhaseCommit {
             return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
         } // deepClone()
 
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_nodes_nFailures)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_nodes_nFailures other) {
             return (true
                     && Values.deepEquals(this.nodes, other.nodes)
@@ -334,24 +389,222 @@ public class TwoPhaseCommit {
 
 
     /** Events */
-    public record DefaultEvent() implements PObserveEvent.PEvent { }
-    public record PHalt() implements PObserveEvent.PEvent { }
-    public record eWriteTransReq(PTuple_client_trans payload) implements PObserveEvent.PEvent { }
-    public record eWriteTransResp(PTuple_transId_status payload) implements PObserveEvent.PEvent { }
-    public record eReadTransReq(PTuple_client_key payload) implements PObserveEvent.PEvent { }
-    public record eReadTransResp(PTuple_key_val_status payload) implements PObserveEvent.PEvent { }
-    public record ePrepareReq(PTuple_key_val_transId payload) implements PObserveEvent.PEvent { }
-    public record ePrepareResp(PTuple_participant_transId_status payload) implements PObserveEvent.PEvent { }
-    public record eCommitTrans(int payload) implements PObserveEvent.PEvent { }
-    public record eAbortTrans(int payload) implements PObserveEvent.PEvent { }
-    public record eInformCoordinator(long payload) implements PObserveEvent.PEvent { }
-    public record eMonitor_AtomicityInitialize(int payload) implements PObserveEvent.PEvent { }
-    public record eStartTimer() implements PObserveEvent.PEvent { }
-    public record eCancelTimer() implements PObserveEvent.PEvent { }
-    public record eTimeOut() implements PObserveEvent.PEvent { }
-    public record eDelayedTimeOut() implements PObserveEvent.PEvent { }
-    public record eDelayNodeFailure() implements PObserveEvent.PEvent { }
-    public record eShutDown(long payload) implements PObserveEvent.PEvent { }
+    public static class DefaultEvent implements PObserveEvent.PEvent<Void> {
+        public DefaultEvent() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for DefaultEvent
+    public static class PHalt implements PObserveEvent.PEvent<Void> {
+        public PHalt() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for PHalt
+    public static class eWriteTransReq implements PObserveEvent.PEvent<PTuple_client_trans> {
+        public eWriteTransReq(PTuple_client_trans p) { this.payload = p; }
+        private PTuple_client_trans payload;
+        public PTuple_client_trans getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eWriteTransReq
+    public static class eWriteTransResp implements PObserveEvent.PEvent<PTuple_transId_status> {
+        public eWriteTransResp(PTuple_transId_status p) { this.payload = p; }
+        private PTuple_transId_status payload;
+        public PTuple_transId_status getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eWriteTransResp
+    public static class eReadTransReq implements PObserveEvent.PEvent<PTuple_client_key> {
+        public eReadTransReq(PTuple_client_key p) { this.payload = p; }
+        private PTuple_client_key payload;
+        public PTuple_client_key getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eReadTransReq
+    public static class eReadTransResp implements PObserveEvent.PEvent<PTuple_key_val_status> {
+        public eReadTransResp(PTuple_key_val_status p) { this.payload = p; }
+        private PTuple_key_val_status payload;
+        public PTuple_key_val_status getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eReadTransResp
+    public static class ePrepareReq implements PObserveEvent.PEvent<PTuple_key_val_transId> {
+        public ePrepareReq(PTuple_key_val_transId p) { this.payload = p; }
+        private PTuple_key_val_transId payload;
+        public PTuple_key_val_transId getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for ePrepareReq
+    public static class ePrepareResp implements PObserveEvent.PEvent<PTuple_participant_transId_status> {
+        public ePrepareResp(PTuple_participant_transId_status p) { this.payload = p; }
+        private PTuple_participant_transId_status payload;
+        public PTuple_participant_transId_status getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for ePrepareResp
+    public static class eCommitTrans implements PObserveEvent.PEvent<Integer> {
+        public eCommitTrans(int p) { this.payload = p; }
+        private Integer payload;
+        public Integer getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCommitTrans
+    public static class eAbortTrans implements PObserveEvent.PEvent<Integer> {
+        public eAbortTrans(int p) { this.payload = p; }
+        private Integer payload;
+        public Integer getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eAbortTrans
+    public static class eInformCoordinator implements PObserveEvent.PEvent<Long> {
+        public eInformCoordinator(long p) { this.payload = p; }
+        private Long payload;
+        public Long getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eInformCoordinator
+    public static class eMonitor_AtomicityInitialize implements PObserveEvent.PEvent<Integer> {
+        public eMonitor_AtomicityInitialize(int p) { this.payload = p; }
+        private Integer payload;
+        public Integer getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eMonitor_AtomicityInitialize
+    public static class eStartTimer implements PObserveEvent.PEvent<Void> {
+        public eStartTimer() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eStartTimer
+    public static class eCancelTimer implements PObserveEvent.PEvent<Void> {
+        public eCancelTimer() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eCancelTimer
+    public static class eTimeOut implements PObserveEvent.PEvent<Void> {
+        public eTimeOut() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eTimeOut
+    public static class eDelayedTimeOut implements PObserveEvent.PEvent<Void> {
+        public eDelayedTimeOut() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eDelayedTimeOut
+    public static class eDelayNodeFailure implements PObserveEvent.PEvent<Void> {
+        public eDelayNodeFailure() { }
+        private Void payload;
+        public Void getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eDelayNodeFailure
+    public static class eShutDown implements PObserveEvent.PEvent<Long> {
+        public eShutDown(long p) { this.payload = p; }
+        private Long payload;
+        public Long getPayload() { return payload; }
+
+        @Override
+        public boolean equals(Object o) { return Values.deepEquals(this, o); }
+
+        @Override
+        public int hashCode() { return Objects.hash(payload); }
+
+    } // PEvent definition for eShutDown
 
     // PMachine Coordinator elided
     // PMachine Participant elided
@@ -366,13 +619,11 @@ public class TwoPhaseCommit {
         public String INIT_STATE = "Init";
         public String WAITFOREVENTS_STATE = "WaitForEvents";
 
-        private void Anon(eMonitor_AtomicityInitialize pEvent) {
-            int n = pEvent.payload;
+        private void Anon(int n) {
 
             numParticipants = n;
         }
-        private void Anon_1(ePrepareResp pEvent) {
-            PTuple_participant_transId_status resp = pEvent.payload;
+        private void Anon_1(PTuple_participant_transId_status resp) {
             int transId = 0;
             int TMP_tmp0 = 0;
             int TMP_tmp1 = 0;
@@ -403,8 +654,7 @@ public class TwoPhaseCommit {
             TMP_tmp9 = TMP_tmp8 + 1;
             participantsResponse.get(transId).put(TMP_tmp5,TMP_tmp9);
         }
-        private void Anon_2(eWriteTransResp pEvent) {
-            PTuple_transId_status resp_1 = pEvent.payload;
+        private void Anon_2(PTuple_transId_status resp_1) {
             int TMP_tmp0_1 = 0;
             boolean TMP_tmp1_1 = false;
             int TMP_tmp2_1 = 0;
@@ -521,13 +771,13 @@ public class TwoPhaseCommit {
         public String WAITFORRESPONSES_STATE = "WaitForResponses";
         public String ALLTRANSACTIONSFINISHED_STATE = "AllTransactionsFinished";
 
-        private void Anon_3(eWriteTransReq pEvent) {
+        private void Anon_3() {
             int TMP_tmp0_2 = 0;
 
             TMP_tmp0_2 = pendingTransactions + 1;
             pendingTransactions = TMP_tmp0_2;
         }
-        private void Anon_4(eWriteTransResp pEvent)throws TransitionException {
+        private void Anon_4()throws TransitionException {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
 
@@ -539,13 +789,13 @@ public class TwoPhaseCommit {
                 return;
             }
         }
-        private void Anon_5(eWriteTransReq pEvent) {
+        private void Anon_5() {
             int TMP_tmp0_4 = 0;
 
             TMP_tmp0_4 = pendingTransactions + 1;
             pendingTransactions = TMP_tmp0_4;
         }
-        private void Anon_6(eWriteTransReq pEvent) {
+        private void Anon_6() {
             int TMP_tmp0_5 = 0;
 
             TMP_tmp0_5 = pendingTransactions + 1;
@@ -556,16 +806,16 @@ public class TwoPhaseCommit {
             super();
             addState(new State.Builder(INIT_STATE)
                     .isInitialState(true)
-                    .withEvent(eWriteTransReq.class, e -> { Anon_3(e); gotoState(WAITFORRESPONSES_STATE); })
+                    .withEvent(eWriteTransReq.class, __ -> { Anon_3(); gotoState(WAITFORRESPONSES_STATE); })
                     .build());
             addState(new State.Builder(WAITFORRESPONSES_STATE)
                     .isInitialState(false)
-                    .withEvent(eWriteTransResp.class, this::Anon_4)
-                    .withEvent(eWriteTransReq.class, this::Anon_5)
+                    .withEvent(eWriteTransResp.class, __ -> Anon_4())
+                    .withEvent(eWriteTransReq.class, __ -> Anon_5())
                     .build());
             addState(new State.Builder(ALLTRANSACTIONSFINISHED_STATE)
                     .isInitialState(false)
-                    .withEvent(eWriteTransReq.class, e -> { Anon_6(e); gotoState(WAITFORRESPONSES_STATE); })
+                    .withEvent(eWriteTransReq.class, __ -> { Anon_6(); gotoState(WAITFORRESPONSES_STATE); })
                     .build());
         } // constructor
     } // Progress monitor definition
