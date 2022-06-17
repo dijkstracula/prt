@@ -9,8 +9,8 @@
         <module name="EventExperiments" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="EventExperiments" target="17" />
+    <bytecodeTargetLevel target="11">
+      <module name="EventExperiments" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

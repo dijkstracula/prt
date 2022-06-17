@@ -6,11 +6,12 @@ import parsers.*;
 import events.PObserveEvent;
 import tutorialmonitors.ClientServer;
 
-import java.sql.Time;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,7 @@ public class ClientServerTraceParserTest {
         };
 
         List<PObserveEvent> evs = ClientServerTraceParser
-                .eventsFrom(Arrays.stream(lines)).toList();
+                .eventsFrom(Arrays.stream(lines)).collect(toList());
 
         assertEquals(evs.size(), 0);
     }
@@ -38,7 +39,7 @@ public class ClientServerTraceParserTest {
 
         List<PObserveEvent> evs = ClientServerTraceParser
                 .eventsFrom(Stream.of(line))
-                .toList();
+                .collect(toList());
 
         assertEquals(1, evs.size());
         assertEquals(new PObserveEvent(
@@ -56,7 +57,7 @@ public class ClientServerTraceParserTest {
 
         List<PObserveEvent> evs = ClientServerTraceParser
                 .eventsFrom(Stream.of(line))
-                .toList();
+                .collect(toList());
 
         assertEquals(1, evs.size());
         assertEquals(
@@ -73,7 +74,7 @@ public class ClientServerTraceParserTest {
 
         List<PObserveEvent> evs = ClientServerTraceParser
                 .eventsFrom(Stream.of(line))
-                .toList();
+                        .collect(toList());
 
         assertEquals(1, evs.size());
         assertEquals(
