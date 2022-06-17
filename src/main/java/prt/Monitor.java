@@ -188,14 +188,22 @@ public class Monitor {
     }
 
     /**
-     * Marks the prt.Monitor as ready to run and consume events.  The initial state's entry handler will be
-     * invoked.
+     * Marks the prt.Monitor as ready to run and consume events.  The initial state's entry handler, which
+     * must be a handler of zero parameters, will be invoked.
      */
     public void ready() {
+        readyImpl(Optional.empty());
+    }
+
+    public void ready(Object payload) {
+        readyImpl(Optional.of(payload));
+    }
+
+    private void readyImpl(Optional<Object> payload) {
         isRunning = true;
 
         State s = startState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
-        handleTransition(s, Optional.empty());
+        handleTransition(s, payload);
     }
 
     /**
