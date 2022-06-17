@@ -144,6 +144,37 @@ public class MonitorTest {
         }
     }
 
+    class GotoStateWithPayloadsMonitorIncludingInitialEntryHandler extends Monitor {
+        private String A_STATE = "A";
+        private String B_STATE = "B";
+        private String C_STATE = "C";
+
+        public List<Object> eventsProcessed; // We'll use this to track what events we've processed
+
+        public GotoStateWithPayloadsMonitorIncludingInitialEntryHandler() {
+            super();
+
+            eventsProcessed = new ArrayList<>();
+
+            addState(new State.Builder(A_STATE)
+                    .isInitialState(true)
+                    .withEntry((String s) -> {
+                        eventsProcessed.add(s);
+                        gotoState(B_STATE, "Hello from prt.State A");
+                    })
+                    .build());
+            addState(new State.Builder(B_STATE)
+                    .withEntry((String s) -> {
+                        eventsProcessed.add(s);
+                        gotoState(C_STATE, "Hello from prt.State B");
+                    })
+                    .build());
+            addState(new State.Builder(C_STATE)
+                    .withEntry((String s) -> eventsProcessed.add(s))
+                    .build());
+        }
+    }
+
 
     class GotoStateWithIllTypedPayloadsMonitor extends Monitor {
         private String A_STATE = "A";
@@ -344,11 +375,32 @@ public class MonitorTest {
     }
 
     @Test
+    @DisplayName("Payloads can be passed to entry handlers through ready()")
+    void testChainedEntryHandlersWithPayloadsIncludingInitialEntryHandler() {
+        GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
+                new GotoStateWithPayloadsMonitorIncludingInitialEntryHandler();
+        m.ready("Hello from the caller!");
+
+        assertTrue(m.eventsProcessed.equals(
+                List.of("Hello from the caller!",
+                        "Hello from prt.State A",
+                        "Hello from prt.State B")));
+    }
+
+    @Test
     @DisplayName("Ill-typed payload handlers throw")
     void testChainedEntryHandlersWithIllTypedPayloads() {
         GotoStateWithIllTypedPayloadsMonitor m = new GotoStateWithIllTypedPayloadsMonitor();
 
         assertThrows(GotoPayloadClassException.class, () -> m.ready());
+    }
+
+    @Test
+    @DisplayName("Ill-typed ready() argument causes throw")
+    void testIllTypedReadyCallThrows() {
+        GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
+                new GotoStateWithPayloadsMonitorIncludingInitialEntryHandler();
+        assertThrows(GotoPayloadClassException.class, () -> m.ready(Integer.valueOf(42)));
     }
 
     @Test
