@@ -1,5 +1,7 @@
 package prt;
 
+import events.PObserveEvent;
+
 /**
  * Thrown when a given prt.State has no handler for a given Event.
  */

@@ -1,5 +1,7 @@
 package prt;
 
+import events.PObserveEvent;
+
 /**
  * Thrown by an event handler when execution of the handler should be interrupted
  * and restarted with a new event.

@@ -1,4 +1,4 @@
-package prt;
+package events;
 
 /**
  * This is meant to stub out a PObserve event that will terminate at a sink such as the Java
@@ -7,7 +7,7 @@ package prt;
  * @param ts Some timestamp set by a PObserve source.
  * @param pEvent The P event of interest to us.
  */
-public record PObserveEvent(int ts, PEvent pEvent) {
+public record PObserveEvent(TimestampInterval ts, PEvent pEvent) {
     public interface PEvent {
     }
 }
