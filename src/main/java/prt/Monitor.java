@@ -129,7 +129,7 @@ public class Monitor {
 
         logger.info(PROCESSING_MARKER, new StringMapMessage().with("event", p));
 
-        Optional<State.TransitionableConsumer<PObserveEvent.PEvent>> oc = currentState.getHandler(p.getClass());
+        Optional<State.TransitionableConsumer<Object>> oc = currentState.getHandler(p.getClass());
         if (oc.isEmpty()) {
             logger.atFatal().log(currentState + " missing event handler for " + p.getClass().getSimpleName());
             throw new UnhandledEventException(currentState, p.getClass());
@@ -137,7 +137,7 @@ public class Monitor {
 
         try {
             // Run the event handler, knowing that it might cause:
-            oc.get().accept(p);
+            oc.get().accept(p.getPayload());
         } catch (TransitionException e) {
             // ...A state transition: if it does, run entry/exit handlers and swap out the state.
             handleTransition(e.getTargetState(), e.getPayload());
@@ -149,7 +149,7 @@ public class Monitor {
             // with the runtime type of `p`.  This is a code generation or programming error.
             throw new GotoPayloadClassException(p, currentState);
         }
-}
+    }
 
     /**
      * Transitions to `s` by invoking the current state's exit handler and the new state's

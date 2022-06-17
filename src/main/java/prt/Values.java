@@ -213,10 +213,11 @@ public class Values {
             }
 
             if (o1 instanceof PObserveEvent && o2 instanceof PObserveEvent) {
-                PObserveEvent p1 = (PObserveEvent) o1;
-                PObserveEvent p2 = (PObserveEvent) o2;
-                return p1.ts() == p2.ts() &&
-                        Values.deepEquals(p1.pEvent(), p2.pEvent());
+                return o1.equals(o2);
+            }
+
+            if (o1 instanceof PObserveEvent.PEvent  && o2 instanceof PObserveEvent.PEvent<?>) {
+                return o1.equals(o2);
             }
 
             // Otherwise, dispatch on the classes.
