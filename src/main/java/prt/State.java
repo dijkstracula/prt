@@ -50,7 +50,7 @@ public class State {
     private boolean isInitialState;
     private String key;
     private Temperature temp;
-    private HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
+    private HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private Optional<TransitionableConsumer<Object>> onEntry;
@@ -93,11 +93,12 @@ public class State {
      * @param clazz the Java Class whose handler we're looking up.
      * @return the handler that a `P` can be called with.
      */
-    public <P extends PObserveEvent.PEvent> Optional<TransitionableConsumer<PObserveEvent.PEvent>> getHandler(Class<P> clazz) {
+    public <P, PE extends PObserveEvent.PEvent<P>> Optional<TransitionableConsumer<P>> getHandler(Class<PE> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
         }
-        return Optional.of(dispatch.get(clazz));
+        TransitionableConsumer<P> handler = (TransitionableConsumer<P>) dispatch.get(clazz);
+        return Optional.of(handler);
     }
 
     /**
@@ -108,7 +109,7 @@ public class State {
 
         private final String key;
         private Temperature temp;
-        private final HashMap<Class<? extends PObserveEvent.PEvent>, TransitionableConsumer<PObserveEvent.PEvent>> dispatch;
+        private final HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch;
 
 
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -149,7 +150,7 @@ public class State {
          * @param clazz the subclass of Payload
          * @param f     the handler to be invoked at runtime.
          */
-        public <P extends PObserveEvent.PEvent> Builder withEvent(Class<P> clazz, TransitionableConsumer<P> f) {
+        public <P, PE extends PObserveEvent.PEvent<P>> Builder withEvent(Class<PE> clazz, TransitionableConsumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
