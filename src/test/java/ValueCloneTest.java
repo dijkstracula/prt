@@ -13,13 +13,13 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can 'clone' a null value")
-    void testNullClone() {
+    public void testNullClone() {
         assertEquals(Values.deepClone(null), null);
     }
 
     @Test
     @DisplayName("Can clone boxed primitive types")
-    void testClonePrimitives() {
+    public void testClonePrimitives() {
         Boolean b = Boolean.valueOf(true);
         assertEquals(Values.deepClone(b), b);
 
@@ -35,7 +35,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can clone lists")
-    void testCloneList() {
+    public void testCloneList() {
         // Ensure the clone completes successfully
         ArrayList<Integer> a1 = new ArrayList<>(List.of(1,2,3,4,5));
         ArrayList<Integer> a2 = (ArrayList<Integer>) Values.deepClone(a1);
@@ -56,7 +56,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can clone sets")
-    void testCloneSet() {
+    public void testCloneSet() {
         // Ensure the clone completes successfully
         LinkedHashSet<Integer> s1 = new LinkedHashSet<>(List.of(1,2,3,4,5));
         LinkedHashSet<Integer> s2 = (LinkedHashSet<Integer>) Values.deepClone(s1);
@@ -71,7 +71,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can clone maps")
-    void testCloneMap() {
+    public void testCloneMap() {
         HashMap<String, Integer> m1 = new HashMap<>(Map.of(
                 "A", 1,
                 "B", 2,
@@ -101,7 +101,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can clone nested collections")
-    void testNestedCollections() {
+    public void testNestedCollections() {
         HashMap<String, ArrayList<Integer>> m1 = new HashMap<>(Map.of(
                 "123", new ArrayList<>(List.of(1,2,3)),
                 "987", new ArrayList<>(List.of(9,8,7))
@@ -136,7 +136,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can clone a tuple")
-    void testPtupleClone() {
+    public void testPtupleClone() {
         PTuple_a t1 = new PTuple_a(new ArrayList<>(List.of(1,2,3)));
         PTuple_a t2 = (PTuple_a) Values.deepClone(t1);
 
@@ -149,7 +149,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Can clone int-extracted enums")
-    void testEnumClone() {
+    public void testEnumClone() {
         int e1 = ClientServer.tWithDrawRespStatus.WITHDRAW_SUCCESS;
         int e2 = (int) Values.deepClone(e1);
         assertTrue(Values.deepEquals(e1, e2));
@@ -157,7 +157,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Cannot clone a non-P value class")
-    void testInvalidCloneOfUnrelatedClass() {
+    public void testInvalidCloneOfUnrelatedClass() {
         // AtomicInteger extends j.l.Number extends j.l.Object - this is a totally
         // distinct class from any P value the Java code generator emits.
         AtomicInteger i = new AtomicInteger(42);
@@ -170,7 +170,7 @@ public class ValueCloneTest {
 
     @Test
     @DisplayName("Cannot clone a subclass of a valid cloneable class")
-    void testInvalidCloneOfSubclass() {
+    public void testInvalidCloneOfSubclass() {
         // LinkedHashSet extends hashSet, but we expect this should fail nonetheless.
         // (Relaxing this criterion would require walking the inheritance tree via
         // reflection, and it isn't clear what the return type of the cloned value would be.)
