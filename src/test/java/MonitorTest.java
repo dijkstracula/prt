@@ -375,6 +375,15 @@ public class MonitorTest {
     }
 
     @Test
+    @DisplayName("ready() cannot be called twice")
+    public void testCantCallReadyTwice() {
+        GotoStateWithPayloadsMonitor m = new GotoStateWithPayloadsMonitor();
+        m.ready();
+        assertThrows(RuntimeException.class, () -> m.ready(), "prt.Monitor is already running.");
+    }
+
+
+    @Test
     @DisplayName("Payloads can be passed to entry handlers through ready()")
     public void testChainedEntryHandlersWithPayloadsIncludingInitialEntryHandler() {
         GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
