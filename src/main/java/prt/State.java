@@ -47,17 +47,30 @@ public class State {
         void run() throws TransitionException;
     }
 
-    private boolean isInitialState;
-    private String key;
-    private Temperature temp;
-    private HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch;
+    private final boolean isInitialState;
+    private final String key;
+    private final Temperature temp;
+    private final HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<TransitionableConsumer<Object>> onEntry;
+    private final Optional<TransitionableConsumer<Object>> onEntry;
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Optional<Runnable> onExit;
+    private final Optional<Runnable> onExit;
 
-    private State() {}
+    private State(
+            HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch,
+            boolean isInitialState,
+            String key,
+            Optional<TransitionableConsumer<Object>> onEntry,
+            Optional<Runnable> onExit,
+            Temperature temp) {
+        this.dispatch = dispatch;
+        this.isInitialState = isInitialState;
+        this.key = key;
+        this.onEntry = onEntry;
+        this.onExit = onExit;
+        this.temp = temp;
+    }
 
     /**
      * Returns the (uniquely-) identifying key for this prt.State, used by the prt.Monitor on state transitions.
@@ -231,16 +244,14 @@ public class State {
          * @return the new prt.State
          */
         public State build() {
-            State s = new State();
-
-            s.dispatch = dispatch;
-            s.isInitialState = isInitialState;
-            s.key = key;
-            s.onEntry = onEntry;
-            s.onExit = onExit;
-            s.temp = temp;
-
-            return s;
+            return new State(
+                    dispatch,
+                    isInitialState,
+                    key,
+                    onEntry,
+                    onExit,
+                    temp
+            );
         }
     }
 }
