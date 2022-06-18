@@ -202,6 +202,9 @@ public class Monitor {
     }
 
     private <P> void readyImpl(Optional<P> payload) {
+        if (isRunning)
+            throw new RuntimeException("prt.Monitor is already running.");
+
         isRunning = true;
 
         State s = startState.orElseThrow(() ->
