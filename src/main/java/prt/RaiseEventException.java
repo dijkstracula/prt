@@ -7,11 +7,12 @@ import events.PObserveEvent;
  * and restarted with a new event.
  */
 public class RaiseEventException extends Exception {
-    private PObserveEvent.PEvent ev;
+    // XXX: We downcast to an Object since a Throwable cannot take type parameters.
+    private final PObserveEvent.PEvent<Object> ev;
 
-    public PObserveEvent.PEvent getEvent() { return ev; }
+    public PObserveEvent.PEvent<Object> getEvent() { return ev; }
 
-    public RaiseEventException(PObserveEvent.PEvent event) {
+    public RaiseEventException(PObserveEvent.PEvent<Object> event) {
         ev = event;
     }
 }

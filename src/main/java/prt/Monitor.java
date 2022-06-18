@@ -73,11 +73,11 @@ public class Monitor {
     /**
      * Interrupts the current event handler and processes the given event in the current state
      * @param ev The event to process.
-     * @throws RaiseEventException
+     * @throws RaiseEventException to context-switch back into the runtime.
      */
-    protected void tryRaiseEvent(PObserveEvent.PEvent ev) throws RaiseEventException
+    protected <P> void tryRaiseEvent(PObserveEvent.PEvent<P> ev) throws RaiseEventException
     {
-        throw new RaiseEventException(ev);
+        throw new RaiseEventException((PObserveEvent.PEvent<Object>) ev);
     }
 
     /**
@@ -120,7 +120,7 @@ public class Monitor {
      * @param p the pEvent.
      * @throws UnhandledEventException if the pEvent's type has no associated handler.
      */
-    public void process(PObserveEvent.PEvent p) throws UnhandledEventException {
+    public <P> void process(PObserveEvent.PEvent<P> p) throws UnhandledEventException {
         Objects.requireNonNull(p);
 
         if (!isRunning) {
@@ -129,26 +129,13 @@ public class Monitor {
 
         logger.info(PROCESSING_MARKER, new StringMapMessage().with("event", p));
 
-        Optional<State.TransitionableConsumer<Object>> oc = currentState.getHandler(p.getClass());
+        Optional<State.TransitionableConsumer<P>> oc = currentState.getHandler(p.getClass());
         if (oc.isEmpty()) {
             logger.atFatal().log(currentState + " missing event handler for " + p.getClass().getSimpleName());
             throw new UnhandledEventException(currentState, p.getClass());
         }
 
-        try {
-            // Run the event handler, knowing that it might cause:
-            oc.get().accept(p.getPayload());
-        } catch (TransitionException e) {
-            // ...A state transition: if it does, run entry/exit handlers and swap out the state.
-            handleTransition(e.getTargetState(), e.getPayload());
-        } catch (RaiseEventException e) {
-            // ...An event to be raised.  If it does, process the event in the current state.
-            process(e.getEvent());
-        } catch (ClassCastException e2) {
-            // ...An invalid cast: in the case where the event handler's type parameter is incompatible
-            // with the runtime type of `p`.  This is a code generation or programming error.
-            throw new GotoPayloadClassException(p, currentState);
-        }
+        invokeWithTrampoline(oc.get(), p.getPayload());
     }
 
     /**
@@ -156,7 +143,7 @@ public class Monitor {
      * entry handler, and updating internal bookkeeping.
      * @param s The new state.
      */
-    private void handleTransition(State s, Optional<Object> payload) {
+    private <P> void handleTransition(State s, Optional<P> payload) {
         if (!isRunning) {
             throw new RuntimeException("prt.Monitor is not running (did you call ready()?)");
         }
@@ -166,24 +153,34 @@ public class Monitor {
         currentState.getOnExit().ifPresent(Runnable::run);
         currentState = s;
 
-        Optional<State.TransitionableConsumer<Object>> entry = currentState.getOnEntry();
-        if (entry.isPresent()) {
-            State.TransitionableConsumer<Object> handler = entry.get();
+        currentState.getOnEntry().ifPresent(handler -> {
             Object p = payload.orElse(null);
-            try {
-                // Run the event handler, knowing that it might cause:
-                handler.accept(p);
-            } catch (TransitionException e2) {
-                // ...A state transition: if it does, run entry/exit handlers and swap out the state.
-                handleTransition(e2.getTargetState(), e2.getPayload());
-            } catch (RaiseEventException e2) {
-                // ...An event to be raised.  If it does, process the event in the current state.
-                process(e2.getEvent());
-            } catch (ClassCastException e2) {
-                // ...An invalid cast: in the case where the event handler's type parameter is incompatible
-                // with the runtime type of `p`.  This is a code generation or programming error.
-                throw new GotoPayloadClassException(p, currentState);
-            }
+            invokeWithTrampoline(handler, p);
+        });
+    }
+
+    /**
+     * Invokes a given Consumer, handling all its checked exceptions.
+     * @param handler The TransitionableConsumer to be invoked.
+     * @param o The argument to handler.
+     * @param <P> The type to be consumed by the handler.
+     */
+    private <P> void invokeWithTrampoline(State.TransitionableConsumer<P> handler, P o)
+    {
+        try {
+            // Run the event handler, knowing that it might cause:
+            handler.accept(o);
+        } catch (TransitionException e) {
+            // ...A state transition: if it does, run the exit handler, context-switch, and run
+            // the new state's entry handler.
+            handleTransition(e.getTargetState(), e.getPayload());
+        } catch (RaiseEventException e) {
+            // ...An event to be raised.  If it does, process the event in the current state.
+            process(e.getEvent());
+        } catch (ClassCastException e) {
+            // ...An invalid cast: in the case where the event handler's type parameter is incompatible
+            // with the runtime type of `p`.  This is a code generation or programming error.
+            throw new GotoPayloadClassException(o, currentState);
         }
     }
 
@@ -195,14 +192,20 @@ public class Monitor {
         readyImpl(Optional.empty());
     }
 
-    public void ready(Object payload) {
+    /**
+     * Marks the Monitor as ready to run and consume events.  The initial state's entry handler, which must
+     * be a handler that consumes a payload of type P, will be invoked with the given argument.
+     * @param payload The argument to the initial state's entry handler.
+     */
+    public <P> void ready(P payload) {
         readyImpl(Optional.of(payload));
     }
 
-    private void readyImpl(Optional<Object> payload) {
+    private <P> void readyImpl(Optional<P> payload) {
         isRunning = true;
 
-        State s = startState.orElseThrow(() -> new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
+        State s = startState.orElseThrow(() ->
+                new RuntimeException("No initial state set (did you specify an initial state, or is the machine halted?)"));
         handleTransition(s, payload);
     }
 
