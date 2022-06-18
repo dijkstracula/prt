@@ -317,7 +317,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Monitors require exactly one default state")
-    void testDefaultStateConstruction() {
+    public void testDefaultStateConstruction() {
         Throwable e;
 
         e = assertThrows(RuntimeException.class, () -> new NoDefaultStateMonitor().ready());
@@ -329,7 +329,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Monitors require unique states")
-    void testNonUniqueStateKeyConstruction() {
+    public void testNonUniqueStateKeyConstruction() {
         Throwable e;
         e = assertThrows(RuntimeException.class, () -> new NonUniqueStateKeyMonitor().ready());
         assertTrue(e.getMessage().contains("prt.State already present"));
@@ -337,7 +337,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Monitors must be ready()ied before events can be processed")
-    void testNonReadyMonitors() {
+    public void testNonReadyMonitors() {
         CounterMonitor m = new CounterMonitor();
         Throwable e = assertThrows(RuntimeException.class, () -> m.process(m.new AddEvent(42)));
         assertTrue(e.getMessage().contains("not running"));
@@ -345,7 +345,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("prt.Monitor can process ghost state-mutating events")
-    void testStateMutationOnEvent() {
+    public void testStateMutationOnEvent() {
         CounterMonitor m = new CounterMonitor();
         m.ready();
 
@@ -358,7 +358,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Chained gotos in entry handlers work")
-    void testChainedEntryHandlers() {
+    public void testChainedEntryHandlers() {
         ChainedEntryHandlerMonitor m = new ChainedEntryHandlerMonitor();
         m.ready();
 
@@ -367,7 +367,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Payloads can be passed to entry handlers")
-    void testChainedEntryHandlersWithPayloads() {
+    public void testChainedEntryHandlersWithPayloads() {
         GotoStateWithPayloadsMonitor m = new GotoStateWithPayloadsMonitor();
         m.ready();
 
@@ -376,7 +376,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Payloads can be passed to entry handlers through ready()")
-    void testChainedEntryHandlersWithPayloadsIncludingInitialEntryHandler() {
+    public void testChainedEntryHandlersWithPayloadsIncludingInitialEntryHandler() {
         GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
                 new GotoStateWithPayloadsMonitorIncludingInitialEntryHandler();
         m.ready("Hello from the caller!");
@@ -389,7 +389,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Event handlers consuuming arguments in ready() must consume them!")
-    void testInitialEntryHandlerMustHaveAnArg() {
+    public void testInitialEntryHandlerMustHaveAnArg() {
         GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
                 new GotoStateWithPayloadsMonitorIncludingInitialEntryHandler();
         assertThrows(NullPointerException.class, () -> m.ready());
@@ -397,7 +397,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Ill-typed payload handlers throw")
-    void testChainedEntryHandlersWithIllTypedPayloads() {
+    public void testChainedEntryHandlersWithIllTypedPayloads() {
         GotoStateWithIllTypedPayloadsMonitor m = new GotoStateWithIllTypedPayloadsMonitor();
 
         assertThrows(GotoPayloadClassException.class, () -> m.ready());
@@ -405,7 +405,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Ill-typed ready() argument causes throw")
-    void testIllTypedReadyCallThrows() {
+    public void testIllTypedReadyCallThrows() {
         GotoStateWithPayloadsMonitorIncludingInitialEntryHandler m =
                 new GotoStateWithPayloadsMonitorIncludingInitialEntryHandler();
         assertThrows(GotoPayloadClassException.class, () -> m.ready(Integer.valueOf(42)));
@@ -413,7 +413,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("Assertion failures throw")
-    void testAssertionFailureDoesThrow() {
+    public void testAssertionFailureDoesThrow() {
         ImmediateAssertionMonitor m = new ImmediateAssertionMonitor();
         Throwable e = assertThrows(PAssertionFailureException.class,
                 () -> m.ready(), "Assertion failed: Math works");
@@ -421,7 +421,7 @@ public class MonitorTest {
 
     @Test
     @DisplayName("tryRaiseEvent interrupts control flow")
-    void testTryRaiseEvent() {
+    public void testTryRaiseEvent() {
         RaiseEventMonitor m = new RaiseEventMonitor();
         m.ready();
 
