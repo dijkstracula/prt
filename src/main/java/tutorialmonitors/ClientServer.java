@@ -7,7 +7,7 @@ import events.PObserveEvent;
 import prt.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 17 June 2022 at 16:18:41.
+ * This file was auto-generated on Monday, 20 June 2022 at 16:59:34.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -204,21 +204,10 @@ public class ClientServer {
 
 
     /** Events */
-    public static class DefaultEvent implements PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            DefaultEvent that = (DefaultEvent)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -226,21 +215,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt implements PObserveEvent.PEvent<Void> {
+    public static class PHalt extends PObserveEvent.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            PHalt that = (PHalt)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -248,21 +226,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class eUpdateQuery implements PObserveEvent.PEvent<PTuple_accountId_balance> {
+    public static class eUpdateQuery extends PObserveEvent.PEvent<PTuple_accountId_balance> {
         public eUpdateQuery(PTuple_accountId_balance p) { this.payload = p; }
         private PTuple_accountId_balance payload;
         public PTuple_accountId_balance getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eUpdateQuery that = (eUpdateQuery)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -270,21 +237,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eUpdateQuery
-    public static class eReadQuery implements PObserveEvent.PEvent<PTuple_accountId> {
+    public static class eReadQuery extends PObserveEvent.PEvent<PTuple_accountId> {
         public eReadQuery(PTuple_accountId p) { this.payload = p; }
         private PTuple_accountId payload;
         public PTuple_accountId getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eReadQuery that = (eReadQuery)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -292,21 +248,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eReadQuery
-    public static class eReadQueryResp implements PObserveEvent.PEvent<PTuple_accountId_balance> {
+    public static class eReadQueryResp extends PObserveEvent.PEvent<PTuple_accountId_balance> {
         public eReadQueryResp(PTuple_accountId_balance p) { this.payload = p; }
         private PTuple_accountId_balance payload;
         public PTuple_accountId_balance getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eReadQueryResp that = (eReadQueryResp)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -314,21 +259,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eReadQueryResp
-    public static class eWithDrawReq implements PObserveEvent.PEvent<PTuple_source_accountId_amount_rId> {
+    public static class eWithDrawReq extends PObserveEvent.PEvent<PTuple_source_accountId_amount_rId> {
         public eWithDrawReq(PTuple_source_accountId_amount_rId p) { this.payload = p; }
         private PTuple_source_accountId_amount_rId payload;
         public PTuple_source_accountId_amount_rId getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eWithDrawReq that = (eWithDrawReq)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -336,21 +270,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eWithDrawReq
-    public static class eWithDrawResp implements PObserveEvent.PEvent<PTuple_status_accountId_balance_rId> {
+    public static class eWithDrawResp extends PObserveEvent.PEvent<PTuple_status_accountId_balance_rId> {
         public eWithDrawResp(PTuple_status_accountId_balance_rId p) { this.payload = p; }
         private PTuple_status_accountId_balance_rId payload;
         public PTuple_status_accountId_balance_rId getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eWithDrawResp that = (eWithDrawResp)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -358,21 +281,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eWithDrawResp
-    public static class eSpec_BankBalanceIsAlwaysCorrect_Init implements PObserveEvent.PEvent<HashMap<Integer,Integer>> {
+    public static class eSpec_BankBalanceIsAlwaysCorrect_Init extends PObserveEvent.PEvent<HashMap<Integer,Integer>> {
         public eSpec_BankBalanceIsAlwaysCorrect_Init(HashMap<Integer,Integer> p) { this.payload = p; }
         private HashMap<Integer,Integer> payload;
         public HashMap<Integer,Integer> getPayload() { return payload; }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eSpec_BankBalanceIsAlwaysCorrect_Init that = (eSpec_BankBalanceIsAlwaysCorrect_Init)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
 
         @Override
         public String toString() {
@@ -545,7 +457,7 @@ public class ClientServer {
             super();
             addState(new State.Builder(INIT_STATE)
                     .isInitialState(true)
-                    .withEvent(eSpec_BankBalanceIsAlwaysCorrect_Init.class, e -> { Anon(e); gotoState(WAITFORWITHDRAWREQANDRESP_STATE); })
+                    .withEvent(eSpec_BankBalanceIsAlwaysCorrect_Init.class, p -> { Anon(p); gotoState(WAITFORWITHDRAWREQANDRESP_STATE); })
                     .build());
             addState(new State.Builder(WAITFORWITHDRAWREQANDRESP_STATE)
                     .isInitialState(false)
@@ -604,12 +516,12 @@ public class ClientServer {
             super();
             addState(new State.Builder(NOPENDINGREQUESTS_STATE)
                     .isInitialState(true)
-                    .withEvent(eWithDrawReq.class, e -> { Anon_3(e); gotoState(PENDINGREQS_STATE); })
+                    .withEvent(eWithDrawReq.class, p -> { Anon_3(p); gotoState(PENDINGREQS_STATE); })
                     .build());
             addState(new State.Builder(PENDINGREQS_STATE)
                     .isInitialState(false)
                     .withEvent(eWithDrawResp.class, this::Anon_4)
-                    .withEvent(eWithDrawReq.class, e -> { Anon_5(e); gotoState(PENDINGREQS_STATE); })
+                    .withEvent(eWithDrawReq.class, p -> { Anon_5(p); gotoState(PENDINGREQS_STATE); })
                     .build());
         } // constructor
     } // GuaranteedWithDrawProgress monitor definition

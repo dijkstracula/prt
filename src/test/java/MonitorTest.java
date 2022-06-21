@@ -55,17 +55,7 @@ public class MonitorTest {
      */
     class CounterMonitor extends Monitor {
 
-        class AddEvent implements PObserveEvent.PEvent<Integer> {
-            @Override
-            public boolean equals(Object o) {
-                return Values.deepEquals(this, o);
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(payload);
-            }
-
+        class AddEvent extends PObserveEvent.PEvent<Integer> {
             private int payload;
             public AddEvent(int payload) {
                 this.payload = payload;
@@ -249,13 +239,13 @@ public class MonitorTest {
 
 
         /** Events */
-        public class DefaultEvent implements PObserveEvent.PEvent<Void> {
+        public class DefaultEvent extends PObserveEvent.PEvent<Void> {
             public Void getPayload() { return null; }
         }
-        public  class PHalt implements PObserveEvent.PEvent<Void> {
+        public  class PHalt extends PObserveEvent.PEvent<Void> {
             public Void getPayload() { return null; }
         }
-        public class ev implements PObserveEvent.PEvent<PTuple_a> {
+        public class ev extends PObserveEvent.PEvent<PTuple_a> {
             private PTuple_a payload;
             public ev(PTuple_a payload) {
                 this.payload = payload;
@@ -295,10 +285,10 @@ public class MonitorTest {
         private String INIT_STATE = "Init";
 
 
-        public class testEvent implements PObserveEvent.PEvent<Void> {
+        public class testEvent extends PObserveEvent.PEvent<Void> {
             public Void getPayload() { return null; }
         }
-        public class noopEvent implements PObserveEvent.PEvent<Void> {
+        public class noopEvent extends PObserveEvent.PEvent<Void> {
             public Void getPayload() { return null; }
         }
 

@@ -38,7 +38,20 @@ public class PObserveEvent<P> {
         return Objects.hash(ts, pEvent);
     }
 
-    public interface PEvent<P> {
-        public P getPayload();
+    public static abstract class PEvent<P> {
+        public abstract P getPayload();
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PEvent<?> that = (PEvent<?>) o;
+            return Values.deepEquals(this.getPayload(), that.getPayload());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.getPayload());
+        }
     }
 }

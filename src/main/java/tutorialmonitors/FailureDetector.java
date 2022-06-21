@@ -7,7 +7,7 @@ import events.PObserveEvent;
 import prt.*;
 
 /***************************************************************************
- * This file was auto-generated on Friday, 17 June 2022 at 14:33:58.
+ * This file was auto-generated on Monday, 20 June 2022 at 17:02:11.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -185,191 +185,125 @@ public class FailureDetector {
 
 
     /** Events */
-    public static class DefaultEvent implements PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            DefaultEvent that = (DefaultEvent)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "DefaultEvent";
+        } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt implements PObserveEvent.PEvent<Void> {
+    public static class PHalt extends PObserveEvent.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            PHalt that = (PHalt)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "PHalt";
+        } // toString()
 
     } // PEvent definition for PHalt
-    public static class ePing implements PObserveEvent.PEvent<PTuple_fd_trial> {
+    public static class ePing extends PObserveEvent.PEvent<PTuple_fd_trial> {
         public ePing(PTuple_fd_trial p) { this.payload = p; }
         private PTuple_fd_trial payload;
         public PTuple_fd_trial getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            ePing that = (ePing)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "ePing[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for ePing
-    public static class ePong implements PObserveEvent.PEvent<PTuple_node_trial> {
+    public static class ePong extends PObserveEvent.PEvent<PTuple_node_trial> {
         public ePong(PTuple_node_trial p) { this.payload = p; }
         private PTuple_node_trial payload;
         public PTuple_node_trial getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            ePong that = (ePong)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "ePong[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for ePong
-    public static class eNotifyNodesDown implements PObserveEvent.PEvent<LinkedHashSet<Long>> {
+    public static class eNotifyNodesDown extends PObserveEvent.PEvent<LinkedHashSet<Long>> {
         public eNotifyNodesDown(LinkedHashSet<Long> p) { this.payload = p; }
         private LinkedHashSet<Long> payload;
         public LinkedHashSet<Long> getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eNotifyNodesDown that = (eNotifyNodesDown)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eNotifyNodesDown[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eNotifyNodesDown
-    public static class eStartTimer implements PObserveEvent.PEvent<Void> {
+    public static class eStartTimer extends PObserveEvent.PEvent<Void> {
         public eStartTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eStartTimer that = (eStartTimer)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eStartTimer";
+        } // toString()
 
     } // PEvent definition for eStartTimer
-    public static class eCancelTimer implements PObserveEvent.PEvent<Void> {
+    public static class eCancelTimer extends PObserveEvent.PEvent<Void> {
         public eCancelTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eCancelTimer that = (eCancelTimer)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eCancelTimer";
+        } // toString()
 
     } // PEvent definition for eCancelTimer
-    public static class eTimeOut implements PObserveEvent.PEvent<Void> {
+    public static class eTimeOut extends PObserveEvent.PEvent<Void> {
         public eTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eTimeOut that = (eTimeOut)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eTimeOut";
+        } // toString()
 
     } // PEvent definition for eTimeOut
-    public static class eDelayedTimeOut implements PObserveEvent.PEvent<Void> {
+    public static class eDelayedTimeOut extends PObserveEvent.PEvent<Void> {
         public eDelayedTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eDelayedTimeOut that = (eDelayedTimeOut)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eDelayedTimeOut";
+        } // toString()
 
     } // PEvent definition for eDelayedTimeOut
-    public static class eDelayNodeFailure implements PObserveEvent.PEvent<Void> {
+    public static class eDelayNodeFailure extends PObserveEvent.PEvent<Void> {
         public eDelayNodeFailure() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eDelayNodeFailure that = (eDelayNodeFailure)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eDelayNodeFailure";
+        } // toString()
 
     } // PEvent definition for eDelayNodeFailure
-    public static class eShutDown implements PObserveEvent.PEvent<Long> {
+    public static class eShutDown extends PObserveEvent.PEvent<Long> {
         public eShutDown(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            eShutDown that = (eShutDown)o;
-            return Values.deepEquals(this.payload, that.payload);
-        }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eShutDown[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eShutDown
 

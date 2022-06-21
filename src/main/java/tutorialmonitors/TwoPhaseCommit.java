@@ -5,8 +5,9 @@ import prt.*;
 
 import java.text.MessageFormat;
 import java.util.*;
+
 /***************************************************************************
- * This file was auto-generated on Friday, 17 June 2022 at 14:23:46.
+ * This file was auto-generated on Monday, 20 June 2022 at 17:00:21.
  * Please do not edit manually!
  **************************************************************************/
 
@@ -41,18 +42,11 @@ public class TwoPhaseCommit {
             return new PTuple_key_val_transId(key, val, transId);
         } // deepClone()
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            PTuple_key_val_transId that = (PTuple_key_val_transId) o;
-            return val == that.val && transId == that.transId && Objects.equals(key, that.key);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key, val, transId);
-        }
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_key_val_transId)other)
+            );
+        } // equals()
 
         public boolean deepEquals(PTuple_key_val_transId other) {
             return (true
@@ -389,220 +383,202 @@ public class TwoPhaseCommit {
 
 
     /** Events */
-    public static class DefaultEvent implements PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "DefaultEvent";
+        } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt implements PObserveEvent.PEvent<Void> {
+    public static class PHalt extends PObserveEvent.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "PHalt";
+        } // toString()
 
     } // PEvent definition for PHalt
-    public static class eWriteTransReq implements PObserveEvent.PEvent<PTuple_client_trans> {
+    public static class eWriteTransReq extends PObserveEvent.PEvent<PTuple_client_trans> {
         public eWriteTransReq(PTuple_client_trans p) { this.payload = p; }
         private PTuple_client_trans payload;
         public PTuple_client_trans getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eWriteTransReq[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eWriteTransReq
-    public static class eWriteTransResp implements PObserveEvent.PEvent<PTuple_transId_status> {
+    public static class eWriteTransResp extends PObserveEvent.PEvent<PTuple_transId_status> {
         public eWriteTransResp(PTuple_transId_status p) { this.payload = p; }
         private PTuple_transId_status payload;
         public PTuple_transId_status getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eWriteTransResp[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eWriteTransResp
-    public static class eReadTransReq implements PObserveEvent.PEvent<PTuple_client_key> {
+    public static class eReadTransReq extends PObserveEvent.PEvent<PTuple_client_key> {
         public eReadTransReq(PTuple_client_key p) { this.payload = p; }
         private PTuple_client_key payload;
         public PTuple_client_key getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eReadTransReq[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eReadTransReq
-    public static class eReadTransResp implements PObserveEvent.PEvent<PTuple_key_val_status> {
+    public static class eReadTransResp extends PObserveEvent.PEvent<PTuple_key_val_status> {
         public eReadTransResp(PTuple_key_val_status p) { this.payload = p; }
         private PTuple_key_val_status payload;
         public PTuple_key_val_status getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eReadTransResp[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eReadTransResp
-    public static class ePrepareReq implements PObserveEvent.PEvent<PTuple_key_val_transId> {
+    public static class ePrepareReq extends PObserveEvent.PEvent<PTuple_key_val_transId> {
         public ePrepareReq(PTuple_key_val_transId p) { this.payload = p; }
         private PTuple_key_val_transId payload;
         public PTuple_key_val_transId getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "ePrepareReq[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for ePrepareReq
-    public static class ePrepareResp implements PObserveEvent.PEvent<PTuple_participant_transId_status> {
+    public static class ePrepareResp extends PObserveEvent.PEvent<PTuple_participant_transId_status> {
         public ePrepareResp(PTuple_participant_transId_status p) { this.payload = p; }
         private PTuple_participant_transId_status payload;
         public PTuple_participant_transId_status getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "ePrepareResp[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for ePrepareResp
-    public static class eCommitTrans implements PObserveEvent.PEvent<Integer> {
+    public static class eCommitTrans extends PObserveEvent.PEvent<Integer> {
         public eCommitTrans(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eCommitTrans[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eCommitTrans
-    public static class eAbortTrans implements PObserveEvent.PEvent<Integer> {
+    public static class eAbortTrans extends PObserveEvent.PEvent<Integer> {
         public eAbortTrans(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eAbortTrans[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eAbortTrans
-    public static class eInformCoordinator implements PObserveEvent.PEvent<Long> {
+    public static class eInformCoordinator extends PObserveEvent.PEvent<Long> {
         public eInformCoordinator(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eInformCoordinator[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eInformCoordinator
-    public static class eMonitor_AtomicityInitialize implements PObserveEvent.PEvent<Integer> {
+    public static class eMonitor_AtomicityInitialize extends PObserveEvent.PEvent<Integer> {
         public eMonitor_AtomicityInitialize(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eMonitor_AtomicityInitialize[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eMonitor_AtomicityInitialize
-    public static class eStartTimer implements PObserveEvent.PEvent<Void> {
+    public static class eStartTimer extends PObserveEvent.PEvent<Void> {
         public eStartTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eStartTimer";
+        } // toString()
 
     } // PEvent definition for eStartTimer
-    public static class eCancelTimer implements PObserveEvent.PEvent<Void> {
+    public static class eCancelTimer extends PObserveEvent.PEvent<Void> {
         public eCancelTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eCancelTimer";
+        } // toString()
 
     } // PEvent definition for eCancelTimer
-    public static class eTimeOut implements PObserveEvent.PEvent<Void> {
+    public static class eTimeOut extends PObserveEvent.PEvent<Void> {
         public eTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eTimeOut";
+        } // toString()
 
     } // PEvent definition for eTimeOut
-    public static class eDelayedTimeOut implements PObserveEvent.PEvent<Void> {
+    public static class eDelayedTimeOut extends PObserveEvent.PEvent<Void> {
         public eDelayedTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eDelayedTimeOut";
+        } // toString()
 
     } // PEvent definition for eDelayedTimeOut
-    public static class eDelayNodeFailure implements PObserveEvent.PEvent<Void> {
+    public static class eDelayNodeFailure extends PObserveEvent.PEvent<Void> {
         public eDelayNodeFailure() { }
         private Void payload;
         public Void getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eDelayNodeFailure";
+        } // toString()
 
     } // PEvent definition for eDelayNodeFailure
-    public static class eShutDown implements PObserveEvent.PEvent<Long> {
+    public static class eShutDown extends PObserveEvent.PEvent<Long> {
         public eShutDown(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
 
         @Override
-        public boolean equals(Object o) { return Values.deepEquals(this, o); }
-
-        @Override
-        public int hashCode() { return Objects.hash(payload); }
+        public String toString() {
+            return "eShutDown[" + payload + "]";
+        } // toString()
 
     } // PEvent definition for eShutDown
 
@@ -753,7 +729,7 @@ public class TwoPhaseCommit {
             super();
             addState(new State.Builder(INIT_STATE)
                     .isInitialState(true)
-                    .withEvent(eMonitor_AtomicityInitialize.class, e -> { Anon(e); gotoState(WAITFOREVENTS_STATE); })
+                    .withEvent(eMonitor_AtomicityInitialize.class, p -> { Anon(p); gotoState(WAITFOREVENTS_STATE); })
                     .build());
             addState(new State.Builder(WAITFOREVENTS_STATE)
                     .isInitialState(false)
