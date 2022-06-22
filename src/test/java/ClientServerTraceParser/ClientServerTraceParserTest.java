@@ -1,10 +1,11 @@
+package ClientServerTraceParser;
+
 import events.TimestampInterval;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import parsers.*;
 import events.PObserveEvent;
-import tutorialmonitors.ClientServer;
+import tutorialmonitors.clientserver.ClientServer;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -45,7 +46,7 @@ public class ClientServerTraceParserTest {
         assertEquals(new PObserveEvent(
                         new TimestampInterval(1L),
                         new ClientServer.eWithDrawReq(
-                                    new ClientServer.PTuple_source_accountId_amount_rId(4L, 0, 2, 1))),
+                                    new ClientServer.PTuple_src_accnt_amnt_rId(4L, 0, 2, 1))),
                     evs.get(0));
     }
 
@@ -63,7 +64,7 @@ public class ClientServerTraceParserTest {
         assertEquals(
                 new PObserveEvent(
                         new TimestampInterval(1L),
-                        new ClientServer.eReadQuery(new ClientServer.PTuple_accountId(0))),
+                        new ClientServer.eReadQuery(new ClientServer.PTuple_accnt(0))),
                 evs.get(0));
     }
 
@@ -80,7 +81,7 @@ public class ClientServerTraceParserTest {
         assertEquals(
                 new PObserveEvent(
                         new TimestampInterval(1L),
-                        new ClientServer.eReadQueryResp(new ClientServer.PTuple_accountId_balance(0, 15))),
+                        new ClientServer.eReadQueryResp(new ClientServer.PTuple_accnt_blnc(0, 15))),
                 evs.get(0));
     }
 
@@ -98,16 +99,16 @@ public class ClientServerTraceParserTest {
         assertEquals(
                 new PObserveEvent(new TimestampInterval(1L),
                     new ClientServer.eWithDrawReq(
-                            new ClientServer.PTuple_source_accountId_amount_rId(4L, 0, 2, 1))),
+                            new ClientServer.PTuple_src_accnt_amnt_rId(4L, 0, 2, 1))),
                 it.next());
         assertEquals(
                 new PObserveEvent(new TimestampInterval(2L),
-                        new ClientServer.eReadQuery(new ClientServer.PTuple_accountId(0))),
+                        new ClientServer.eReadQuery(new ClientServer.PTuple_accnt(0))),
                 it.next());
         assertEquals(
                 new PObserveEvent(new TimestampInterval(3L),
                         new ClientServer.eReadQueryResp(
-                            new ClientServer.PTuple_accountId_balance(0, 15))),
+                            new ClientServer.PTuple_accnt_blnc(0, 15))),
                 it.next());
     }
 }

@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.Values;
-import tutorialmonitors.ClientServer;
+import tutorialmonitors.clientserver.ClientServer;
 
 
 import java.util.*;
@@ -116,11 +116,27 @@ public class ValueCloneTest {
 
 
     // (a:seq[int])
-    static class PTuple_a implements Values.PTuple<PTuple_a> {
+    public static class PTuple_a implements Values.PValue<PTuple_a> {
         public ArrayList<Integer> a;
-        public PTuple_a() { this.a = new ArrayList<Integer>(); }
-        public PTuple_a(ArrayList<Integer> a) { this.a = a; }
-        public PTuple_a deepClone() { return new PTuple_a((ArrayList<Integer>)Values.deepClone(a)); } // deepClone()
+
+        public PTuple_a() {
+            this.a = new ArrayList<Integer>();
+        }
+
+        public PTuple_a(ArrayList<Integer> a) {
+            this.a = a;
+        }
+
+        public PTuple_a deepClone() {
+            return new PTuple_a((ArrayList<Integer>)Values.deepClone(a));
+        } // deepClone()
+
+        public boolean equals(Object other) {
+            return (this.getClass() == other.getClass() &&
+                    this.deepEquals((PTuple_a)other)
+            );
+        } // equals()
+
         public boolean deepEquals(PTuple_a other) {
             return (true
                     && Values.deepEquals(this.a, other.a)
@@ -129,7 +145,9 @@ public class ValueCloneTest {
 
         public String toString() {
             StringBuilder sb = new StringBuilder("PTuple_a");
-            sb.append("["); sb.append("a=" + a); sb.append("]");
+            sb.append("[");
+            sb.append("a=" + a);
+            sb.append("]");
             return sb.toString();
         } // toString()
     } //PTuple_a class definition

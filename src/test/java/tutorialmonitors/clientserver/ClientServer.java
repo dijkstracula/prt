@@ -1,50 +1,50 @@
-package tutorialmonitors;
-
-import java.text.MessageFormat;
-import java.util.*;
-
-import events.PObserveEvent;
-import prt.*;
+package tutorialmonitors.clientserver;
 
 /***************************************************************************
- * This file was auto-generated on Monday, 20 June 2022 at 16:59:34.
+ * This file was auto-generated on Tuesday, 21 June 2022 at 16:08:13.
  * Please do not edit manually!
  **************************************************************************/
 
+import events.PObserveEvent;
+import java.text.MessageFormat;
+import java.util.*;
+import prt.*;
+
+
 public class ClientServer {
-    /** Enums */
+    /* Enums */
     public static class tWithDrawRespStatus {
         public static final int WITHDRAW_SUCCESS = 0;
         public static final int WITHDRAW_ERROR = 1;
     }
 
-    /** Tuples */
+    /* Tuples */
     // (accountId:int,balance:int)
-    public static class PTuple_accountId_balance implements Values.PTuple<PTuple_accountId_balance> {
+    public static class PTuple_accnt_blnc implements Values.PValue<PTuple_accnt_blnc> {
         public int accountId;
         public int balance;
 
-        public PTuple_accountId_balance() {
+        public PTuple_accnt_blnc() {
             this.accountId = 0;
             this.balance = 0;
         }
 
-        public PTuple_accountId_balance(int accountId, int balance) {
+        public PTuple_accnt_blnc(int accountId, int balance) {
             this.accountId = accountId;
             this.balance = balance;
         }
 
-        public PTuple_accountId_balance deepClone() {
-            return new PTuple_accountId_balance(accountId, balance);
+        public PTuple_accnt_blnc deepClone() {
+            return new PTuple_accnt_blnc(accountId, balance);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_accountId_balance)other)
+                    this.deepEquals((PTuple_accnt_blnc)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_accountId_balance other) {
+        public boolean deepEquals(PTuple_accnt_blnc other) {
             return (true
                     && this.accountId == other.accountId
                     && this.balance == other.balance
@@ -52,84 +52,84 @@ public class ClientServer {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_accountId_balance");
+            StringBuilder sb = new StringBuilder("PTuple_accnt_blnc");
             sb.append("[");
             sb.append("accountId=" + accountId);
             sb.append(",balance=" + balance);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_accountId_balance class definition
+    } //PTuple_accnt_blnc class definition
 
     // (accountId:int)
-    public static class PTuple_accountId implements Values.PTuple<PTuple_accountId> {
+    public static class PTuple_accnt implements Values.PValue<PTuple_accnt> {
         public int accountId;
 
-        public PTuple_accountId() {
+        public PTuple_accnt() {
             this.accountId = 0;
         }
 
-        public PTuple_accountId(int accountId) {
+        public PTuple_accnt(int accountId) {
             this.accountId = accountId;
         }
 
-        public PTuple_accountId deepClone() {
-            return new PTuple_accountId(accountId);
+        public PTuple_accnt deepClone() {
+            return new PTuple_accnt(accountId);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_accountId)other)
+                    this.deepEquals((PTuple_accnt)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_accountId other) {
+        public boolean deepEquals(PTuple_accnt other) {
             return (true
                     && this.accountId == other.accountId
             );
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_accountId");
+            StringBuilder sb = new StringBuilder("PTuple_accnt");
             sb.append("[");
             sb.append("accountId=" + accountId);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_accountId class definition
+    } //PTuple_accnt class definition
 
     // (source:Client,accountId:int,amount:int,rId:int)
-    public static class PTuple_source_accountId_amount_rId implements Values.PTuple<PTuple_source_accountId_amount_rId> {
+    public static class PTuple_src_accnt_amnt_rId implements Values.PValue<PTuple_src_accnt_amnt_rId> {
         public long source;
         public int accountId;
         public int amount;
         public int rId;
 
-        public PTuple_source_accountId_amount_rId() {
+        public PTuple_src_accnt_amnt_rId() {
             this.source = 0L;
             this.accountId = 0;
             this.amount = 0;
             this.rId = 0;
         }
 
-        public PTuple_source_accountId_amount_rId(long source, int accountId, int amount, int rId) {
+        public PTuple_src_accnt_amnt_rId(long source, int accountId, int amount, int rId) {
             this.source = source;
             this.accountId = accountId;
             this.amount = amount;
             this.rId = rId;
         }
 
-        public PTuple_source_accountId_amount_rId deepClone() {
-            return new PTuple_source_accountId_amount_rId(source, accountId, amount, rId);
+        public PTuple_src_accnt_amnt_rId deepClone() {
+            return new PTuple_src_accnt_amnt_rId(source, accountId, amount, rId);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_source_accountId_amount_rId)other)
+                    this.deepEquals((PTuple_src_accnt_amnt_rId)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_source_accountId_amount_rId other) {
+        public boolean deepEquals(PTuple_src_accnt_amnt_rId other) {
             return (true
                     && this.source == other.source
                     && this.accountId == other.accountId
@@ -139,7 +139,7 @@ public class ClientServer {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_source_accountId_amount_rId");
+            StringBuilder sb = new StringBuilder("PTuple_src_accnt_amnt_rId");
             sb.append("[");
             sb.append("source=" + source);
             sb.append(",accountId=" + accountId);
@@ -148,40 +148,40 @@ public class ClientServer {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_source_accountId_amount_rId class definition
+    } //PTuple_src_accnt_amnt_rId class definition
 
     // (status:tWithDrawRespStatus,accountId:int,balance:int,rId:int)
-    public static class PTuple_status_accountId_balance_rId implements Values.PTuple<PTuple_status_accountId_balance_rId> {
+    public static class PTuple_stts_accnt_blnc_rId implements Values.PValue<PTuple_stts_accnt_blnc_rId> {
         public int status;
         public int accountId;
         public int balance;
         public int rId;
 
-        public PTuple_status_accountId_balance_rId() {
+        public PTuple_stts_accnt_blnc_rId() {
             this.status = 0;
             this.accountId = 0;
             this.balance = 0;
             this.rId = 0;
         }
 
-        public PTuple_status_accountId_balance_rId(int status, int accountId, int balance, int rId) {
+        public PTuple_stts_accnt_blnc_rId(int status, int accountId, int balance, int rId) {
             this.status = status;
             this.accountId = accountId;
             this.balance = balance;
             this.rId = rId;
         }
 
-        public PTuple_status_accountId_balance_rId deepClone() {
-            return new PTuple_status_accountId_balance_rId(status, accountId, balance, rId);
+        public PTuple_stts_accnt_blnc_rId deepClone() {
+            return new PTuple_stts_accnt_blnc_rId(status, accountId, balance, rId);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_status_accountId_balance_rId)other)
+                    this.deepEquals((PTuple_stts_accnt_blnc_rId)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_status_accountId_balance_rId other) {
+        public boolean deepEquals(PTuple_stts_accnt_blnc_rId other) {
             return (true
                     && this.status == other.status
                     && this.accountId == other.accountId
@@ -191,7 +191,7 @@ public class ClientServer {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_status_accountId_balance_rId");
+            StringBuilder sb = new StringBuilder("PTuple_stts_accnt_blnc_rId");
             sb.append("[");
             sb.append("status=" + status);
             sb.append(",accountId=" + accountId);
@@ -200,10 +200,10 @@ public class ClientServer {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_status_accountId_balance_rId class definition
+    } //PTuple_stts_accnt_blnc_rId class definition
 
 
-    /** Events */
+    /* Events */
     public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
@@ -226,10 +226,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class eUpdateQuery extends PObserveEvent.PEvent<PTuple_accountId_balance> {
-        public eUpdateQuery(PTuple_accountId_balance p) { this.payload = p; }
-        private PTuple_accountId_balance payload;
-        public PTuple_accountId_balance getPayload() { return payload; }
+    public static class eUpdateQuery extends PObserveEvent.PEvent<PTuple_accnt_blnc> {
+        public eUpdateQuery(PTuple_accnt_blnc p) { this.payload = p; }
+        private PTuple_accnt_blnc payload;
+        public PTuple_accnt_blnc getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -237,10 +237,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eUpdateQuery
-    public static class eReadQuery extends PObserveEvent.PEvent<PTuple_accountId> {
-        public eReadQuery(PTuple_accountId p) { this.payload = p; }
-        private PTuple_accountId payload;
-        public PTuple_accountId getPayload() { return payload; }
+    public static class eReadQuery extends PObserveEvent.PEvent<PTuple_accnt> {
+        public eReadQuery(PTuple_accnt p) { this.payload = p; }
+        private PTuple_accnt payload;
+        public PTuple_accnt getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -248,10 +248,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eReadQuery
-    public static class eReadQueryResp extends PObserveEvent.PEvent<PTuple_accountId_balance> {
-        public eReadQueryResp(PTuple_accountId_balance p) { this.payload = p; }
-        private PTuple_accountId_balance payload;
-        public PTuple_accountId_balance getPayload() { return payload; }
+    public static class eReadQueryResp extends PObserveEvent.PEvent<PTuple_accnt_blnc> {
+        public eReadQueryResp(PTuple_accnt_blnc p) { this.payload = p; }
+        private PTuple_accnt_blnc payload;
+        public PTuple_accnt_blnc getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -259,10 +259,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eReadQueryResp
-    public static class eWithDrawReq extends PObserveEvent.PEvent<PTuple_source_accountId_amount_rId> {
-        public eWithDrawReq(PTuple_source_accountId_amount_rId p) { this.payload = p; }
-        private PTuple_source_accountId_amount_rId payload;
-        public PTuple_source_accountId_amount_rId getPayload() { return payload; }
+    public static class eWithDrawReq extends PObserveEvent.PEvent<PTuple_src_accnt_amnt_rId> {
+        public eWithDrawReq(PTuple_src_accnt_amnt_rId p) { this.payload = p; }
+        private PTuple_src_accnt_amnt_rId payload;
+        public PTuple_src_accnt_amnt_rId getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -270,10 +270,10 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eWithDrawReq
-    public static class eWithDrawResp extends PObserveEvent.PEvent<PTuple_status_accountId_balance_rId> {
-        public eWithDrawResp(PTuple_status_accountId_balance_rId p) { this.payload = p; }
-        private PTuple_status_accountId_balance_rId payload;
-        public PTuple_status_accountId_balance_rId getPayload() { return payload; }
+    public static class eWithDrawResp extends PObserveEvent.PEvent<PTuple_stts_accnt_blnc_rId> {
+        public eWithDrawResp(PTuple_stts_accnt_blnc_rId p) { this.payload = p; }
+        private PTuple_stts_accnt_blnc_rId payload;
+        public PTuple_stts_accnt_blnc_rId getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -299,20 +299,19 @@ public class ClientServer {
     // PMachine AbstractBankServer elided
     public static class BankBalanceIsAlwaysCorrect extends Monitor {
         private HashMap<Integer,Integer> bankBalance = new HashMap<Integer,Integer>();
-        public HashMap<Integer,Integer> getBankBalance() { return this.bankBalance; };
+        public HashMap<Integer,Integer> get_bankBalance() { return this.bankBalance; };
 
-        private HashMap<Integer,PTuple_source_accountId_amount_rId> pendingWithDraws = new HashMap<Integer,PTuple_source_accountId_amount_rId>();
-        public HashMap<Integer,PTuple_source_accountId_amount_rId> getPendingWithDraws() { return this.pendingWithDraws; };
+        private HashMap<Integer,PTuple_src_accnt_amnt_rId> pendingWithDraws = new HashMap<Integer,PTuple_src_accnt_amnt_rId>();
+        public HashMap<Integer,PTuple_src_accnt_amnt_rId> get_pendingWithDraws() { return this.pendingWithDraws; };
 
 
         public String INIT_STATE = "Init";
         public String WAITFORWITHDRAWREQANDRESP_STATE = "WaitForWithDrawReqAndResp";
 
         private void Anon(HashMap<Integer,Integer> balance) {
-
             bankBalance = (HashMap<Integer,Integer>)Values.deepClone(balance);
         }
-        private void Anon_1(PTuple_source_accountId_amount_rId req) {
+        private void Anon_1(PTuple_src_accnt_amnt_rId req) {
             int TMP_tmp0 = 0;
             boolean TMP_tmp1 = false;
             int TMP_tmp2 = 0;
@@ -329,7 +328,7 @@ public class ClientServer {
             TMP_tmp5 = req.rId;
             pendingWithDraws.put(TMP_tmp5,req.deepClone());
         }
-        private void Anon_2(PTuple_status_accountId_balance_rId resp) {
+        private void Anon_2(PTuple_stts_accnt_blnc_rId resp) {
             int TMP_tmp0_1 = 0;
             boolean TMP_tmp1_1 = false;
             int TMP_tmp2_1 = 0;
@@ -347,7 +346,7 @@ public class ClientServer {
             int TMP_tmp14 = 0;
             int TMP_tmp15 = 0;
             int TMP_tmp16 = 0;
-            PTuple_source_accountId_amount_rId TMP_tmp17 = new PTuple_source_accountId_amount_rId();
+            PTuple_src_accnt_amnt_rId TMP_tmp17 = new PTuple_src_accnt_amnt_rId();
             int TMP_tmp18 = 0;
             int TMP_tmp19 = 0;
             boolean TMP_tmp20 = false;
@@ -356,7 +355,7 @@ public class ClientServer {
             int TMP_tmp23 = 0;
             int TMP_tmp24 = 0;
             int TMP_tmp25 = 0;
-            PTuple_source_accountId_amount_rId TMP_tmp26 = new PTuple_source_accountId_amount_rId();
+            PTuple_src_accnt_amnt_rId TMP_tmp26 = new PTuple_src_accnt_amnt_rId();
             int TMP_tmp27 = 0;
             int TMP_tmp28 = 0;
             String TMP_tmp29 = "";
@@ -366,12 +365,12 @@ public class ClientServer {
             int TMP_tmp33 = 0;
             int TMP_tmp34 = 0;
             int TMP_tmp35 = 0;
-            PTuple_source_accountId_amount_rId TMP_tmp36 = new PTuple_source_accountId_amount_rId();
+            PTuple_src_accnt_amnt_rId TMP_tmp36 = new PTuple_src_accnt_amnt_rId();
             int TMP_tmp37 = 0;
             int TMP_tmp38 = 0;
             boolean TMP_tmp39 = false;
             int TMP_tmp40 = 0;
-            PTuple_source_accountId_amount_rId TMP_tmp41 = new PTuple_source_accountId_amount_rId();
+            PTuple_src_accnt_amnt_rId TMP_tmp41 = new PTuple_src_accnt_amnt_rId();
             int TMP_tmp42 = 0;
             int TMP_tmp43 = 0;
             int TMP_tmp44 = 0;
@@ -468,19 +467,19 @@ public class ClientServer {
     } // BankBalanceIsAlwaysCorrect monitor definition
     public static class GuaranteedWithDrawProgress extends Monitor {
         private LinkedHashSet<Integer> pendingWDReqs = new LinkedHashSet<Integer>();
-        public LinkedHashSet<Integer> getPendingWDReqs() { return this.pendingWDReqs; };
+        public LinkedHashSet<Integer> get_pendingWDReqs() { return this.pendingWDReqs; };
 
 
         public String NOPENDINGREQUESTS_STATE = "NopendingRequests";
         public String PENDINGREQS_STATE = "PendingReqs";
 
-        private void Anon_3(PTuple_source_accountId_amount_rId req_1) {
+        private void Anon_3(PTuple_src_accnt_amnt_rId req_1) {
             int TMP_tmp0_2 = 0;
 
             TMP_tmp0_2 = req_1.rId;
             pendingWDReqs.add(TMP_tmp0_2);
         }
-        private void Anon_4(PTuple_status_accountId_balance_rId resp_1)throws TransitionException {
+        private void Anon_4(PTuple_stts_accnt_blnc_rId resp_1)throws TransitionException {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
             int TMP_tmp2_2 = 0;
@@ -505,7 +504,7 @@ public class ClientServer {
                 return;
             }
         }
-        private void Anon_5(PTuple_source_accountId_amount_rId req_2) {
+        private void Anon_5(PTuple_src_accnt_amnt_rId req_2) {
             int TMP_tmp0_4 = 0;
 
             TMP_tmp0_4 = req_2.rId;

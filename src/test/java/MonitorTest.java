@@ -1,13 +1,10 @@
 import events.PObserveEvent;
-import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.*;
-import tutorialmonitors.ClientServer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 

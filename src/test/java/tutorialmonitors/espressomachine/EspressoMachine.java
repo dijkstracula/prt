@@ -1,14 +1,22 @@
-package tutorialmonitors;
-import events.PObserveEvent;
-import prt.*;
+package tutorialmonitors.espressomachine;
 
 /***************************************************************************
- * This file was auto-generated on Monday, 20 June 2022 at 17:01:03.
+ * This file was auto-generated on Tuesday, 21 June 2022 at 16:33:13.
  * Please do not edit manually!
  **************************************************************************/
 
+import events.PObserveEvent;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.stream.Stream;
+import prt.Monitor;
+import prt.RaiseEventException;
+import prt.State;
+import prt.TransitionException;
+import prt.Values;
+
 public class EspressoMachine {
-    /** Enums */
+    /* Enums */
     public static class tCoffeeMakerState {
         public static final int NotWarmedUp = 0;
         public static final int Ready = 1;
@@ -22,9 +30,7 @@ public class EspressoMachine {
         public static final int CM_ClearGrounds = 3;
     }
 
-    /** Tuples */
-
-    /** Events */
+    /* Events */
     public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;

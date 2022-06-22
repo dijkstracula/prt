@@ -1,8 +1,9 @@
-package parsers;
+package ClientServerTraceParser;
 
 import events.PObserveEvent;
 import events.TimestampInterval;
-import tutorialmonitors.ClientServer;
+import parsers.PTraceParserUtils;
+import tutorialmonitors.clientserver.ClientServer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
  * transform lines of P traces into PEvents to be processed by a Monitor.  In particular, this
  * can be used to drive a Monitor for the ClientServer example of the P tutorial.  For an
  * example of this in action, check out the unit tests such as the contents of
- * ClientServerTest#testParseEventsAndMonitorExecution().
+ * tutorialmonitors.clientserver.ClientServerTest#testParseEventsAndMonitorExecution().
  */
 public class ClientServerTraceParser {
     /**
@@ -50,7 +51,7 @@ public class ClientServerTraceParser {
         List<String> params = PTraceParserUtils.Conversions.namedTupleToKVPairs(payload);
 
         return new ClientServer.eReadQuery(
-                new ClientServer.PTuple_accountId(
+                new ClientServer.PTuple_accnt(
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(0))));
     }
 
@@ -58,7 +59,7 @@ public class ClientServerTraceParser {
         List<String> params = PTraceParserUtils.Conversions.namedTupleToKVPairs(payload);
 
         return new ClientServer.eUpdateQuery(
-                new ClientServer.PTuple_accountId_balance(
+                new ClientServer.PTuple_accnt_blnc(
                     PTraceParserUtils.Conversions.kvPairToInt(params.get(0)),
                     PTraceParserUtils.Conversions.kvPairToInt(params.get(1))));
     }
@@ -67,7 +68,7 @@ public class ClientServerTraceParser {
         List<String> params = PTraceParserUtils.Conversions.namedTupleToKVPairs(payload);
 
         return new ClientServer.eReadQueryResp(
-                new ClientServer.PTuple_accountId_balance(
+                new ClientServer.PTuple_accnt_blnc(
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(0)),
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(1))));
     }
@@ -75,7 +76,7 @@ public class ClientServerTraceParser {
         List<String> params = PTraceParserUtils.Conversions.namedTupleToKVPairs(payload);
 
         return new ClientServer.eWithDrawReq(
-                new ClientServer.PTuple_source_accountId_amount_rId(
+                new ClientServer.PTuple_src_accnt_amnt_rId(
                         PTraceParserUtils.Conversions.kvPairToMachineId(params.get(0)),
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(1)),
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(2)),
@@ -86,7 +87,7 @@ public class ClientServerTraceParser {
         List<String> params = PTraceParserUtils.Conversions.namedTupleToKVPairs(payload);
 
         return new ClientServer.eWithDrawResp(
-                new ClientServer.PTuple_status_accountId_balance_rId(
+                new ClientServer.PTuple_stts_accnt_blnc_rId(
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(0)),
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(1)),
                         PTraceParserUtils.Conversions.kvPairToInt(params.get(2)),

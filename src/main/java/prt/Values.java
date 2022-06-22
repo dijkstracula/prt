@@ -8,7 +8,8 @@ import java.util.*;
  * Holds some routines for value cloning and comparisons.
  */
 public class Values {
-    public interface PTuple<P extends PTuple<?>> {
+
+    public interface PValue<P extends PValue<?>> {
         /**
          * Performs a deep copy of a P tuple by
          * (The performance difference between a hand-rolled deep copy and using serializers
@@ -26,6 +27,10 @@ public class Values {
          * @return If this and o2 are object of the same class, and their fields are deeply equal to each other's.
          */
         boolean deepEquals(P o2);
+    }
+
+    public interface PTuple<P> extends PValue<PTuple<P>> {
+
     }
 
     public static class UncloneableValueException extends RuntimeException {
@@ -90,9 +95,9 @@ public class Values {
         return cloned;
     }
 
-    private static PTuple<?> cloneTuple(PTuple<?> tuple)
+    private static PValue<?> cloneValue(PValue<?> v)
     {
-        return tuple.deepClone();
+        return v.deepClone();
     }
 
     /**
@@ -109,8 +114,8 @@ public class Values {
         if (o == null) {
             return null;
         }
-        if (o instanceof PTuple<?>)
-            return cloneTuple((PTuple<?>) o);
+        if (o instanceof PValue<?>)
+            return cloneValue((PValue<?>) o);
 
         Class<?> clazz = o.getClass();
         if (clazz == Boolean.class)
@@ -188,7 +193,7 @@ public class Values {
         return true;
     }
 
-    private static <P1 extends PTuple<P1>, P2 extends PTuple<P2>> boolean deepTupleEquals(P1 t1, P2 t2) {
+    private static <P1 extends PValue<P1>, P2 extends PValue<P2>> boolean deepPValueEquals(P1 t1, P2 t2) {
         if (t1.getClass() != t2.getClass()) {
             return false;
         }
@@ -206,10 +211,10 @@ public class Values {
         }
 
         try {
-            // For PTuples, defer to their `deepEquals()` method (which may recursively call
+            // For PValues, defer to their `deepEquals()` method (which may recursively call
             // back into `Values.deepEquals()`.
-            if (o1 instanceof PTuple<?> && o2 instanceof PTuple<?>) {
-                return deepTupleEquals((PTuple) o1, (PTuple) o2);
+            if (o1 instanceof PValue<?> && o2 instanceof PValue<?>) {
+                return deepPValueEquals((PValue) o1, (PValue) o2);
             }
 
             if (o1 instanceof PObserveEvent && o2 instanceof PObserveEvent) {

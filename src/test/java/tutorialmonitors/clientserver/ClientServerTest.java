@@ -1,16 +1,16 @@
+package tutorialmonitors.clientserver;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import parsers.ClientServerTraceParser;
 import prt.*;
-import tutorialmonitors.ClientServer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static tutorialmonitors.ClientServer.*;
+import static tutorialmonitors.clientserver.ClientServer.*;
 
 public class ClientServerTest {
     private BankBalanceIsAlwaysCorrect initedBankBalanceIsAlwaysCorrect() {
@@ -38,7 +38,7 @@ public class ClientServerTest {
 
         assertThrows(prt.PAssertionFailureException.class,
                 () -> m.process(new eWithDrawReq(
-                        new PTuple_source_accountId_amount_rId(0L, 31337, 10, 0))),
+                        new PTuple_src_accnt_amnt_rId(0L, 31337, 10, 0))),
                 "Assertion failure: Unknown accountId 102 in the withdraw request. Valid accountIds = [100, 101]");
     }
 
@@ -49,11 +49,11 @@ public class ClientServerTest {
         BankBalanceIsAlwaysCorrect m = initedBankBalanceIsAlwaysCorrect();
 
         m.process(new eWithDrawReq(
-                new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)
+                new PTuple_src_accnt_amnt_rId(1L, 100, 10, 0)
         ));
 
         m.process(new eWithDrawResp(
-                new PTuple_status_accountId_balance_rId(
+                new PTuple_stts_accnt_blnc_rId(
                         tWithDrawRespStatus.WITHDRAW_SUCCESS, 100, 32, 0)));
     }
 
@@ -62,10 +62,10 @@ public class ClientServerTest {
     void testThrowsOnInvalidWithdraws() {
         BankBalanceIsAlwaysCorrect m = initedBankBalanceIsAlwaysCorrect();
 
-        m.process(new eWithDrawReq(new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)));
+        m.process(new eWithDrawReq(new PTuple_src_accnt_amnt_rId(1L, 100, 10, 0)));
 
         assertThrows(prt.PAssertionFailureException.class,
-                () -> m.process(new eWithDrawResp(new PTuple_status_accountId_balance_rId(
+                () -> m.process(new eWithDrawResp(new PTuple_stts_accnt_blnc_rId(
                         tWithDrawRespStatus.WITHDRAW_SUCCESS,
                         100,
                         1000, /* Uh oh! The balance should be 42 - 10 = 32. */
@@ -84,9 +84,9 @@ public class ClientServerTest {
     public void testWithDrawReqs() {
         Monitor m = initedGuaranteWDProgress();
 
-        m.process(new eWithDrawReq(new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)));
+        m.process(new eWithDrawReq(new PTuple_src_accnt_amnt_rId(1L, 100, 10, 0)));
 
-        m.process(new eWithDrawResp(new PTuple_status_accountId_balance_rId(
+        m.process(new eWithDrawResp(new PTuple_stts_accnt_blnc_rId(
                 tWithDrawRespStatus.WITHDRAW_SUCCESS,
                 100,
                 90,
@@ -101,7 +101,7 @@ public class ClientServerTest {
         // We begin in the NopendingRequests state, but that state has no handler
         // for a withDrawRewp.
         assertThrows(UnhandledEventException.class, () -> m.process(new eWithDrawResp(
-                new PTuple_status_accountId_balance_rId(
+                new PTuple_stts_accnt_blnc_rId(
                         tWithDrawRespStatus.WITHDRAW_ERROR,
                         100,
                         90,
@@ -113,12 +113,12 @@ public class ClientServerTest {
     public void testInvalidWithDrawReqs2() {
         Monitor m = initedGuaranteWDProgress();
 
-        m.process(new eWithDrawReq(new PTuple_source_accountId_amount_rId(1L, 100, 10, 0)));
+        m.process(new eWithDrawReq(new PTuple_src_accnt_amnt_rId(1L, 100, 10, 0)));
 
         // We begin in the NopendingRequests state, but that state has no handler
         // for a withDrawRewp.
         assertThrows(PAssertionFailureException.class, () -> m.process(new eWithDrawResp(
-                new PTuple_status_accountId_balance_rId(
+                new PTuple_stts_accnt_blnc_rId(
                         tWithDrawRespStatus.WITHDRAW_SUCCESS,
                         100,
                         90,
@@ -129,9 +129,9 @@ public class ClientServerTest {
     @Test
     @DisplayName("equality makes sense for generated events")
     public void testEqualityOnEventObjects() {
-        ClientServer.PTuple_source_accountId_amount_rId t1 =
-                new ClientServer.PTuple_source_accountId_amount_rId(4L, 0, 2, 1);
-        ClientServer.PTuple_source_accountId_amount_rId t2 = t1.deepClone();
+        ClientServer.PTuple_src_accnt_amnt_rId t1 =
+                new ClientServer.PTuple_src_accnt_amnt_rId(4L, 0, 2, 1);
+        ClientServer.PTuple_src_accnt_amnt_rId t2 = t1.deepClone();
         assertTrue(Values.deepEquals(t1, t2));
     }
 

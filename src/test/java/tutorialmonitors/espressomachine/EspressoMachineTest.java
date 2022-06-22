@@ -1,8 +1,10 @@
+package tutorialmonitors.espressomachine;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static tutorialmonitors.EspressoMachine.*;
+import static tutorialmonitors.espressomachine.EspressoMachine.*;
 
 public class EspressoMachineTest {
     @Test

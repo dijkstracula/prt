@@ -1,54 +1,59 @@
-package tutorialmonitors;
-import events.PObserveEvent;
-
-import prt.*;
-
-import java.text.MessageFormat;
-import java.util.*;
+package tutorialmonitors.twophasecommit;
 
 /***************************************************************************
- * This file was auto-generated on Monday, 20 June 2022 at 17:00:21.
+ * This file was auto-generated on Tuesday, 21 June 2022 at 16:32:11.
  * Please do not edit manually!
  **************************************************************************/
 
+import events.PObserveEvent;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.stream.Stream;
+import prt.Monitor;
+import prt.RaiseEventException;
+import prt.State;
+import prt.TransitionException;
+import prt.Values;
+
+
 public class TwoPhaseCommit {
-    /** Enums */
+    /* Enums */
     public static class tTransStatus {
         public static final int SUCCESS = 0;
         public static final int ERROR = 1;
         public static final int TIMEOUT = 2;
     }
 
-    /** Tuples */
+    /* Tuples */
     // (key:string,val:int,transId:int)
-    public static class PTuple_key_val_transId implements Values.PTuple<PTuple_key_val_transId> {
+    public static class PTuple_key_val_trans implements Values.PValue<PTuple_key_val_trans> {
         public String key;
         public int val;
         public int transId;
 
-        public PTuple_key_val_transId() {
+        public PTuple_key_val_trans() {
             this.key = "";
             this.val = 0;
             this.transId = 0;
         }
 
-        public PTuple_key_val_transId(String key, int val, int transId) {
+        public PTuple_key_val_trans(String key, int val, int transId) {
             this.key = key;
             this.val = val;
             this.transId = transId;
         }
 
-        public PTuple_key_val_transId deepClone() {
-            return new PTuple_key_val_transId(key, val, transId);
+        public PTuple_key_val_trans deepClone() {
+            return new PTuple_key_val_trans(key, val, transId);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_key_val_transId)other)
+                    this.deepEquals((PTuple_key_val_trans)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_key_val_transId other) {
+        public boolean deepEquals(PTuple_key_val_trans other) {
             return (true
                     && Values.deepEquals(this.key, other.key)
                     && this.val == other.val
@@ -57,7 +62,7 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_key_val_transId");
+            StringBuilder sb = new StringBuilder("PTuple_key_val_trans");
             sb.append("[");
             sb.append("key=" + key);
             sb.append(",val=" + val);
@@ -65,34 +70,34 @@ public class TwoPhaseCommit {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_key_val_transId class definition
+    } //PTuple_key_val_trans class definition
 
     // (client:Client,trans:(key:string,val:int,transId:int))
-    public static class PTuple_client_trans implements Values.PTuple<PTuple_client_trans> {
+    public static class PTuple_clnt_trans implements Values.PValue<PTuple_clnt_trans> {
         public long client;
-        public PTuple_key_val_transId trans;
+        public PTuple_key_val_trans trans;
 
-        public PTuple_client_trans() {
+        public PTuple_clnt_trans() {
             this.client = 0L;
-            this.trans = new PTuple_key_val_transId();
+            this.trans = new PTuple_key_val_trans();
         }
 
-        public PTuple_client_trans(long client, PTuple_key_val_transId trans) {
+        public PTuple_clnt_trans(long client, PTuple_key_val_trans trans) {
             this.client = client;
             this.trans = trans;
         }
 
-        public PTuple_client_trans deepClone() {
-            return new PTuple_client_trans(client, trans.deepClone());
+        public PTuple_clnt_trans deepClone() {
+            return new PTuple_clnt_trans(client, trans.deepClone());
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_client_trans)other)
+                    this.deepEquals((PTuple_clnt_trans)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_client_trans other) {
+        public boolean deepEquals(PTuple_clnt_trans other) {
             return (true
                     && this.client == other.client
                     && Values.deepEquals(this.trans, other.trans)
@@ -100,41 +105,41 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_client_trans");
+            StringBuilder sb = new StringBuilder("PTuple_clnt_trans");
             sb.append("[");
             sb.append("client=" + client);
             sb.append(",trans=" + trans);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_client_trans class definition
+    } //PTuple_clnt_trans class definition
 
     // (transId:int,status:tTransStatus)
-    public static class PTuple_transId_status implements Values.PTuple<PTuple_transId_status> {
+    public static class PTuple_trans_stts implements Values.PValue<PTuple_trans_stts> {
         public int transId;
         public int status;
 
-        public PTuple_transId_status() {
+        public PTuple_trans_stts() {
             this.transId = 0;
             this.status = 0;
         }
 
-        public PTuple_transId_status(int transId, int status) {
+        public PTuple_trans_stts(int transId, int status) {
             this.transId = transId;
             this.status = status;
         }
 
-        public PTuple_transId_status deepClone() {
-            return new PTuple_transId_status(transId, status);
+        public PTuple_trans_stts deepClone() {
+            return new PTuple_trans_stts(transId, status);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_transId_status)other)
+                    this.deepEquals((PTuple_trans_stts)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_transId_status other) {
+        public boolean deepEquals(PTuple_trans_stts other) {
             return (true
                     && this.transId == other.transId
                     && this.status == other.status
@@ -142,41 +147,41 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_transId_status");
+            StringBuilder sb = new StringBuilder("PTuple_trans_stts");
             sb.append("[");
             sb.append("transId=" + transId);
             sb.append(",status=" + status);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_transId_status class definition
+    } //PTuple_trans_stts class definition
 
     // (client:Client,key:string)
-    public static class PTuple_client_key implements Values.PTuple<PTuple_client_key> {
+    public static class PTuple_clnt_key implements Values.PValue<PTuple_clnt_key> {
         public long client;
         public String key;
 
-        public PTuple_client_key() {
+        public PTuple_clnt_key() {
             this.client = 0L;
             this.key = "";
         }
 
-        public PTuple_client_key(long client, String key) {
+        public PTuple_clnt_key(long client, String key) {
             this.client = client;
             this.key = key;
         }
 
-        public PTuple_client_key deepClone() {
-            return new PTuple_client_key(client, key);
+        public PTuple_clnt_key deepClone() {
+            return new PTuple_clnt_key(client, key);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_client_key)other)
+                    this.deepEquals((PTuple_clnt_key)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_client_key other) {
+        public boolean deepEquals(PTuple_clnt_key other) {
             return (true
                     && this.client == other.client
                     && Values.deepEquals(this.key, other.key)
@@ -184,44 +189,44 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_client_key");
+            StringBuilder sb = new StringBuilder("PTuple_clnt_key");
             sb.append("[");
             sb.append("client=" + client);
             sb.append(",key=" + key);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_client_key class definition
+    } //PTuple_clnt_key class definition
 
     // (key:string,val:int,status:tTransStatus)
-    public static class PTuple_key_val_status implements Values.PTuple<PTuple_key_val_status> {
+    public static class PTuple_key_val_stts implements Values.PValue<PTuple_key_val_stts> {
         public String key;
         public int val;
         public int status;
 
-        public PTuple_key_val_status() {
+        public PTuple_key_val_stts() {
             this.key = "";
             this.val = 0;
             this.status = 0;
         }
 
-        public PTuple_key_val_status(String key, int val, int status) {
+        public PTuple_key_val_stts(String key, int val, int status) {
             this.key = key;
             this.val = val;
             this.status = status;
         }
 
-        public PTuple_key_val_status deepClone() {
-            return new PTuple_key_val_status(key, val, status);
+        public PTuple_key_val_stts deepClone() {
+            return new PTuple_key_val_stts(key, val, status);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_key_val_status)other)
+                    this.deepEquals((PTuple_key_val_stts)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_key_val_status other) {
+        public boolean deepEquals(PTuple_key_val_stts other) {
             return (true
                     && Values.deepEquals(this.key, other.key)
                     && this.val == other.val
@@ -230,7 +235,7 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_key_val_status");
+            StringBuilder sb = new StringBuilder("PTuple_key_val_stts");
             sb.append("[");
             sb.append("key=" + key);
             sb.append(",val=" + val);
@@ -238,37 +243,37 @@ public class TwoPhaseCommit {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_key_val_status class definition
+    } //PTuple_key_val_stts class definition
 
     // (participant:Participant,transId:int,status:tTransStatus)
-    public static class PTuple_participant_transId_status implements Values.PTuple<PTuple_participant_transId_status> {
+    public static class PTuple_prtcp_trans_stts implements Values.PValue<PTuple_prtcp_trans_stts> {
         public long participant;
         public int transId;
         public int status;
 
-        public PTuple_participant_transId_status() {
+        public PTuple_prtcp_trans_stts() {
             this.participant = 0L;
             this.transId = 0;
             this.status = 0;
         }
 
-        public PTuple_participant_transId_status(long participant, int transId, int status) {
+        public PTuple_prtcp_trans_stts(long participant, int transId, int status) {
             this.participant = participant;
             this.transId = transId;
             this.status = status;
         }
 
-        public PTuple_participant_transId_status deepClone() {
-            return new PTuple_participant_transId_status(participant, transId, status);
+        public PTuple_prtcp_trans_stts deepClone() {
+            return new PTuple_prtcp_trans_stts(participant, transId, status);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_participant_transId_status)other)
+                    this.deepEquals((PTuple_prtcp_trans_stts)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_participant_transId_status other) {
+        public boolean deepEquals(PTuple_prtcp_trans_stts other) {
             return (true
                     && this.participant == other.participant
                     && this.transId == other.transId
@@ -277,7 +282,7 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_participant_transId_status");
+            StringBuilder sb = new StringBuilder("PTuple_prtcp_trans_stts");
             sb.append("[");
             sb.append("participant=" + participant);
             sb.append(",transId=" + transId);
@@ -285,40 +290,40 @@ public class TwoPhaseCommit {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_participant_transId_status class definition
+    } //PTuple_prtcp_trans_stts class definition
 
     // (numClients:int,numParticipants:int,numTransPerClient:int,failParticipants:int)
-    public static class PTuple_numClients_numParticipants_numTransPerClient_failParticipants implements Values.PTuple<PTuple_numClients_numParticipants_numTransPerClient_failParticipants> {
+    public static class PTuple_nmcln_nmprt_tpc_flprt implements Values.PValue<PTuple_nmcln_nmprt_tpc_flprt> {
         public int numClients;
         public int numParticipants;
         public int numTransPerClient;
         public int failParticipants;
 
-        public PTuple_numClients_numParticipants_numTransPerClient_failParticipants() {
+        public PTuple_nmcln_nmprt_tpc_flprt() {
             this.numClients = 0;
             this.numParticipants = 0;
             this.numTransPerClient = 0;
             this.failParticipants = 0;
         }
 
-        public PTuple_numClients_numParticipants_numTransPerClient_failParticipants(int numClients, int numParticipants, int numTransPerClient, int failParticipants) {
+        public PTuple_nmcln_nmprt_tpc_flprt(int numClients, int numParticipants, int numTransPerClient, int failParticipants) {
             this.numClients = numClients;
             this.numParticipants = numParticipants;
             this.numTransPerClient = numTransPerClient;
             this.failParticipants = failParticipants;
         }
 
-        public PTuple_numClients_numParticipants_numTransPerClient_failParticipants deepClone() {
-            return new PTuple_numClients_numParticipants_numTransPerClient_failParticipants(numClients, numParticipants, numTransPerClient, failParticipants);
+        public PTuple_nmcln_nmprt_tpc_flprt deepClone() {
+            return new PTuple_nmcln_nmprt_tpc_flprt(numClients, numParticipants, numTransPerClient, failParticipants);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_numClients_numParticipants_numTransPerClient_failParticipants)other)
+                    this.deepEquals((PTuple_nmcln_nmprt_tpc_flprt)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_numClients_numParticipants_numTransPerClient_failParticipants other) {
+        public boolean deepEquals(PTuple_nmcln_nmprt_tpc_flprt other) {
             return (true
                     && this.numClients == other.numClients
                     && this.numParticipants == other.numParticipants
@@ -328,7 +333,7 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_numClients_numParticipants_numTransPerClient_failParticipants");
+            StringBuilder sb = new StringBuilder("PTuple_nmcln_nmprt_tpc_flprt");
             sb.append("[");
             sb.append("numClients=" + numClients);
             sb.append(",numParticipants=" + numParticipants);
@@ -337,34 +342,34 @@ public class TwoPhaseCommit {
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_numClients_numParticipants_numTransPerClient_failParticipants class definition
+    } //PTuple_nmcln_nmprt_tpc_flprt class definition
 
     // (nodes:set[machine],nFailures:int)
-    public static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
+    public static class PTuple_nodes_nflrs implements Values.PValue<PTuple_nodes_nflrs> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
-        public PTuple_nodes_nFailures() {
+        public PTuple_nodes_nflrs() {
             this.nodes = new LinkedHashSet<Long>();
             this.nFailures = 0;
         }
 
-        public PTuple_nodes_nFailures(LinkedHashSet<Long> nodes, int nFailures) {
+        public PTuple_nodes_nflrs(LinkedHashSet<Long> nodes, int nFailures) {
             this.nodes = nodes;
             this.nFailures = nFailures;
         }
 
-        public PTuple_nodes_nFailures deepClone() {
-            return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
+        public PTuple_nodes_nflrs deepClone() {
+            return new PTuple_nodes_nflrs((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_nodes_nFailures)other)
+                    this.deepEquals((PTuple_nodes_nflrs)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_nodes_nFailures other) {
+        public boolean deepEquals(PTuple_nodes_nflrs other) {
             return (true
                     && Values.deepEquals(this.nodes, other.nodes)
                     && this.nFailures == other.nFailures
@@ -372,17 +377,17 @@ public class TwoPhaseCommit {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_nodes_nFailures");
+            StringBuilder sb = new StringBuilder("PTuple_nodes_nflrs");
             sb.append("[");
             sb.append("nodes=" + nodes);
             sb.append(",nFailures=" + nFailures);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_nodes_nFailures class definition
+    } //PTuple_nodes_nflrs class definition
 
 
-    /** Events */
+    /* Events */
     public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
@@ -405,10 +410,10 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class eWriteTransReq extends PObserveEvent.PEvent<PTuple_client_trans> {
-        public eWriteTransReq(PTuple_client_trans p) { this.payload = p; }
-        private PTuple_client_trans payload;
-        public PTuple_client_trans getPayload() { return payload; }
+    public static class eWriteTransReq extends PObserveEvent.PEvent<PTuple_clnt_trans> {
+        public eWriteTransReq(PTuple_clnt_trans p) { this.payload = p; }
+        private PTuple_clnt_trans payload;
+        public PTuple_clnt_trans getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -416,10 +421,10 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eWriteTransReq
-    public static class eWriteTransResp extends PObserveEvent.PEvent<PTuple_transId_status> {
-        public eWriteTransResp(PTuple_transId_status p) { this.payload = p; }
-        private PTuple_transId_status payload;
-        public PTuple_transId_status getPayload() { return payload; }
+    public static class eWriteTransResp extends PObserveEvent.PEvent<PTuple_trans_stts> {
+        public eWriteTransResp(PTuple_trans_stts p) { this.payload = p; }
+        private PTuple_trans_stts payload;
+        public PTuple_trans_stts getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -427,10 +432,10 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eWriteTransResp
-    public static class eReadTransReq extends PObserveEvent.PEvent<PTuple_client_key> {
-        public eReadTransReq(PTuple_client_key p) { this.payload = p; }
-        private PTuple_client_key payload;
-        public PTuple_client_key getPayload() { return payload; }
+    public static class eReadTransReq extends PObserveEvent.PEvent<PTuple_clnt_key> {
+        public eReadTransReq(PTuple_clnt_key p) { this.payload = p; }
+        private PTuple_clnt_key payload;
+        public PTuple_clnt_key getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -438,10 +443,10 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eReadTransReq
-    public static class eReadTransResp extends PObserveEvent.PEvent<PTuple_key_val_status> {
-        public eReadTransResp(PTuple_key_val_status p) { this.payload = p; }
-        private PTuple_key_val_status payload;
-        public PTuple_key_val_status getPayload() { return payload; }
+    public static class eReadTransResp extends PObserveEvent.PEvent<PTuple_key_val_stts> {
+        public eReadTransResp(PTuple_key_val_stts p) { this.payload = p; }
+        private PTuple_key_val_stts payload;
+        public PTuple_key_val_stts getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -449,10 +454,10 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eReadTransResp
-    public static class ePrepareReq extends PObserveEvent.PEvent<PTuple_key_val_transId> {
-        public ePrepareReq(PTuple_key_val_transId p) { this.payload = p; }
-        private PTuple_key_val_transId payload;
-        public PTuple_key_val_transId getPayload() { return payload; }
+    public static class ePrepareReq extends PObserveEvent.PEvent<PTuple_key_val_trans> {
+        public ePrepareReq(PTuple_key_val_trans p) { this.payload = p; }
+        private PTuple_key_val_trans payload;
+        public PTuple_key_val_trans getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -460,10 +465,10 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for ePrepareReq
-    public static class ePrepareResp extends PObserveEvent.PEvent<PTuple_participant_transId_status> {
-        public ePrepareResp(PTuple_participant_transId_status p) { this.payload = p; }
-        private PTuple_participant_transId_status payload;
-        public PTuple_participant_transId_status getPayload() { return payload; }
+    public static class ePrepareResp extends PObserveEvent.PEvent<PTuple_prtcp_trans_stts> {
+        public ePrepareResp(PTuple_prtcp_trans_stts p) { this.payload = p; }
+        private PTuple_prtcp_trans_stts payload;
+        public PTuple_prtcp_trans_stts getPayload() { return payload; }
 
         @Override
         public String toString() {
@@ -586,20 +591,19 @@ public class TwoPhaseCommit {
     // PMachine Participant elided
     public static class AtomicityInvariant extends Monitor {
         private HashMap<Integer,HashMap<Integer,Integer>> participantsResponse = new HashMap<Integer,HashMap<Integer,Integer>>();
-        public HashMap<Integer,HashMap<Integer,Integer>> getParticipantsResponse() { return this.participantsResponse; };
+        public HashMap<Integer,HashMap<Integer,Integer>> get_participantsResponse() { return this.participantsResponse; };
 
         private int numParticipants = 0;
-        public int getNumParticipants() { return this.numParticipants; };
+        public int get_numParticipants() { return this.numParticipants; };
 
 
         public String INIT_STATE = "Init";
         public String WAITFOREVENTS_STATE = "WaitForEvents";
 
         private void Anon(int n) {
-
             numParticipants = n;
         }
-        private void Anon_1(PTuple_participant_transId_status resp) {
+        private void Anon_1(PTuple_prtcp_trans_stts resp) {
             int transId = 0;
             int TMP_tmp0 = 0;
             int TMP_tmp1 = 0;
@@ -630,7 +634,7 @@ public class TwoPhaseCommit {
             TMP_tmp9 = TMP_tmp8 + 1;
             participantsResponse.get(transId).put(TMP_tmp5,TMP_tmp9);
         }
-        private void Anon_2(PTuple_transId_status resp_1) {
+        private void Anon_2(PTuple_trans_stts resp_1) {
             int TMP_tmp0_1 = 0;
             boolean TMP_tmp1_1 = false;
             int TMP_tmp2_1 = 0;
@@ -740,7 +744,7 @@ public class TwoPhaseCommit {
     } // AtomicityInvariant monitor definition
     public static class Progress extends Monitor {
         private int pendingTransactions = 0;
-        public int getPendingTransactions() { return this.pendingTransactions; };
+        public int get_pendingTransactions() { return this.pendingTransactions; };
 
 
         public String INIT_STATE = "Init";
@@ -753,7 +757,7 @@ public class TwoPhaseCommit {
             TMP_tmp0_2 = pendingTransactions + 1;
             pendingTransactions = TMP_tmp0_2;
         }
-        private void Anon_4()throws TransitionException {
+        private void Anon_4() throws TransitionException {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
 

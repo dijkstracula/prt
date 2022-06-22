@@ -1,3 +1,5 @@
+package tutorialmonitors.failuredetector;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -6,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static tutorialmonitors.FailureDetector.*;
+import static tutorialmonitors.failuredetector.FailureDetector.*;
 
 public class FailureDetectorTest {
     @Test
@@ -15,15 +17,15 @@ public class FailureDetectorTest {
         ReliableFailureDetector m  = new ReliableFailureDetector();
         m.ready();
 
-        assertEquals(0, m.getNodesDownDetected().size());
-        assertEquals(0, m.getNodesShutdownAndNotDetected().size());
+        assertEquals(0, m.get_nodesDownDetected().size());
+        assertEquals(0, m.get_nodesShutdownAndNotDetected().size());
         m.process(new eShutDown(1L));
-        assertEquals(0, m.getNodesDownDetected().size());
-        assertEquals(1, m.getNodesShutdownAndNotDetected().size());
+        assertEquals(0, m.get_nodesDownDetected().size());
+        assertEquals(1, m.get_nodesShutdownAndNotDetected().size());
 
         LinkedHashSet<Long> nodes = new LinkedHashSet<>(Set.of(1L, 2L, 3L));
         m.process(new eNotifyNodesDown(nodes));
-        assertEquals(3, m.getNodesDownDetected().size());
-        assertEquals(0, m.getNodesShutdownAndNotDetected().size());
+        assertEquals(3, m.get_nodesDownDetected().size());
+        assertEquals(0, m.get_nodesShutdownAndNotDetected().size());
     }
 }

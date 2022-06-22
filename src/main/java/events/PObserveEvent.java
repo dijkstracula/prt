@@ -38,6 +38,14 @@ public class PObserveEvent<P> {
         return Objects.hash(ts, pEvent);
     }
 
+    @Override
+    public String toString() {
+        return "PObserveEvent{" +
+                "ts=" + ts +
+                ", pEvent=" + pEvent +
+                '}';
+    }
+
     public static abstract class PEvent<P> {
         public abstract P getPayload();
 

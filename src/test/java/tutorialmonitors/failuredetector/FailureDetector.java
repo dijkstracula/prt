@@ -1,22 +1,25 @@
-package tutorialmonitors;
-
-import java.util.LinkedHashSet;
-import java.util.Objects;
-
-import events.PObserveEvent;
-import prt.*;
+package tutorialmonitors.failuredetector;
 
 /***************************************************************************
- * This file was auto-generated on Monday, 20 June 2022 at 17:02:11.
+ * This file was auto-generated on Tuesday, 21 June 2022 at 16:34:28.
  * Please do not edit manually!
  **************************************************************************/
 
-public class FailureDetector {
-    /** Enums */
+import events.PObserveEvent;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.stream.Stream;
+import prt.Monitor;
+import prt.RaiseEventException;
+import prt.State;
+import prt.TransitionException;
+import prt.Values;
 
-    /** Tuples */
+
+public class FailureDetector {
+    /* Tuples */
     // (fd:FailureDetector,trial:int)
-    public static class PTuple_fd_trial implements Values.PTuple<PTuple_fd_trial> {
+    public static class PTuple_fd_trial implements Values.PValue<PTuple_fd_trial> {
         public long fd;
         public int trial;
 
@@ -58,7 +61,7 @@ public class FailureDetector {
     } //PTuple_fd_trial class definition
 
     // (node:Node,trial:int)
-    public static class PTuple_node_trial implements Values.PTuple<PTuple_node_trial> {
+    public static class PTuple_node_trial implements Values.PValue<PTuple_node_trial> {
         public long node;
         public int trial;
 
@@ -100,31 +103,31 @@ public class FailureDetector {
     } //PTuple_node_trial class definition
 
     // (numNodes:int,numClients:int)
-    public static class PTuple_numNodes_numClients implements Values.PTuple<PTuple_numNodes_numClients> {
+    public static class PTuple_nmnds_nmcln implements Values.PValue<PTuple_nmnds_nmcln> {
         public int numNodes;
         public int numClients;
 
-        public PTuple_numNodes_numClients() {
+        public PTuple_nmnds_nmcln() {
             this.numNodes = 0;
             this.numClients = 0;
         }
 
-        public PTuple_numNodes_numClients(int numNodes, int numClients) {
+        public PTuple_nmnds_nmcln(int numNodes, int numClients) {
             this.numNodes = numNodes;
             this.numClients = numClients;
         }
 
-        public PTuple_numNodes_numClients deepClone() {
-            return new PTuple_numNodes_numClients(numNodes, numClients);
+        public PTuple_nmnds_nmcln deepClone() {
+            return new PTuple_nmnds_nmcln(numNodes, numClients);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_numNodes_numClients)other)
+                    this.deepEquals((PTuple_nmnds_nmcln)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_numNodes_numClients other) {
+        public boolean deepEquals(PTuple_nmnds_nmcln other) {
             return (true
                     && this.numNodes == other.numNodes
                     && this.numClients == other.numClients
@@ -132,41 +135,41 @@ public class FailureDetector {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_numNodes_numClients");
+            StringBuilder sb = new StringBuilder("PTuple_nmnds_nmcln");
             sb.append("[");
             sb.append("numNodes=" + numNodes);
             sb.append(",numClients=" + numClients);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_numNodes_numClients class definition
+    } //PTuple_nmnds_nmcln class definition
 
     // (nodes:set[machine],nFailures:int)
-    public static class PTuple_nodes_nFailures implements Values.PTuple<PTuple_nodes_nFailures> {
+    public static class PTuple_nodes_nflrs implements Values.PValue<PTuple_nodes_nflrs> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
-        public PTuple_nodes_nFailures() {
+        public PTuple_nodes_nflrs() {
             this.nodes = new LinkedHashSet<Long>();
             this.nFailures = 0;
         }
 
-        public PTuple_nodes_nFailures(LinkedHashSet<Long> nodes, int nFailures) {
+        public PTuple_nodes_nflrs(LinkedHashSet<Long> nodes, int nFailures) {
             this.nodes = nodes;
             this.nFailures = nFailures;
         }
 
-        public PTuple_nodes_nFailures deepClone() {
-            return new PTuple_nodes_nFailures((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
+        public PTuple_nodes_nflrs deepClone() {
+            return new PTuple_nodes_nflrs((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
         } // deepClone()
 
         public boolean equals(Object other) {
             return (this.getClass() == other.getClass() &&
-                    this.deepEquals((PTuple_nodes_nFailures)other)
+                    this.deepEquals((PTuple_nodes_nflrs)other)
             );
         } // equals()
 
-        public boolean deepEquals(PTuple_nodes_nFailures other) {
+        public boolean deepEquals(PTuple_nodes_nflrs other) {
             return (true
                     && Values.deepEquals(this.nodes, other.nodes)
                     && this.nFailures == other.nFailures
@@ -174,17 +177,17 @@ public class FailureDetector {
         } // deepEquals()
 
         public String toString() {
-            StringBuilder sb = new StringBuilder("PTuple_nodes_nFailures");
+            StringBuilder sb = new StringBuilder("PTuple_nodes_nflrs");
             sb.append("[");
             sb.append("nodes=" + nodes);
             sb.append(",nFailures=" + nFailures);
             sb.append("]");
             return sb.toString();
         } // toString()
-    } //PTuple_nodes_nFailures class definition
+    } //PTuple_nodes_nflrs class definition
 
 
-    /** Events */
+    /* Events */
     public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
@@ -312,10 +315,10 @@ public class FailureDetector {
     // PMachine Node elided
     public static class ReliableFailureDetector extends Monitor {
         private LinkedHashSet<Long> nodesShutdownAndNotDetected = new LinkedHashSet<Long>();
-        public LinkedHashSet<Long> getNodesShutdownAndNotDetected() { return this.nodesShutdownAndNotDetected; };
+        public LinkedHashSet<Long> get_nodesShutdownAndNotDetected() { return this.nodesShutdownAndNotDetected; };
 
         private LinkedHashSet<Long> nodesDownDetected = new LinkedHashSet<Long>();
-        public LinkedHashSet<Long> getNodesDownDetected() { return this.nodesDownDetected; };
+        public LinkedHashSet<Long> get_nodesDownDetected() { return this.nodesDownDetected; };
 
 
         public String ALLSHUTDOWNNODESAREDETECTED_STATE = "AllShutdownNodesAreDetected";
@@ -346,7 +349,7 @@ public class FailureDetector {
                 i = TMP_tmp5;
             }
         }
-        private void Anon_1(long node)throws TransitionException {
+        private void Anon_1(long node) throws TransitionException {
             long TMP_tmp0_1 = 0L;
             boolean TMP_tmp1_1 = false;
             boolean TMP_tmp2_1 = false;
@@ -362,7 +365,7 @@ public class FailureDetector {
                 return;
             }
         }
-        private void Anon_2(LinkedHashSet<Long> nodes_1)throws TransitionException {
+        private void Anon_2(LinkedHashSet<Long> nodes_1) throws TransitionException {
             int i_1 = 0;
             int TMP_tmp0_2 = 0;
             boolean TMP_tmp1_2 = false;

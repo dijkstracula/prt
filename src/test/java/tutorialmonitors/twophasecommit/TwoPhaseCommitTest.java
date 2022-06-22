@@ -1,3 +1,5 @@
+package tutorialmonitors.twophasecommit;
+
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -6,7 +8,7 @@ import prt.PAssertionFailureException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static tutorialmonitors.TwoPhaseCommit.*;
+import static tutorialmonitors.twophasecommit.TwoPhaseCommit.*;
 
 public class TwoPhaseCommitTest {
     private AtomicityInvariant initedMonitor() {
@@ -23,11 +25,11 @@ public class TwoPhaseCommitTest {
 
         for (long participant : List.of(1L,2L,3L)) {
             m.process(new ePrepareResp(
-                    new PTuple_participant_transId_status(participant, 0, tTransStatus.SUCCESS)));
+                    new PTuple_prtcp_trans_stts(participant, 0, tTransStatus.SUCCESS)));
         }
 
         m.process(new eWriteTransResp(
-                new PTuple_transId_status(0, tTransStatus.SUCCESS)));
+                new PTuple_trans_stts(0, tTransStatus.SUCCESS)));
     }
 
     @Test
@@ -38,15 +40,15 @@ public class TwoPhaseCommitTest {
         // Participants 1 and two say yes...
         for (long participant : List.of(1L,2L)) {
             m.process(new ePrepareResp(
-                    new PTuple_participant_transId_status(participant, 0, tTransStatus.SUCCESS)));
+                    new PTuple_prtcp_trans_stts(participant, 0, tTransStatus.SUCCESS)));
         }
         // Participant 3 says no!
         m.process(new ePrepareResp(
-                new PTuple_participant_transId_status(3L, 0, tTransStatus.ERROR)));
+                new PTuple_prtcp_trans_stts(3L, 0, tTransStatus.ERROR)));
 
         // should be able to handle a txn response with an error
         m.process(new eWriteTransResp(
-                new PTuple_transId_status(0, tTransStatus.ERROR)));
+                new PTuple_trans_stts(0, tTransStatus.ERROR)));
     }
 
     @Test
@@ -57,12 +59,12 @@ public class TwoPhaseCommitTest {
         /* Only two SUCCESSes; one never arrives! */
         for (long participant : List.of(1L,2L)) {
             m.process(new ePrepareResp(
-                    new PTuple_participant_transId_status(participant, 0, tTransStatus.SUCCESS)));
+                    new PTuple_prtcp_trans_stts(participant, 0, tTransStatus.SUCCESS)));
         }
 
         assertThrows(PAssertionFailureException.class,
                 () -> m.process(new eWriteTransResp(
-                        new PTuple_transId_status(0, tTransStatus.SUCCESS))));
+                        new PTuple_trans_stts(0, tTransStatus.SUCCESS))));
     }
 
     @Test
@@ -72,18 +74,18 @@ public class TwoPhaseCommitTest {
 
         for (long participant : List.of(1L,2L)) {
             m.process(new ePrepareResp(
-                    new PTuple_participant_transId_status(participant, 0, tTransStatus.SUCCESS)));
+                    new PTuple_prtcp_trans_stts(participant, 0, tTransStatus.SUCCESS)));
         }
         // Participant 3 says no dice!
         m.process(
                 new ePrepareResp(
-                        new PTuple_participant_transId_status(
+                        new PTuple_prtcp_trans_stts(
                                 3L,
                                 0,
                                 tTransStatus.ERROR)));
 
         assertThrows(PAssertionFailureException.class,
                 () -> m.process(new eWriteTransResp(
-                        new PTuple_transId_status(0, tTransStatus.SUCCESS))));
+                        new PTuple_trans_stts(0, tTransStatus.SUCCESS))));
     }
 }
