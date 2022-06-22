@@ -36,6 +36,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <log4j2.configurationFile>${project.basedir}/src/main/resources/log4j2.xml</log4j2.configurationFile>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
 </project>
