@@ -75,6 +75,7 @@ public class Monitor {
      * @param ev The event to process.
      * @throws RaiseEventException to context-switch back into the runtime.
      */
+    @SuppressWarnings(value = "unchecked")
     protected <P> void tryRaiseEvent(PEvent<P> ev) throws RaiseEventException
     {
         throw new RaiseEventException((PEvent<Object>) ev);
@@ -120,6 +121,7 @@ public class Monitor {
      * @param p the pEvent.
      * @throws UnhandledEventException if the pEvent's type has no associated handler.
      */
+    @SuppressWarnings(value = "unchecked")
     public <P> void process(PEvent<P> p) throws UnhandledEventException {
         Objects.requireNonNull(p);
 

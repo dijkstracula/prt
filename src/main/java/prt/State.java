@@ -17,7 +17,7 @@ public class State {
 
     public enum Temperature {
         HOT, COLD, UNSET
-    };
+    }
 
     /**
      * Functionally-equivalent to a Consumer<T>, but may throw exceptional control flow within accept().
@@ -106,6 +106,7 @@ public class State {
      * @param clazz the Java Class whose handler we're looking up.
      * @return the handler that a `P` can be called with.
      */
+    @SuppressWarnings(value = "unchecked")
     public <P, PE extends PEvent<P>> Optional<TransitionableConsumer<P>> getHandler(Class<PE> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
@@ -170,7 +171,7 @@ public class State {
             if (dispatch.containsKey(clazz)) {
                 throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
-            dispatch.put(clazz, (TransitionableConsumer<PEvent>)f);
+            dispatch.put(clazz, f);
             return this;
         }
 
@@ -199,6 +200,7 @@ public class State {
          * @return The builder
          * @param <P> The type parameter of the payload we wish to consume.
          */
+        @SuppressWarnings(value = "unchecked")
         public <P> Builder withEntry(TransitionableConsumer<P> f) {
             Objects.requireNonNull(f);
 
