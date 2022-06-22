@@ -1,19 +1,13 @@
 package tutorialmonitors.espressomachine;
 
 /***************************************************************************
- * This file was auto-generated on Tuesday, 21 June 2022 at 16:33:13.
+ * This file was auto-generated on Wednesday, 22 June 2022 at 11:28:46.
  * Please do not edit manually!
  **************************************************************************/
 
-import events.PObserveEvent;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Stream;
-import prt.Monitor;
-import prt.RaiseEventException;
-import prt.State;
-import prt.TransitionException;
-import prt.Values;
 
 public class EspressoMachine {
     /* Enums */
@@ -31,7 +25,7 @@ public class EspressoMachine {
     }
 
     /* Events */
-    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends prt.events.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -42,7 +36,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt extends PObserveEvent.PEvent<Void> {
+    public static class PHalt extends prt.events.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -53,7 +47,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class eWarmUpReq extends PObserveEvent.PEvent<Void> {
+    public static class eWarmUpReq extends prt.events.PEvent<Void> {
         public eWarmUpReq() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -64,7 +58,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eWarmUpReq
-    public static class eGrindBeansReq extends PObserveEvent.PEvent<Void> {
+    public static class eGrindBeansReq extends prt.events.PEvent<Void> {
         public eGrindBeansReq() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -75,7 +69,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eGrindBeansReq
-    public static class eStartEspressoReq extends PObserveEvent.PEvent<Void> {
+    public static class eStartEspressoReq extends prt.events.PEvent<Void> {
         public eStartEspressoReq() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -86,7 +80,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eStartEspressoReq
-    public static class eStartSteamerReq extends PObserveEvent.PEvent<Void> {
+    public static class eStartSteamerReq extends prt.events.PEvent<Void> {
         public eStartSteamerReq() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -97,7 +91,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eStartSteamerReq
-    public static class eStopSteamerReq extends PObserveEvent.PEvent<Void> {
+    public static class eStopSteamerReq extends prt.events.PEvent<Void> {
         public eStopSteamerReq() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -108,7 +102,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eStopSteamerReq
-    public static class eGrindBeansCompleted extends PObserveEvent.PEvent<Void> {
+    public static class eGrindBeansCompleted extends prt.events.PEvent<Void> {
         public eGrindBeansCompleted() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -119,7 +113,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eGrindBeansCompleted
-    public static class eEspressoCompleted extends PObserveEvent.PEvent<Void> {
+    public static class eEspressoCompleted extends prt.events.PEvent<Void> {
         public eEspressoCompleted() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -130,7 +124,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eEspressoCompleted
-    public static class eWarmUpCompleted extends PObserveEvent.PEvent<Void> {
+    public static class eWarmUpCompleted extends prt.events.PEvent<Void> {
         public eWarmUpCompleted() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -141,7 +135,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eWarmUpCompleted
-    public static class eNoWaterError extends PObserveEvent.PEvent<Void> {
+    public static class eNoWaterError extends prt.events.PEvent<Void> {
         public eNoWaterError() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -152,7 +146,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eNoWaterError
-    public static class eNoBeansError extends PObserveEvent.PEvent<Void> {
+    public static class eNoBeansError extends prt.events.PEvent<Void> {
         public eNoBeansError() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -163,7 +157,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eNoBeansError
-    public static class eWarmerError extends PObserveEvent.PEvent<Void> {
+    public static class eWarmerError extends prt.events.PEvent<Void> {
         public eWarmerError() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -174,7 +168,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eWarmerError
-    public static class eEspressoButtonPressed extends PObserveEvent.PEvent<Void> {
+    public static class eEspressoButtonPressed extends prt.events.PEvent<Void> {
         public eEspressoButtonPressed() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -185,7 +179,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eEspressoButtonPressed
-    public static class eSteamerButtonOff extends PObserveEvent.PEvent<Void> {
+    public static class eSteamerButtonOff extends prt.events.PEvent<Void> {
         public eSteamerButtonOff() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -196,7 +190,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eSteamerButtonOff
-    public static class eSteamerButtonOn extends PObserveEvent.PEvent<Void> {
+    public static class eSteamerButtonOn extends prt.events.PEvent<Void> {
         public eSteamerButtonOn() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -207,7 +201,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eSteamerButtonOn
-    public static class eOpenGroundsDoor extends PObserveEvent.PEvent<Void> {
+    public static class eOpenGroundsDoor extends prt.events.PEvent<Void> {
         public eOpenGroundsDoor() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -218,7 +212,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eOpenGroundsDoor
-    public static class eCloseGroundsDoor extends PObserveEvent.PEvent<Void> {
+    public static class eCloseGroundsDoor extends prt.events.PEvent<Void> {
         public eCloseGroundsDoor() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -229,7 +223,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eCloseGroundsDoor
-    public static class eResetCoffeeMaker extends PObserveEvent.PEvent<Void> {
+    public static class eResetCoffeeMaker extends prt.events.PEvent<Void> {
         public eResetCoffeeMaker() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -240,7 +234,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eResetCoffeeMaker
-    public static class eCoffeeMakerError extends PObserveEvent.PEvent<Integer> {
+    public static class eCoffeeMakerError extends prt.events.PEvent<Integer> {
         public eCoffeeMakerError(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
@@ -251,7 +245,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eCoffeeMakerError
-    public static class eCoffeeMakerReady extends PObserveEvent.PEvent<Void> {
+    public static class eCoffeeMakerReady extends prt.events.PEvent<Void> {
         public eCoffeeMakerReady() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -262,7 +256,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eCoffeeMakerReady
-    public static class eCoffeeMachineUser extends PObserveEvent.PEvent<Long> {
+    public static class eCoffeeMachineUser extends prt.events.PEvent<Long> {
         public eCoffeeMachineUser(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
@@ -273,7 +267,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eCoffeeMachineUser
-    public static class eInWarmUpState extends PObserveEvent.PEvent<Void> {
+    public static class eInWarmUpState extends prt.events.PEvent<Void> {
         public eInWarmUpState() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -284,7 +278,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eInWarmUpState
-    public static class eInReadyState extends PObserveEvent.PEvent<Void> {
+    public static class eInReadyState extends prt.events.PEvent<Void> {
         public eInReadyState() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -295,7 +289,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eInReadyState
-    public static class eInBeansGrindingState extends PObserveEvent.PEvent<Void> {
+    public static class eInBeansGrindingState extends prt.events.PEvent<Void> {
         public eInBeansGrindingState() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -306,7 +300,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eInBeansGrindingState
-    public static class eInCoffeeBrewingState extends PObserveEvent.PEvent<Void> {
+    public static class eInCoffeeBrewingState extends prt.events.PEvent<Void> {
         public eInCoffeeBrewingState() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -317,7 +311,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eInCoffeeBrewingState
-    public static class eErrorHappened extends PObserveEvent.PEvent<Void> {
+    public static class eErrorHappened extends prt.events.PEvent<Void> {
         public eErrorHappened() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -328,7 +322,7 @@ public class EspressoMachine {
         } // toString()
 
     } // PEvent definition for eErrorHappened
-    public static class eResetPerformed extends PObserveEvent.PEvent<Void> {
+    public static class eResetPerformed extends prt.events.PEvent<Void> {
         public eResetPerformed() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -342,7 +336,7 @@ public class EspressoMachine {
 
     // PMachine EspressoCoffeeMaker elided
     // PMachine CoffeeMakerControlPanel elided
-    public static class EspressoMachineModesOfOperation extends Monitor {
+    public static class EspressoMachineModesOfOperation extends prt.Monitor {
 
         public String STARTUP_STATE = "StartUp";
         public String WARMUP_STATE = "WarmUp";
@@ -354,32 +348,32 @@ public class EspressoMachine {
 
         public EspressoMachineModesOfOperation() {
             super();
-            addState(new State.Builder(STARTUP_STATE)
+            addState(new prt.State.Builder(STARTUP_STATE)
                     .isInitialState(true)
                     .withEvent(eInWarmUpState.class, __ -> gotoState(WARMUP_STATE))
                     .build());
-            addState(new State.Builder(WARMUP_STATE)
+            addState(new prt.State.Builder(WARMUP_STATE)
                     .isInitialState(false)
                     .withEvent(eErrorHappened.class, __ -> gotoState(ERROR_STATE))
                     .withEvent(eInReadyState.class, __ -> gotoState(READY_STATE))
                     .build());
-            addState(new State.Builder(READY_STATE)
+            addState(new prt.State.Builder(READY_STATE)
                     .isInitialState(false)
                     .withEvent(eInReadyState.class, __ -> { ; })
                     .withEvent(eInBeansGrindingState.class, __ -> gotoState(BEANGRINDING_STATE))
                     .withEvent(eErrorHappened.class, __ -> gotoState(ERROR_STATE))
                     .build());
-            addState(new State.Builder(BEANGRINDING_STATE)
+            addState(new prt.State.Builder(BEANGRINDING_STATE)
                     .isInitialState(false)
                     .withEvent(eInCoffeeBrewingState.class, __ -> gotoState(MAKINGCOFFEE_STATE))
                     .withEvent(eErrorHappened.class, __ -> gotoState(ERROR_STATE))
                     .build());
-            addState(new State.Builder(MAKINGCOFFEE_STATE)
+            addState(new prt.State.Builder(MAKINGCOFFEE_STATE)
                     .isInitialState(false)
                     .withEvent(eInReadyState.class, __ -> gotoState(READY_STATE))
                     .withEvent(eErrorHappened.class, __ -> gotoState(ERROR_STATE))
                     .build());
-            addState(new State.Builder(ERROR_STATE)
+            addState(new prt.State.Builder(ERROR_STATE)
                     .isInitialState(false)
                     .withEvent(eResetPerformed.class, __ -> gotoState(STARTUP_STATE))
                     .withEvent(eErrorHappened.class, __ -> { ; })

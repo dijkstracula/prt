@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
-import events.PObserveEvent;
+import prt.events.PEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -75,9 +75,9 @@ public class Monitor {
      * @param ev The event to process.
      * @throws RaiseEventException to context-switch back into the runtime.
      */
-    protected <P> void tryRaiseEvent(PObserveEvent.PEvent<P> ev) throws RaiseEventException
+    protected <P> void tryRaiseEvent(PEvent<P> ev) throws RaiseEventException
     {
-        throw new RaiseEventException((PObserveEvent.PEvent<Object>) ev);
+        throw new RaiseEventException((PEvent<Object>) ev);
     }
 
     /**
@@ -120,7 +120,7 @@ public class Monitor {
      * @param p the pEvent.
      * @throws UnhandledEventException if the pEvent's type has no associated handler.
      */
-    public <P> void process(PObserveEvent.PEvent<P> p) throws UnhandledEventException {
+    public <P> void process(PEvent<P> p) throws UnhandledEventException {
         Objects.requireNonNull(p);
 
         if (!isRunning) {

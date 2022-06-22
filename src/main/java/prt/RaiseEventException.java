@@ -1,6 +1,6 @@
 package prt;
 
-import events.PObserveEvent;
+import prt.events.PEvent;
 
 /**
  * Thrown by an event handler when execution of the handler should be interrupted
@@ -8,11 +8,11 @@ import events.PObserveEvent;
  */
 public class RaiseEventException extends Exception {
     // XXX: We downcast to an Object since a Throwable cannot take type parameters.
-    private final PObserveEvent.PEvent<Object> ev;
+    private final PEvent<Object> ev;
 
-    public PObserveEvent.PEvent<Object> getEvent() { return ev; }
+    public PEvent<Object> getEvent() { return ev; }
 
-    public RaiseEventException(PObserveEvent.PEvent<Object> event) {
+    public RaiseEventException(PEvent<Object> event) {
         ev = event;
     }
 }

@@ -1,25 +1,19 @@
 package tutorialmonitors.failuredetector;
 
 /***************************************************************************
- * This file was auto-generated on Tuesday, 21 June 2022 at 16:34:28.
+ * This file was auto-generated on Wednesday, 22 June 2022 at 11:29:15.
  * Please do not edit manually!
  **************************************************************************/
 
-import events.PObserveEvent;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Stream;
-import prt.Monitor;
-import prt.RaiseEventException;
-import prt.State;
-import prt.TransitionException;
-import prt.Values;
 
 
 public class FailureDetector {
     /* Tuples */
     // (fd:FailureDetector,trial:int)
-    public static class PTuple_fd_trial implements Values.PValue<PTuple_fd_trial> {
+    public static class PTuple_fd_trial implements prt.values.PValue<PTuple_fd_trial> {
         public long fd;
         public int trial;
 
@@ -61,7 +55,7 @@ public class FailureDetector {
     } //PTuple_fd_trial class definition
 
     // (node:Node,trial:int)
-    public static class PTuple_node_trial implements Values.PValue<PTuple_node_trial> {
+    public static class PTuple_node_trial implements prt.values.PValue<PTuple_node_trial> {
         public long node;
         public int trial;
 
@@ -103,7 +97,7 @@ public class FailureDetector {
     } //PTuple_node_trial class definition
 
     // (numNodes:int,numClients:int)
-    public static class PTuple_nmnds_nmcln implements Values.PValue<PTuple_nmnds_nmcln> {
+    public static class PTuple_nmnds_nmcln implements prt.values.PValue<PTuple_nmnds_nmcln> {
         public int numNodes;
         public int numClients;
 
@@ -145,7 +139,7 @@ public class FailureDetector {
     } //PTuple_nmnds_nmcln class definition
 
     // (nodes:set[machine],nFailures:int)
-    public static class PTuple_nodes_nflrs implements Values.PValue<PTuple_nodes_nflrs> {
+    public static class PTuple_nodes_nflrs implements prt.values.PValue<PTuple_nodes_nflrs> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
@@ -160,7 +154,7 @@ public class FailureDetector {
         }
 
         public PTuple_nodes_nflrs deepClone() {
-            return new PTuple_nodes_nflrs((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
+            return new PTuple_nodes_nflrs((LinkedHashSet<Long>)prt.values.Clone.deepClone(nodes), nFailures);
         } // deepClone()
 
         public boolean equals(Object other) {
@@ -171,7 +165,7 @@ public class FailureDetector {
 
         public boolean deepEquals(PTuple_nodes_nflrs other) {
             return (true
-                    && Values.deepEquals(this.nodes, other.nodes)
+                    && prt.values.Equality.deepEquals(this.nodes, other.nodes)
                     && this.nFailures == other.nFailures
             );
         } // deepEquals()
@@ -188,7 +182,7 @@ public class FailureDetector {
 
 
     /* Events */
-    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends prt.events.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -199,7 +193,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt extends PObserveEvent.PEvent<Void> {
+    public static class PHalt extends prt.events.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -210,7 +204,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class ePing extends PObserveEvent.PEvent<PTuple_fd_trial> {
+    public static class ePing extends prt.events.PEvent<PTuple_fd_trial> {
         public ePing(PTuple_fd_trial p) { this.payload = p; }
         private PTuple_fd_trial payload;
         public PTuple_fd_trial getPayload() { return payload; }
@@ -221,7 +215,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for ePing
-    public static class ePong extends PObserveEvent.PEvent<PTuple_node_trial> {
+    public static class ePong extends prt.events.PEvent<PTuple_node_trial> {
         public ePong(PTuple_node_trial p) { this.payload = p; }
         private PTuple_node_trial payload;
         public PTuple_node_trial getPayload() { return payload; }
@@ -232,7 +226,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for ePong
-    public static class eNotifyNodesDown extends PObserveEvent.PEvent<LinkedHashSet<Long>> {
+    public static class eNotifyNodesDown extends prt.events.PEvent<LinkedHashSet<Long>> {
         public eNotifyNodesDown(LinkedHashSet<Long> p) { this.payload = p; }
         private LinkedHashSet<Long> payload;
         public LinkedHashSet<Long> getPayload() { return payload; }
@@ -243,7 +237,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for eNotifyNodesDown
-    public static class eStartTimer extends PObserveEvent.PEvent<Void> {
+    public static class eStartTimer extends prt.events.PEvent<Void> {
         public eStartTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -254,7 +248,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for eStartTimer
-    public static class eCancelTimer extends PObserveEvent.PEvent<Void> {
+    public static class eCancelTimer extends prt.events.PEvent<Void> {
         public eCancelTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -265,7 +259,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for eCancelTimer
-    public static class eTimeOut extends PObserveEvent.PEvent<Void> {
+    public static class eTimeOut extends prt.events.PEvent<Void> {
         public eTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -276,7 +270,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for eTimeOut
-    public static class eDelayedTimeOut extends PObserveEvent.PEvent<Void> {
+    public static class eDelayedTimeOut extends prt.events.PEvent<Void> {
         public eDelayedTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -287,7 +281,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for eDelayedTimeOut
-    public static class eDelayNodeFailure extends PObserveEvent.PEvent<Void> {
+    public static class eDelayNodeFailure extends prt.events.PEvent<Void> {
         public eDelayNodeFailure() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -298,7 +292,7 @@ public class FailureDetector {
         } // toString()
 
     } // PEvent definition for eDelayNodeFailure
-    public static class eShutDown extends PObserveEvent.PEvent<Long> {
+    public static class eShutDown extends prt.events.PEvent<Long> {
         public eShutDown(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
@@ -313,7 +307,7 @@ public class FailureDetector {
     // PMachine Client elided
     // PMachine FailureDetector elided
     // PMachine Node elided
-    public static class ReliableFailureDetector extends Monitor {
+    public static class ReliableFailureDetector extends prt.Monitor {
         private LinkedHashSet<Long> nodesShutdownAndNotDetected = new LinkedHashSet<Long>();
         public LinkedHashSet<Long> get_nodesShutdownAndNotDetected() { return this.nodesShutdownAndNotDetected; };
 
@@ -341,15 +335,15 @@ public class FailureDetector {
                 {
                     break;
                 }
-                TMP_tmp3 = Values.setElementAt(nodes, i);
+                TMP_tmp3 = prt.values.SetIndexing.elementAt(nodes, i);
                 nodesShutdownAndNotDetected.remove(TMP_tmp3);
-                TMP_tmp4 = Values.setElementAt(nodes, i);
+                TMP_tmp4 = prt.values.SetIndexing.elementAt(nodes, i);
                 nodesDownDetected.add(TMP_tmp4);
                 TMP_tmp5 = i + 1;
                 i = TMP_tmp5;
             }
         }
-        private void Anon_1(long node) throws TransitionException {
+        private void Anon_1(long node)throws prt.TransitionException {
             long TMP_tmp0_1 = 0L;
             boolean TMP_tmp1_1 = false;
             boolean TMP_tmp2_1 = false;
@@ -365,7 +359,7 @@ public class FailureDetector {
                 return;
             }
         }
-        private void Anon_2(LinkedHashSet<Long> nodes_1) throws TransitionException {
+        private void Anon_2(LinkedHashSet<Long> nodes_1)throws prt.TransitionException {
             int i_1 = 0;
             int TMP_tmp0_2 = 0;
             boolean TMP_tmp1_2 = false;
@@ -384,9 +378,9 @@ public class FailureDetector {
                 {
                     break;
                 }
-                TMP_tmp3_2 = Values.setElementAt(nodes_1, i_1);
+                TMP_tmp3_2 = prt.values.SetIndexing.elementAt(nodes_1, i_1);
                 nodesShutdownAndNotDetected.remove(TMP_tmp3_2);
-                TMP_tmp4_1 = Values.setElementAt(nodes_1, i_1);
+                TMP_tmp4_1 = prt.values.SetIndexing.elementAt(nodes_1, i_1);
                 nodesDownDetected.add(TMP_tmp4_1);
                 TMP_tmp5_1 = i_1 + 1;
                 i_1 = TMP_tmp5_1;
@@ -415,12 +409,12 @@ public class FailureDetector {
 
         public ReliableFailureDetector() {
             super();
-            addState(new State.Builder(ALLSHUTDOWNNODESAREDETECTED_STATE)
+            addState(new prt.State.Builder(ALLSHUTDOWNNODESAREDETECTED_STATE)
                     .isInitialState(true)
                     .withEvent(eNotifyNodesDown.class, this::Anon)
                     .withEvent(eShutDown.class, this::Anon_1)
                     .build());
-            addState(new State.Builder(NODESSHUTDOWNBUTNOTDETECTED_STATE)
+            addState(new prt.State.Builder(NODESSHUTDOWNBUTNOTDETECTED_STATE)
                     .isInitialState(false)
                     .withEvent(eNotifyNodesDown.class, this::Anon_2)
                     .withEvent(eShutDown.class, this::Anon_3)

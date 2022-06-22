@@ -1,6 +1,4 @@
-package events;
-
-import prt.Values;
+package prt.events;
 
 import java.util.Objects;
 
@@ -30,7 +28,7 @@ public class PObserveEvent<P> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PObserveEvent<?> that = (PObserveEvent<?>) o;
-        return Objects.equals(ts, that.ts) && Values.deepEquals(this.pEvent, that.pEvent);
+        return Objects.equals(ts, that.ts) && prt.values.Equality.deepEquals(this.pEvent, that.pEvent);
     }
 
     @Override
@@ -46,20 +44,4 @@ public class PObserveEvent<P> {
                 '}';
     }
 
-    public static abstract class PEvent<P> {
-        public abstract P getPayload();
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            PEvent<?> that = (PEvent<?>) o;
-            return Values.deepEquals(this.getPayload(), that.getPayload());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.getPayload());
-        }
-    }
 }

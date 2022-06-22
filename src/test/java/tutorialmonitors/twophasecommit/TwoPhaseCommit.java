@@ -1,19 +1,13 @@
 package tutorialmonitors.twophasecommit;
 
 /***************************************************************************
- * This file was auto-generated on Tuesday, 21 June 2022 at 16:32:11.
+ * This file was auto-generated on Wednesday, 22 June 2022 at 11:28:16.
  * Please do not edit manually!
  **************************************************************************/
 
-import events.PObserveEvent;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Stream;
-import prt.Monitor;
-import prt.RaiseEventException;
-import prt.State;
-import prt.TransitionException;
-import prt.Values;
 
 
 public class TwoPhaseCommit {
@@ -26,7 +20,7 @@ public class TwoPhaseCommit {
 
     /* Tuples */
     // (key:string,val:int,transId:int)
-    public static class PTuple_key_val_trans implements Values.PValue<PTuple_key_val_trans> {
+    public static class PTuple_key_val_trans implements prt.values.PValue<PTuple_key_val_trans> {
         public String key;
         public int val;
         public int transId;
@@ -55,7 +49,7 @@ public class TwoPhaseCommit {
 
         public boolean deepEquals(PTuple_key_val_trans other) {
             return (true
-                    && Values.deepEquals(this.key, other.key)
+                    && prt.values.Equality.deepEquals(this.key, other.key)
                     && this.val == other.val
                     && this.transId == other.transId
             );
@@ -73,7 +67,7 @@ public class TwoPhaseCommit {
     } //PTuple_key_val_trans class definition
 
     // (client:Client,trans:(key:string,val:int,transId:int))
-    public static class PTuple_clnt_trans implements Values.PValue<PTuple_clnt_trans> {
+    public static class PTuple_clnt_trans implements prt.values.PValue<PTuple_clnt_trans> {
         public long client;
         public PTuple_key_val_trans trans;
 
@@ -100,7 +94,7 @@ public class TwoPhaseCommit {
         public boolean deepEquals(PTuple_clnt_trans other) {
             return (true
                     && this.client == other.client
-                    && Values.deepEquals(this.trans, other.trans)
+                    && prt.values.Equality.deepEquals(this.trans, other.trans)
             );
         } // deepEquals()
 
@@ -115,7 +109,7 @@ public class TwoPhaseCommit {
     } //PTuple_clnt_trans class definition
 
     // (transId:int,status:tTransStatus)
-    public static class PTuple_trans_stts implements Values.PValue<PTuple_trans_stts> {
+    public static class PTuple_trans_stts implements prt.values.PValue<PTuple_trans_stts> {
         public int transId;
         public int status;
 
@@ -157,7 +151,7 @@ public class TwoPhaseCommit {
     } //PTuple_trans_stts class definition
 
     // (client:Client,key:string)
-    public static class PTuple_clnt_key implements Values.PValue<PTuple_clnt_key> {
+    public static class PTuple_clnt_key implements prt.values.PValue<PTuple_clnt_key> {
         public long client;
         public String key;
 
@@ -184,7 +178,7 @@ public class TwoPhaseCommit {
         public boolean deepEquals(PTuple_clnt_key other) {
             return (true
                     && this.client == other.client
-                    && Values.deepEquals(this.key, other.key)
+                    && prt.values.Equality.deepEquals(this.key, other.key)
             );
         } // deepEquals()
 
@@ -199,7 +193,7 @@ public class TwoPhaseCommit {
     } //PTuple_clnt_key class definition
 
     // (key:string,val:int,status:tTransStatus)
-    public static class PTuple_key_val_stts implements Values.PValue<PTuple_key_val_stts> {
+    public static class PTuple_key_val_stts implements prt.values.PValue<PTuple_key_val_stts> {
         public String key;
         public int val;
         public int status;
@@ -228,7 +222,7 @@ public class TwoPhaseCommit {
 
         public boolean deepEquals(PTuple_key_val_stts other) {
             return (true
-                    && Values.deepEquals(this.key, other.key)
+                    && prt.values.Equality.deepEquals(this.key, other.key)
                     && this.val == other.val
                     && this.status == other.status
             );
@@ -246,7 +240,7 @@ public class TwoPhaseCommit {
     } //PTuple_key_val_stts class definition
 
     // (participant:Participant,transId:int,status:tTransStatus)
-    public static class PTuple_prtcp_trans_stts implements Values.PValue<PTuple_prtcp_trans_stts> {
+    public static class PTuple_prtcp_trans_stts implements prt.values.PValue<PTuple_prtcp_trans_stts> {
         public long participant;
         public int transId;
         public int status;
@@ -293,7 +287,7 @@ public class TwoPhaseCommit {
     } //PTuple_prtcp_trans_stts class definition
 
     // (numClients:int,numParticipants:int,numTransPerClient:int,failParticipants:int)
-    public static class PTuple_nmcln_nmprt_tpc_flprt implements Values.PValue<PTuple_nmcln_nmprt_tpc_flprt> {
+    public static class PTuple_nmcln_nmprt_tpc_flprt implements prt.values.PValue<PTuple_nmcln_nmprt_tpc_flprt> {
         public int numClients;
         public int numParticipants;
         public int numTransPerClient;
@@ -345,7 +339,7 @@ public class TwoPhaseCommit {
     } //PTuple_nmcln_nmprt_tpc_flprt class definition
 
     // (nodes:set[machine],nFailures:int)
-    public static class PTuple_nodes_nflrs implements Values.PValue<PTuple_nodes_nflrs> {
+    public static class PTuple_nodes_nflrs implements prt.values.PValue<PTuple_nodes_nflrs> {
         public LinkedHashSet<Long> nodes;
         public int nFailures;
 
@@ -360,7 +354,7 @@ public class TwoPhaseCommit {
         }
 
         public PTuple_nodes_nflrs deepClone() {
-            return new PTuple_nodes_nflrs((LinkedHashSet<Long>)Values.deepClone(nodes), nFailures);
+            return new PTuple_nodes_nflrs((LinkedHashSet<Long>)prt.values.Clone.deepClone(nodes), nFailures);
         } // deepClone()
 
         public boolean equals(Object other) {
@@ -371,7 +365,7 @@ public class TwoPhaseCommit {
 
         public boolean deepEquals(PTuple_nodes_nflrs other) {
             return (true
-                    && Values.deepEquals(this.nodes, other.nodes)
+                    && prt.values.Equality.deepEquals(this.nodes, other.nodes)
                     && this.nFailures == other.nFailures
             );
         } // deepEquals()
@@ -388,7 +382,7 @@ public class TwoPhaseCommit {
 
 
     /* Events */
-    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends prt.events.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -399,7 +393,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt extends PObserveEvent.PEvent<Void> {
+    public static class PHalt extends prt.events.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -410,7 +404,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class eWriteTransReq extends PObserveEvent.PEvent<PTuple_clnt_trans> {
+    public static class eWriteTransReq extends prt.events.PEvent<PTuple_clnt_trans> {
         public eWriteTransReq(PTuple_clnt_trans p) { this.payload = p; }
         private PTuple_clnt_trans payload;
         public PTuple_clnt_trans getPayload() { return payload; }
@@ -421,7 +415,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eWriteTransReq
-    public static class eWriteTransResp extends PObserveEvent.PEvent<PTuple_trans_stts> {
+    public static class eWriteTransResp extends prt.events.PEvent<PTuple_trans_stts> {
         public eWriteTransResp(PTuple_trans_stts p) { this.payload = p; }
         private PTuple_trans_stts payload;
         public PTuple_trans_stts getPayload() { return payload; }
@@ -432,7 +426,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eWriteTransResp
-    public static class eReadTransReq extends PObserveEvent.PEvent<PTuple_clnt_key> {
+    public static class eReadTransReq extends prt.events.PEvent<PTuple_clnt_key> {
         public eReadTransReq(PTuple_clnt_key p) { this.payload = p; }
         private PTuple_clnt_key payload;
         public PTuple_clnt_key getPayload() { return payload; }
@@ -443,7 +437,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eReadTransReq
-    public static class eReadTransResp extends PObserveEvent.PEvent<PTuple_key_val_stts> {
+    public static class eReadTransResp extends prt.events.PEvent<PTuple_key_val_stts> {
         public eReadTransResp(PTuple_key_val_stts p) { this.payload = p; }
         private PTuple_key_val_stts payload;
         public PTuple_key_val_stts getPayload() { return payload; }
@@ -454,7 +448,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eReadTransResp
-    public static class ePrepareReq extends PObserveEvent.PEvent<PTuple_key_val_trans> {
+    public static class ePrepareReq extends prt.events.PEvent<PTuple_key_val_trans> {
         public ePrepareReq(PTuple_key_val_trans p) { this.payload = p; }
         private PTuple_key_val_trans payload;
         public PTuple_key_val_trans getPayload() { return payload; }
@@ -465,7 +459,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for ePrepareReq
-    public static class ePrepareResp extends PObserveEvent.PEvent<PTuple_prtcp_trans_stts> {
+    public static class ePrepareResp extends prt.events.PEvent<PTuple_prtcp_trans_stts> {
         public ePrepareResp(PTuple_prtcp_trans_stts p) { this.payload = p; }
         private PTuple_prtcp_trans_stts payload;
         public PTuple_prtcp_trans_stts getPayload() { return payload; }
@@ -476,7 +470,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for ePrepareResp
-    public static class eCommitTrans extends PObserveEvent.PEvent<Integer> {
+    public static class eCommitTrans extends prt.events.PEvent<Integer> {
         public eCommitTrans(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
@@ -487,7 +481,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eCommitTrans
-    public static class eAbortTrans extends PObserveEvent.PEvent<Integer> {
+    public static class eAbortTrans extends prt.events.PEvent<Integer> {
         public eAbortTrans(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
@@ -498,7 +492,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eAbortTrans
-    public static class eInformCoordinator extends PObserveEvent.PEvent<Long> {
+    public static class eInformCoordinator extends prt.events.PEvent<Long> {
         public eInformCoordinator(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
@@ -509,7 +503,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eInformCoordinator
-    public static class eMonitor_AtomicityInitialize extends PObserveEvent.PEvent<Integer> {
+    public static class eMonitor_AtomicityInitialize extends prt.events.PEvent<Integer> {
         public eMonitor_AtomicityInitialize(int p) { this.payload = p; }
         private Integer payload;
         public Integer getPayload() { return payload; }
@@ -520,7 +514,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eMonitor_AtomicityInitialize
-    public static class eStartTimer extends PObserveEvent.PEvent<Void> {
+    public static class eStartTimer extends prt.events.PEvent<Void> {
         public eStartTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -531,7 +525,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eStartTimer
-    public static class eCancelTimer extends PObserveEvent.PEvent<Void> {
+    public static class eCancelTimer extends prt.events.PEvent<Void> {
         public eCancelTimer() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -542,7 +536,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eCancelTimer
-    public static class eTimeOut extends PObserveEvent.PEvent<Void> {
+    public static class eTimeOut extends prt.events.PEvent<Void> {
         public eTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -553,7 +547,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eTimeOut
-    public static class eDelayedTimeOut extends PObserveEvent.PEvent<Void> {
+    public static class eDelayedTimeOut extends prt.events.PEvent<Void> {
         public eDelayedTimeOut() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -564,7 +558,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eDelayedTimeOut
-    public static class eDelayNodeFailure extends PObserveEvent.PEvent<Void> {
+    public static class eDelayNodeFailure extends prt.events.PEvent<Void> {
         public eDelayNodeFailure() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -575,7 +569,7 @@ public class TwoPhaseCommit {
         } // toString()
 
     } // PEvent definition for eDelayNodeFailure
-    public static class eShutDown extends PObserveEvent.PEvent<Long> {
+    public static class eShutDown extends prt.events.PEvent<Long> {
         public eShutDown(long p) { this.payload = p; }
         private Long payload;
         public Long getPayload() { return payload; }
@@ -589,7 +583,7 @@ public class TwoPhaseCommit {
 
     // PMachine Coordinator elided
     // PMachine Participant elided
-    public static class AtomicityInvariant extends Monitor {
+    public static class AtomicityInvariant extends prt.Monitor {
         private HashMap<Integer,HashMap<Integer,Integer>> participantsResponse = new HashMap<Integer,HashMap<Integer,Integer>>();
         public HashMap<Integer,HashMap<Integer,Integer>> get_participantsResponse() { return this.participantsResponse; };
 
@@ -731,18 +725,18 @@ public class TwoPhaseCommit {
 
         public AtomicityInvariant() {
             super();
-            addState(new State.Builder(INIT_STATE)
+            addState(new prt.State.Builder(INIT_STATE)
                     .isInitialState(true)
                     .withEvent(eMonitor_AtomicityInitialize.class, p -> { Anon(p); gotoState(WAITFOREVENTS_STATE); })
                     .build());
-            addState(new State.Builder(WAITFOREVENTS_STATE)
+            addState(new prt.State.Builder(WAITFOREVENTS_STATE)
                     .isInitialState(false)
                     .withEvent(ePrepareResp.class, this::Anon_1)
                     .withEvent(eWriteTransResp.class, this::Anon_2)
                     .build());
         } // constructor
     } // AtomicityInvariant monitor definition
-    public static class Progress extends Monitor {
+    public static class Progress extends prt.Monitor {
         private int pendingTransactions = 0;
         public int get_pendingTransactions() { return this.pendingTransactions; };
 
@@ -757,7 +751,7 @@ public class TwoPhaseCommit {
             TMP_tmp0_2 = pendingTransactions + 1;
             pendingTransactions = TMP_tmp0_2;
         }
-        private void Anon_4() throws TransitionException {
+        private void Anon_4()throws prt.TransitionException {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
 
@@ -784,16 +778,16 @@ public class TwoPhaseCommit {
 
         public Progress() {
             super();
-            addState(new State.Builder(INIT_STATE)
+            addState(new prt.State.Builder(INIT_STATE)
                     .isInitialState(true)
                     .withEvent(eWriteTransReq.class, __ -> { Anon_3(); gotoState(WAITFORRESPONSES_STATE); })
                     .build());
-            addState(new State.Builder(WAITFORRESPONSES_STATE)
+            addState(new prt.State.Builder(WAITFORRESPONSES_STATE)
                     .isInitialState(false)
                     .withEvent(eWriteTransResp.class, __ -> Anon_4())
                     .withEvent(eWriteTransReq.class, __ -> Anon_5())
                     .build());
-            addState(new State.Builder(ALLTRANSACTIONSFINISHED_STATE)
+            addState(new prt.State.Builder(ALLTRANSACTIONSFINISHED_STATE)
                     .isInitialState(false)
                     .withEvent(eWriteTransReq.class, __ -> { Anon_6(); gotoState(WAITFORRESPONSES_STATE); })
                     .build());

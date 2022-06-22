@@ -1,4 +1,4 @@
-package events;
+package prt.events;
 
 import java.util.List;
 import java.util.Objects;

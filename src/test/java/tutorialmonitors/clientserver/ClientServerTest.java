@@ -10,6 +10,7 @@ import prt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import static prt.values.Equality.deepEquals;
 import static tutorialmonitors.clientserver.ClientServer.*;
 
 public class ClientServerTest {
@@ -132,7 +133,7 @@ public class ClientServerTest {
         ClientServer.PTuple_src_accnt_amnt_rId t1 =
                 new ClientServer.PTuple_src_accnt_amnt_rId(4L, 0, 2, 1);
         ClientServer.PTuple_src_accnt_amnt_rId t2 = t1.deepClone();
-        assertTrue(Values.deepEquals(t1, t2));
+        assertTrue(deepEquals(t1, t2));
     }
 
     @Test

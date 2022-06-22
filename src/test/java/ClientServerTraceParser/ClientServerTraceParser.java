@@ -1,7 +1,8 @@
 package ClientServerTraceParser;
 
-import events.PObserveEvent;
-import events.TimestampInterval;
+import prt.events.PEvent;
+import prt.events.PObserveEvent;
+import prt.events.TimestampInterval;
 import parsers.PTraceParserUtils;
 import tutorialmonitors.clientserver.ClientServer;
 
@@ -32,7 +33,7 @@ public class ClientServerTraceParser {
      * for a given P event type, and parses out the corresponding PEvent and its
      * deserialised, typesafe payload.
      */
-    private static final HashMap<String, Function<String, PObserveEvent.PEvent>> handlers = new HashMap<>(Map.of(
+    private static final HashMap<String, Function<String, PEvent>> handlers = new HashMap<>(Map.of(
             "eReadQuery", ClientServerTraceParser::payloadToReadQuery,
             "eReadQueryResp", ClientServerTraceParser::payloadToReadQueryResp,
             "eUpdateQuery", ClientServerTraceParser::payloadToUpdateQuery,
@@ -117,7 +118,7 @@ public class ClientServerTraceParser {
 
         if (handlers.containsKey(evtName)) {
             ts++;
-            Function<String, PObserveEvent.PEvent> f = handlers.get(evtName);
+            Function<String, PEvent> f = handlers.get(evtName);
             return Stream.of(new PObserveEvent(new TimestampInterval(ts), f.apply(payload)));
         }
         return Stream.empty();

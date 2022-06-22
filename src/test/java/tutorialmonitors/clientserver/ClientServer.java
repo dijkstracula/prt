@@ -1,14 +1,13 @@
 package tutorialmonitors.clientserver;
 
 /***************************************************************************
- * This file was auto-generated on Tuesday, 21 June 2022 at 16:08:13.
+ * This file was auto-generated on Wednesday, 22 June 2022 at 11:21:10.
  * Please do not edit manually!
  **************************************************************************/
 
-import events.PObserveEvent;
 import java.text.MessageFormat;
 import java.util.*;
-import prt.*;
+import java.util.stream.Stream;
 
 
 public class ClientServer {
@@ -20,7 +19,7 @@ public class ClientServer {
 
     /* Tuples */
     // (accountId:int,balance:int)
-    public static class PTuple_accnt_blnc implements Values.PValue<PTuple_accnt_blnc> {
+    public static class PTuple_accnt_blnc implements prt.values.PValue<PTuple_accnt_blnc> {
         public int accountId;
         public int balance;
 
@@ -62,7 +61,7 @@ public class ClientServer {
     } //PTuple_accnt_blnc class definition
 
     // (accountId:int)
-    public static class PTuple_accnt implements Values.PValue<PTuple_accnt> {
+    public static class PTuple_accnt implements prt.values.PValue<PTuple_accnt> {
         public int accountId;
 
         public PTuple_accnt() {
@@ -99,7 +98,7 @@ public class ClientServer {
     } //PTuple_accnt class definition
 
     // (source:Client,accountId:int,amount:int,rId:int)
-    public static class PTuple_src_accnt_amnt_rId implements Values.PValue<PTuple_src_accnt_amnt_rId> {
+    public static class PTuple_src_accnt_amnt_rId implements prt.values.PValue<PTuple_src_accnt_amnt_rId> {
         public long source;
         public int accountId;
         public int amount;
@@ -151,7 +150,7 @@ public class ClientServer {
     } //PTuple_src_accnt_amnt_rId class definition
 
     // (status:tWithDrawRespStatus,accountId:int,balance:int,rId:int)
-    public static class PTuple_stts_accnt_blnc_rId implements Values.PValue<PTuple_stts_accnt_blnc_rId> {
+    public static class PTuple_stts_accnt_blnc_rId implements prt.values.PValue<PTuple_stts_accnt_blnc_rId> {
         public int status;
         public int accountId;
         public int balance;
@@ -204,7 +203,7 @@ public class ClientServer {
 
 
     /* Events */
-    public static class DefaultEvent extends PObserveEvent.PEvent<Void> {
+    public static class DefaultEvent extends prt.events.PEvent<Void> {
         public DefaultEvent() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -215,7 +214,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for DefaultEvent
-    public static class PHalt extends PObserveEvent.PEvent<Void> {
+    public static class PHalt extends prt.events.PEvent<Void> {
         public PHalt() { }
         private Void payload;
         public Void getPayload() { return payload; }
@@ -226,7 +225,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for PHalt
-    public static class eUpdateQuery extends PObserveEvent.PEvent<PTuple_accnt_blnc> {
+    public static class eUpdateQuery extends prt.events.PEvent<PTuple_accnt_blnc> {
         public eUpdateQuery(PTuple_accnt_blnc p) { this.payload = p; }
         private PTuple_accnt_blnc payload;
         public PTuple_accnt_blnc getPayload() { return payload; }
@@ -237,7 +236,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eUpdateQuery
-    public static class eReadQuery extends PObserveEvent.PEvent<PTuple_accnt> {
+    public static class eReadQuery extends prt.events.PEvent<PTuple_accnt> {
         public eReadQuery(PTuple_accnt p) { this.payload = p; }
         private PTuple_accnt payload;
         public PTuple_accnt getPayload() { return payload; }
@@ -248,7 +247,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eReadQuery
-    public static class eReadQueryResp extends PObserveEvent.PEvent<PTuple_accnt_blnc> {
+    public static class eReadQueryResp extends prt.events.PEvent<PTuple_accnt_blnc> {
         public eReadQueryResp(PTuple_accnt_blnc p) { this.payload = p; }
         private PTuple_accnt_blnc payload;
         public PTuple_accnt_blnc getPayload() { return payload; }
@@ -259,7 +258,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eReadQueryResp
-    public static class eWithDrawReq extends PObserveEvent.PEvent<PTuple_src_accnt_amnt_rId> {
+    public static class eWithDrawReq extends prt.events.PEvent<PTuple_src_accnt_amnt_rId> {
         public eWithDrawReq(PTuple_src_accnt_amnt_rId p) { this.payload = p; }
         private PTuple_src_accnt_amnt_rId payload;
         public PTuple_src_accnt_amnt_rId getPayload() { return payload; }
@@ -270,7 +269,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eWithDrawReq
-    public static class eWithDrawResp extends PObserveEvent.PEvent<PTuple_stts_accnt_blnc_rId> {
+    public static class eWithDrawResp extends prt.events.PEvent<PTuple_stts_accnt_blnc_rId> {
         public eWithDrawResp(PTuple_stts_accnt_blnc_rId p) { this.payload = p; }
         private PTuple_stts_accnt_blnc_rId payload;
         public PTuple_stts_accnt_blnc_rId getPayload() { return payload; }
@@ -281,7 +280,7 @@ public class ClientServer {
         } // toString()
 
     } // PEvent definition for eWithDrawResp
-    public static class eSpec_BankBalanceIsAlwaysCorrect_Init extends PObserveEvent.PEvent<HashMap<Integer,Integer>> {
+    public static class eSpec_BankBalanceIsAlwaysCorrect_Init extends prt.events.PEvent<HashMap<Integer,Integer>> {
         public eSpec_BankBalanceIsAlwaysCorrect_Init(HashMap<Integer,Integer> p) { this.payload = p; }
         private HashMap<Integer,Integer> payload;
         public HashMap<Integer,Integer> getPayload() { return payload; }
@@ -297,7 +296,7 @@ public class ClientServer {
     // PMachine Database elided
     // PMachine Client elided
     // PMachine AbstractBankServer elided
-    public static class BankBalanceIsAlwaysCorrect extends Monitor {
+    public static class BankBalanceIsAlwaysCorrect extends prt.Monitor {
         private HashMap<Integer,Integer> bankBalance = new HashMap<Integer,Integer>();
         public HashMap<Integer,Integer> get_bankBalance() { return this.bankBalance; };
 
@@ -309,7 +308,7 @@ public class ClientServer {
         public String WAITFORWITHDRAWREQANDRESP_STATE = "WaitForWithDrawReqAndResp";
 
         private void Anon(HashMap<Integer,Integer> balance) {
-            bankBalance = (HashMap<Integer,Integer>)Values.deepClone(balance);
+            bankBalance = (HashMap<Integer,Integer>)prt.values.Clone.deepClone(balance);
         }
         private void Anon_1(PTuple_src_accnt_amnt_rId req) {
             int TMP_tmp0 = 0;
@@ -454,18 +453,18 @@ public class ClientServer {
 
         public BankBalanceIsAlwaysCorrect() {
             super();
-            addState(new State.Builder(INIT_STATE)
+            addState(new prt.State.Builder(INIT_STATE)
                     .isInitialState(true)
                     .withEvent(eSpec_BankBalanceIsAlwaysCorrect_Init.class, p -> { Anon(p); gotoState(WAITFORWITHDRAWREQANDRESP_STATE); })
                     .build());
-            addState(new State.Builder(WAITFORWITHDRAWREQANDRESP_STATE)
+            addState(new prt.State.Builder(WAITFORWITHDRAWREQANDRESP_STATE)
                     .isInitialState(false)
                     .withEvent(eWithDrawReq.class, this::Anon_1)
                     .withEvent(eWithDrawResp.class, this::Anon_2)
                     .build());
         } // constructor
     } // BankBalanceIsAlwaysCorrect monitor definition
-    public static class GuaranteedWithDrawProgress extends Monitor {
+    public static class GuaranteedWithDrawProgress extends prt.Monitor {
         private LinkedHashSet<Integer> pendingWDReqs = new LinkedHashSet<Integer>();
         public LinkedHashSet<Integer> get_pendingWDReqs() { return this.pendingWDReqs; };
 
@@ -479,7 +478,7 @@ public class ClientServer {
             TMP_tmp0_2 = req_1.rId;
             pendingWDReqs.add(TMP_tmp0_2);
         }
-        private void Anon_4(PTuple_stts_accnt_blnc_rId resp_1)throws TransitionException {
+        private void Anon_4(PTuple_stts_accnt_blnc_rId resp_1)throws prt.TransitionException {
             int TMP_tmp0_3 = 0;
             boolean TMP_tmp1_2 = false;
             int TMP_tmp2_2 = 0;
@@ -492,7 +491,7 @@ public class ClientServer {
             TMP_tmp0_3 = resp_1.rId;
             TMP_tmp1_2 = pendingWDReqs.contains(TMP_tmp0_3);
             TMP_tmp2_2 = resp_1.rId;
-            TMP_tmp3_2 = (LinkedHashSet<Integer>)Values.deepClone(pendingWDReqs);
+            TMP_tmp3_2 = (LinkedHashSet<Integer>)prt.values.Clone.deepClone(pendingWDReqs);
             TMP_tmp4_2 = MessageFormat.format("unexpected rId: {0} received, expected one of {1}", TMP_tmp2_2, TMP_tmp3_2);
             tryAssert(TMP_tmp1_2, TMP_tmp4_2);
             TMP_tmp5_2 = resp_1.rId;
@@ -513,11 +512,11 @@ public class ClientServer {
 
         public GuaranteedWithDrawProgress() {
             super();
-            addState(new State.Builder(NOPENDINGREQUESTS_STATE)
+            addState(new prt.State.Builder(NOPENDINGREQUESTS_STATE)
                     .isInitialState(true)
                     .withEvent(eWithDrawReq.class, p -> { Anon_3(p); gotoState(PENDINGREQS_STATE); })
                     .build());
-            addState(new State.Builder(PENDINGREQS_STATE)
+            addState(new prt.State.Builder(PENDINGREQS_STATE)
                     .isInitialState(false)
                     .withEvent(eWithDrawResp.class, this::Anon_4)
                     .withEvent(eWithDrawReq.class, p -> { Anon_5(p); gotoState(PENDINGREQS_STATE); })

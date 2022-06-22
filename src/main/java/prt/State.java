@@ -1,6 +1,6 @@
 package prt;
 
-import events.PObserveEvent;
+import prt.events.PEvent;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -50,7 +50,7 @@ public class State {
     private final boolean isInitialState;
     private final String key;
     private final Temperature temp;
-    private final HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch;
+    private final HashMap<Class<? extends PEvent<?>>, TransitionableConsumer<?>> dispatch;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<TransitionableConsumer<Object>> onEntry;
@@ -58,7 +58,7 @@ public class State {
     private final Optional<Runnable> onExit;
 
     private State(
-            HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch,
+            HashMap<Class<? extends PEvent<?>>, TransitionableConsumer<?>> dispatch,
             boolean isInitialState,
             String key,
             Optional<TransitionableConsumer<Object>> onEntry,
@@ -106,7 +106,7 @@ public class State {
      * @param clazz the Java Class whose handler we're looking up.
      * @return the handler that a `P` can be called with.
      */
-    public <P, PE extends PObserveEvent.PEvent<P>> Optional<TransitionableConsumer<P>> getHandler(Class<PE> clazz) {
+    public <P, PE extends PEvent<P>> Optional<TransitionableConsumer<P>> getHandler(Class<PE> clazz) {
         if (!dispatch.containsKey(clazz)) {
             return Optional.empty();
         }
@@ -122,7 +122,7 @@ public class State {
 
         private final String key;
         private Temperature temp;
-        private final HashMap<Class<? extends PObserveEvent.PEvent<?>>, TransitionableConsumer<?>> dispatch;
+        private final HashMap<Class<? extends PEvent<?>>, TransitionableConsumer<?>> dispatch;
 
 
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -163,14 +163,14 @@ public class State {
          * @param clazz the subclass of Payload
          * @param f     the handler to be invoked at runtime.
          */
-        public <P, PE extends PObserveEvent.PEvent<P>> Builder withEvent(Class<PE> clazz, TransitionableConsumer<P> f) {
+        public <P, PE extends PEvent<P>> Builder withEvent(Class<PE> clazz, TransitionableConsumer<P> f) {
             Objects.requireNonNull(f);
             Objects.requireNonNull(clazz);
 
             if (dispatch.containsKey(clazz)) {
                 throw new RuntimeException(String.format("Builder already supplied handler for Event %s", clazz.getName()));
             }
-            dispatch.put(clazz, (TransitionableConsumer<PObserveEvent.PEvent>)f);
+            dispatch.put(clazz, (TransitionableConsumer<PEvent>)f);
             return this;
         }
 

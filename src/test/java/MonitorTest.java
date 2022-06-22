@@ -1,4 +1,5 @@
-import events.PObserveEvent;
+import prt.events.PEvent;
+import prt.events.PObserveEvent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.*;
@@ -52,7 +53,7 @@ public class MonitorTest {
      */
     class CounterMonitor extends Monitor {
 
-        class AddEvent extends PObserveEvent.PEvent<Integer> {
+        class AddEvent extends PEvent<Integer> {
             private int payload;
             public AddEvent(int payload) {
                 this.payload = payload;
@@ -236,13 +237,13 @@ public class MonitorTest {
 
 
         /** Events */
-        public class DefaultEvent extends PObserveEvent.PEvent<Void> {
+        public class DefaultEvent extends PEvent<Void> {
             public Void getPayload() { return null; }
         }
-        public  class PHalt extends PObserveEvent.PEvent<Void> {
+        public  class PHalt extends PEvent<Void> {
             public Void getPayload() { return null; }
         }
-        public class ev extends PObserveEvent.PEvent<PTuple_a> {
+        public class ev extends PEvent<PTuple_a> {
             private PTuple_a payload;
             public ev(PTuple_a payload) {
                 this.payload = payload;
@@ -282,10 +283,10 @@ public class MonitorTest {
         private String INIT_STATE = "Init";
 
 
-        public class testEvent extends PObserveEvent.PEvent<Void> {
+        public class testEvent extends PEvent<Void> {
             public Void getPayload() { return null; }
         }
-        public class noopEvent extends PObserveEvent.PEvent<Void> {
+        public class noopEvent extends PEvent<Void> {
             public Void getPayload() { return null; }
         }
 
