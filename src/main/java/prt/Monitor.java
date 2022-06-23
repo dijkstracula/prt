@@ -122,7 +122,7 @@ public class Monitor {
      * @throws UnhandledEventException if the pEvent's type has no associated handler.
      */
     @SuppressWarnings(value = "unchecked")
-    public <P> void process(PEvent<P> p) throws UnhandledEventException {
+    public <P> void process(PEvent p) throws UnhandledEventException {
         Objects.requireNonNull(p);
 
         if (!isRunning) {
@@ -137,7 +137,7 @@ public class Monitor {
             throw new UnhandledEventException(currentState, p.getClass());
         }
 
-        invokeWithTrampoline(oc.get(), p.getPayload());
+        invokeWithTrampoline(oc.get(), (P) p.getPayload());
     }
 
     /**
