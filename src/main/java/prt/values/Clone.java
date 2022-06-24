@@ -34,6 +34,10 @@ public class Clone {
         return s; //already immutable!  No cloning necessary.
     }
 
+    private static Enum cloneEnum(Enum e) {
+        return e; //already immutable!  No cloning necessary.
+    }
+
     private static ArrayList<Object> cloneList(ArrayList<?> a) {
         ArrayList<Object> cloned = new ArrayList<>();
         cloned.ensureCapacity(a.size());
@@ -98,6 +102,8 @@ public class Clone {
             return cloneMap((HashMap<?, ?>) o);
         if (clazz == LinkedHashSet.class)
             return cloneSet((LinkedHashSet<?>) o);
+        if (Enum.class.isAssignableFrom(clazz))
+            return cloneEnum((Enum) o);
 
 
         throw new UncloneableValueException(clazz);

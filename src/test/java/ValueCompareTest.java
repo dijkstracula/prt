@@ -43,6 +43,27 @@ public class ValueCompareTest {
         assertEquals(Equality.compare("az", "za"), -1);
     }
 
+    enum anEnum {
+        VALUE_ZERO(0),
+        VALUE_ONE(1);
+        private final int value;
+        anEnum(int i) { value = i; }
+    }
+
+    @Test
+    @DisplayName("tests enums")
+    public void testEnumEquality()
+    {
+        assertEquals(anEnum.VALUE_ZERO, anEnum.VALUE_ZERO);
+        assertNotEquals(anEnum.VALUE_ZERO, anEnum.VALUE_ONE);
+        assertEquals(anEnum.VALUE_ONE, anEnum.VALUE_ONE);
+
+        assertEquals(Equality.compare(anEnum.VALUE_ZERO, anEnum.VALUE_ZERO), 0);
+        assertEquals(Equality.compare(anEnum.VALUE_ZERO, anEnum.VALUE_ONE), -1);
+        assertEquals(Equality.compare(anEnum.VALUE_ONE, anEnum.VALUE_ZERO), 1);
+        assertEquals(Equality.compare(anEnum.VALUE_ONE, anEnum.VALUE_ONE), 0);
+    }
+
     @Test
     @DisplayName("equals() is well-defined for nulls")
     public void testNullEquality() {

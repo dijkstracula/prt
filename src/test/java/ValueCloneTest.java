@@ -167,14 +167,6 @@ public class ValueCloneTest {
     }
 
     @Test
-    @DisplayName("Can clone int-extracted enums")
-    public void testEnumClone() {
-        int e1 = ClientServer.tWithDrawRespStatus.WITHDRAW_SUCCESS;
-        int e2 = (int) deepClone(e1);
-        assertTrue(Equality.deepEquals(e1, e2));
-    }
-
-    @Test
     @DisplayName("Cannot clone a non-P value class")
     public void testInvalidCloneOfUnrelatedClass() {
         // AtomicInteger extends j.l.Number extends j.l.Object - this is a totally
@@ -196,4 +188,21 @@ public class ValueCloneTest {
         FancyLinkedHashSet<Integer> lh = new FancyLinkedHashSet<>(List.of(1,2,3,4,5));
         assertThrows(UncloneableValueException.class, () -> deepClone(lh));
     }
+
+    enum anEnum {
+        VALUE_ZERO(0),
+        VALUE_ONE(1);
+        private final int value;
+        anEnum(int i) { value = i; }
+    }
+
+    @Test
+    @DisplayName("Can clone an enum")
+    public void testEnumClone() {
+        anEnum e1 = anEnum.VALUE_ONE;
+        anEnum e2 = (anEnum) deepClone(e1);
+        assertEquals(e1, e2);
+    }
+
+
 }
