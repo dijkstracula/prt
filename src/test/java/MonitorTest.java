@@ -1,5 +1,4 @@
 import prt.events.PEvent;
-import prt.events.PObserveEvent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prt.*;

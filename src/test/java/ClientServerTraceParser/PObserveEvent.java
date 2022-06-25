@@ -1,4 +1,6 @@
-package prt.events;
+package ClientServerTraceParser;
+
+import prt.events.PEvent;
 
 import java.util.Objects;
 

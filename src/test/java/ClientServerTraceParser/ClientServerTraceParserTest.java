@@ -1,10 +1,8 @@
 package ClientServerTraceParser;
 
-import prt.events.TimestampInterval;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import prt.events.PObserveEvent;
 import tutorialmonitors.clientserver.ClientServer;
 
 import java.util.Arrays;

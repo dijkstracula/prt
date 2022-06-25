@@ -1,7 +1,6 @@
 package prt.values;
 
 import prt.events.PEvent;
-import prt.events.PObserveEvent;
 
 import java.util.*;
 

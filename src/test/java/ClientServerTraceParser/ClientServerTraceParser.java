@@ -1,8 +1,6 @@
 package ClientServerTraceParser;
 
 import prt.events.PEvent;
-import prt.events.PObserveEvent;
-import prt.events.TimestampInterval;
 import parsers.PTraceParserUtils;
 import tutorialmonitors.clientserver.ClientServer;
 
