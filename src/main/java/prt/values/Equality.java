@@ -84,10 +84,6 @@ public class Equality {
                 return deepPValueEquals((PValue) o1, (PValue) o2);
             }
 
-            if (o1 instanceof PObserveEvent && o2 instanceof PObserveEvent) {
-                return o1.equals(o2);
-            }
-
             if (o1 instanceof PEvent && o2 instanceof PEvent<?>) {
                 return o1.equals(o2);
             }
