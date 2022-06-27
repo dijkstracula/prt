@@ -6,7 +6,17 @@
 
     <groupId>p.runtime</groupId>
     <artifactId>PJavaRuntime</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+
+    <name>Java runtime for the P programming language</name>
+    <url>https://github.com/p-org/P</url>
+
+    <licenses>
+      <license>
+        <name>MIT License</name>
+        <url>https://spdx.org/licenses/MIT.html</url>
+      </license>
+    </licenses>
 
     <dependencies>
         <dependency>
